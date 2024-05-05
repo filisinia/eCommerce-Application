@@ -37,7 +37,7 @@
     "lint:es:fix": "npm run lint:es -- --fix",
     "format": "prettier . --write",
     "ci:format": "prettier . --check",
-    "precommit": "npm run format && npm run lint:es && npm test",
+    "precommit": "npm run format && npm run lint:es",
     "prepare": "husky"
   },
   "eslintConfig": {
