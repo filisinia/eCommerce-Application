@@ -40,7 +40,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "prettier --write && lint:es"
+      "pre-commit": "prettier --write && lint:es && git add -A ."
     }
   },
   "eslintConfig": {
