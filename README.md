@@ -22,39 +22,39 @@ This project is a web application for eCommerce, developed using TypeScript, Rea
 
 ## Available Scripts
 
-## Start the development server
+- **Start the development server**
 
 npm start
 
-## Build the project for production
+- **Build the project for production**
 
 npm run build
 
-## Run the project in production mode
+- **Run the project in production mode**
 
 npm run serve
 
-## Run TypeScript type checking
+- **Run TypeScript type checking**
 
 npm run type-check
 
-## Format code using Prettier
+- **Format code using Prettier**
 
 npm run format
 
-## Run ESLint to lint all JavaScript/TypeScript files
+- **Run ESLint to lint all JavaScript/TypeScript files**
 
 npm run lint
 
-## Fix linting issues automatically
+- **Fix linting issues automatically**
 
 npm run lint:fix
 
-## Run tests
+- **Run tests**
 
 npm test
 
-## Installation
+- **Installation**
 
 1. Clone the repository to your local machine:
 
