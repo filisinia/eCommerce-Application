@@ -1,8 +1,4 @@
 module.exports = {
-  extends: './tsconfig.json',
-  compilerOptions: {
-    isolatedModules: false,
-  },
   preset: 'ts-jest',
   moduleNameMapper: {
     '@components/(.*)$': '<rootDir>/src/components/$1',
