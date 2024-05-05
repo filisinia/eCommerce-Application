@@ -15,7 +15,7 @@ const App = (): JSX.Element => {
   return (
     <Button variant='contained' onClick={handleSetCount}>
       <AccessAlarmIcon />
-      <span className='test'> Hello world</span>
+      <span className='test'>Hello world</span>
     </Button>
   );
 };

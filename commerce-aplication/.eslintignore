@@ -1,3 +1,5 @@
 # **/App.tsx
 # .prettierrc
 # package.json
+
+jest.config.ts
