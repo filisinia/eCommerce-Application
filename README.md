@@ -14,6 +14,7 @@ This project is a web application for eCommerce, developed using TypeScript, Rea
 
 - **TypeScript**
 - **React**
+- **JEST**
 - **Material UI**
 - **Zustand**
 - **Husky**
@@ -24,35 +25,82 @@ This project is a web application for eCommerce, developed using TypeScript, Rea
 
 - **Start the development server**
 
+```bash
 npm start
+```
 
 - **Build the project for production**
 
+```bash
 npm run build
+```
 
 - **Run the project in production mode**
 
+```bash
 npm run serve
+```
 
 - **Run TypeScript type checking**
 
+```bash
 npm run type-check
+```
 
 - **Format code using Prettier**
 
+```bash
 npm run format
+```
 
 - **Run ESLint to lint all JavaScript/TypeScript files**
 
+```bash
 npm run lint
+```
 
 - **Fix linting issues automatically**
 
+```bash
 npm run lint:fix
+```
 
 - **Run tests**
 
+```bash
 npm test
+```
+
+- **Run tests in watch mode**
+
+```bash
+npm run test:watch
+```
+
+- **Generate code coverage report**
+
+```bash
+npm run test:coverage
+```
+
+- **Run tests in CI mode**
+
+```bash
+npm run test:ci
+
+```
+
+- **Run tests in debug mode**
+
+```bash
+npm run test:debug
+```
+
+- **Update test snapshots**
+
+```bash
+npm run test:update
+```
 
 - **Installation**
 
