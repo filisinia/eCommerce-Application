@@ -49,3 +49,35 @@ npm run lint
 # Fix linting issues automatically
 
 npm run lint:fix
+
+# Run tests
+
+npm test
+
+## Installation
+
+1. Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/filisinia/eCommerce-Application.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd ecommerce-project
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Start the project:
+
+```bash
+npm start
+```
+
+# After completing these steps, the application will be available at http://localhost:3000.
