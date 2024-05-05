@@ -36,11 +36,12 @@
     "lint:es": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:es:fix": "npm run lint:es -- --fix",
     "format": "prettier . --write",
-    "ci:format": "prettier . --check"
+    "ci:format": "prettier . --check",
+    "precommit": "npm run format && npm run lint:es && npm test"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "prettier --write && lint:es && git add -A ."
+      "pre-commit": "npm run precommit"
     }
   },
   "eslintConfig": {
