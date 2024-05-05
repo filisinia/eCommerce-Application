@@ -40,11 +40,6 @@
     "precommit": "npm run format && npm run lint:es && npm test",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run precommit"
-    }
-  },
   "eslintConfig": {
     "extends": [
       "react-app",
