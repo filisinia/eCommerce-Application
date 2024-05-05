@@ -19,3 +19,33 @@ This project is a web application for eCommerce, developed using TypeScript, Rea
 - **Husky**
 - **Eslint**
 - **Prettier**
+
+## Available Scripts
+
+# Start the development server
+
+npm start
+
+# Build the project for production
+
+npm run build
+
+# Run the project in production mode
+
+npm run serve
+
+# Run TypeScript type checking
+
+npm run type-check
+
+# Format code using Prettier
+
+npm run format
+
+# Run ESLint to lint all JavaScript/TypeScript files
+
+npm run lint
+
+# Fix linting issues automatically
+
+npm run lint:fix
