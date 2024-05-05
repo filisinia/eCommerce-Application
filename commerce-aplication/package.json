@@ -13,6 +13,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "cross-env": "^7.0.3",
+    "jest-environment-jsdom": "^29.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-loader-spinner": "^6.1.6",
@@ -29,12 +31,17 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cross-env NODE_ENV=test jest",
     "eject": "react-scripts eject",
     "lint:es": "eslint --ext .js,.jsx,.ts,.tsx src",
     "lint:es:fix": "npm run lint:es -- --fix",
     "format": "prettier . --write",
     "ci:format": "prettier . --check"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "prettier --write && lint:es"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -88,6 +95,8 @@
     "prettier": "^3.2.5",
     "react-test-renderer": "^18.3.1",
     "redux-logger": "^3.0.6",
-    "ts-jest": "^29.1.2"
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2"
   }
 }
