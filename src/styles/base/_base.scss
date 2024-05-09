@@ -1,0 +1,18 @@
+html {
+  font-size: 10px;
+  font-style: normal;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}
+body {
+  max-width: 1440px;
+  padding: 0 2rem;
+  margin: auto;
+}
+
+section {
+  font-size: 3rem;
+  width: 30rem;
+  margin: auto;
+}

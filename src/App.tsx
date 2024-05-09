@@ -1,22 +1,23 @@
-import { useState } from 'react';
-
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import Button from '@mui/material/Button';
 
 import './styles/styles.scss';
+import { useStore, BearsState } from './zustand/state';
+
+const Count = ({ count }: { count: number }): JSX.Element => <p>{count}</p>;
 
 const App = (): JSX.Element => {
-  const [count, setCount] = useState(0);
-
-  const handleSetCount = (): void => {
-    setCount(count + 1);
-  };
+  const increasePopulation = useStore((state: BearsState) => state.increasePopulation);
+  const bears = useStore((state: BearsState) => state.bears);
 
   return (
-    <Button variant='contained' onClick={handleSetCount}>
-      <AccessAlarmIcon />
-      <span className='test'>Hello world</span>
-    </Button>
+    <section>
+      <Count count={bears} />{' '}
+      <Button variant='contained' onClick={increasePopulation}>
+        <AccessAlarmIcon />
+        <span className='test'>Hello world</span>
+      </Button>
+    </section>
   );
 };
 
