@@ -2,7 +2,21 @@ import { useState } from 'react';
 
 import { Box, Typography, TextField, Button } from '@mui/material';
 
-import { IAuthUser } from '../../types/types';
+import authUser from '../../api/user/Auth';
+import { ICustomer, IUser } from '../../types/user';
+import authUserStore from '../../zustand/user/auth/authUserState';
+
+interface IUserState {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dayOfBirth: string;
+  street: string;
+  city: string;
+  postCode: string;
+  country: string;
+}
 
 const userState = {
   email: '',
@@ -19,18 +33,37 @@ const userState = {
 const formStyle = { display: 'flex', flexDirection: 'column', rowGap: '2rem', margin: '2rem', alignItems: 'center' };
 
 const AuthUser = (): JSX.Element => {
-  const [user, setUser] = useState<IAuthUser>(userState);
+  const [customer, setCustomer] = useState<IUserState>(userState);
+
+  const { setUser, setError } = authUserStore((state) => state);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log(user);
+
+    authUser({
+      email: 'johndoe3@example.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      dayOfBirth: 'dayOfBirth',
+      password: 'secret123',
+      addresses: [{ street: 'street', city: 'city', postCode: 'postCode', country: 'KI' }],
+    })
+      .then((res: ICustomer | string) => {
+        if (typeof res !== 'string') {
+          setUser(res);
+        } else {
+          // eslint-disable-next-line
+          setError(res);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const onChange = (e: React.FormEvent<HTMLFormElement>): void => {
     const input = e.target as HTMLInputElement;
     const { name, value } = input;
 
-    setUser({ ...user, [name]: value });
+    setCustomer({ ...customer, [name]: value });
   };
 
   return (

@@ -1,5 +1,8 @@
-import { IAuthUser } from '../../types/types';
+import { IUser } from '../../types/user';
 
 export interface IUserAuthState {
-  user: IAuthUser | null;
+  user: IUser | null;
+  error: string | null;
+  setUser: (user: IUser) => void;
+  setError: (error: string) => void;
 }
