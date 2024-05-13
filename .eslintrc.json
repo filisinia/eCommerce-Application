@@ -121,6 +121,7 @@
         "allowExpressions": true
       }
     ],
+    "@typescript-eslint/no-unused-expressions": ["error", { "allowTernary": true }],
     "prettier/prettier": [
       "error",
       {

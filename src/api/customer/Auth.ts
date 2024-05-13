@@ -1,22 +1,21 @@
 import axios, { isAxiosError } from 'axios';
 
-import { IUser, IAuthUserSuccess, IAuthUserError, ICustomer } from '../../types/user';
+import { ICustomer, IAuthCustomerSuccess, IAuthCustomerError, ICustomerRes } from '../../types/customer';
 
 const baseUrl = 'https://api.europe-west1.gcp.commercetools.com/rs-shop-2023q4/customers';
 const token = 'hLhRreBLKlPxDjy2DjDsjPYaZjMhJ7jv';
 
 axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-const authUser = async (user: IUser): Promise<ICustomer | string> => {
+const authUser = async (user: ICustomer): Promise<ICustomerRes | string> => {
   try {
-    const { data }: IAuthUserSuccess = await axios.post(baseUrl, JSON.stringify(user));
+    const { data }: IAuthCustomerSuccess = await axios.post(baseUrl, JSON.stringify(user));
 
     return data.customer;
   } catch (e) {
-    if (axios.isAxiosError(e)) {
-      const { response } = <IAuthUserError>e;
+    if (isAxiosError(e)) {
+      const { response } = <IAuthCustomerError>e;
 
-      // eslint-disable-next-line
       return response.data.message;
     }
 

@@ -1,10 +1,10 @@
-import AuthUserPage from './pages/AuthUserPage/AuthUserPage';
+import AuthCustomerPage from './pages/AuthCustomerPage/AuthCustomerPage';
 
 import './styles/styles.scss';
 
 const App = (): JSX.Element => (
   <main>
-    <AuthUserPage />
+    <AuthCustomerPage />
   </main>
 );
 
