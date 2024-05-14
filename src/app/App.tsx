@@ -1,13 +1,14 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Header from 'components/header/Header';
 import AuthCustomerPage from 'pages/AuthCustomerPage/AuthCustomerPage';
-import ErrorPage from 'pages/ErrorPage/ErrorPage';
-import LoginPage from 'pages/LoginPage/LoginPage';
-import MainPage from 'pages/MainPage/MainPage';
+
+const ErrorPage = lazy(() => import('pages/ErrorPage/ErrorPage'));
+const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
+const MainPage = lazy(() => import('pages/MainPage/MainPage'));
 
 const App = (): JSX.Element => (
   <BrowserRouter>
