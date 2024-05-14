@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
-import { ICustomer } from '../../../types/customer';
+import { ICustomer } from 'types/customer';
 
 interface ICustomerAuthState {
   customer: ICustomer | null;

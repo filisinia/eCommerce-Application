@@ -2,12 +2,11 @@ import { useState } from 'react';
 
 import { Box, Typography, TextField, Button } from '@mui/material';
 
-import authUser from '../../api/customer/Auth';
-import authCustomerStore from '../../store/slices/customer/authCustomerSlice';
-import { ICustomerRes, ICustomerAddress, ICustomerInfo } from '../../types/customer';
-
-import { customerAddressState, customerState } from './AuthCustomerState';
-import styles from './AuthCustomerStyle';
+import authUser from 'api/customer/Auth';
+import { customerAddressState, customerState } from 'components/customer/AuthCustomerState';
+import styles from 'components/customer/AuthCustomerStyle';
+import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
 
 const AuthCustomer = (): JSX.Element => {
   const [customer, setCustomerState] = useState<ICustomerInfo>(customerState);

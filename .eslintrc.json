@@ -18,6 +18,11 @@
     "prettier",
     "plugin:@typescript-eslint/recommended"
   ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

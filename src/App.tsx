@@ -1,4 +1,4 @@
-import AuthCustomerPage from './pages/AuthCustomerPage/AuthCustomerPage';
+import AuthCustomerPage from 'pages/AuthCustomerPage/AuthCustomerPage';
 
 import './styles/styles.scss';
 
