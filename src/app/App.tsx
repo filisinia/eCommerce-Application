@@ -1,3 +1,4 @@
+import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Header from 'components/header/Header';
@@ -6,11 +7,13 @@ import MainPage from 'pages/MainPage/MainPage';
 
 const App = (): JSX.Element => (
   <BrowserRouter>
-    <Header />
-    <Routes>
-      <Route element={<MainPage />} path='/' />
-      <Route element={<AuthCustomerPage />} path='/signup' />
-    </Routes>
+    <CssBaseline>
+      <Header />
+      <Routes>
+        <Route element={<MainPage />} path='/' />
+        <Route element={<AuthCustomerPage />} path='/signup' />
+      </Routes>
+    </CssBaseline>
   </BrowserRouter>
 );
 
