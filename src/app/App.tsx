@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -11,12 +13,14 @@ const App = (): JSX.Element => (
   <BrowserRouter>
     <CssBaseline>
       <Header />
-      <Routes>
-        <Route element={<MainPage />} path='/' />
-        <Route element={<AuthCustomerPage />} path='/signup' />
-        <Route element={<LoginPage />} path='/login' />
-        <Route element={<ErrorPage />} path='*' />
-      </Routes>
+      <Suspense>
+        <Routes>
+          <Route element={<MainPage />} path='/' />
+          <Route element={<AuthCustomerPage />} path='/signup' />
+          <Route element={<LoginPage />} path='/login' />
+          <Route element={<ErrorPage />} path='*' />
+        </Routes>
+      </Suspense>
     </CssBaseline>
   </BrowserRouter>
 );
