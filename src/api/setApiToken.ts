@@ -6,7 +6,7 @@ const baseUrl = 'https://auth.europe-west1.gcp.commercetools.com/oauth/token?gra
 
 const setApiToken = async (): Promise<void> => {
   try {
-    const res: IApiToken = await axios.post(baseUrl);
+    const res: IApiToken = await axios.post(baseUrl, {});
 
     if (res) {
       console.log(res.access_token);

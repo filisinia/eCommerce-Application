@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Box, Typography, TextField, Button } from '@mui/material';
-import { toast, ToastContainer, Zoom } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import authUser from 'api/customer/Auth';
@@ -12,21 +13,31 @@ import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
 import errorNotification from 'utils/errorNotification';
 
 const AuthCustomer = (): JSX.Element => {
-  const [customer, setCustomerState] = useState<ICustomerInfo>(customerState);
+  const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
 
   const [address, setAddress] = useState<ICustomerAddress>(customerAddressState);
 
-  const { setCustomer, setError } = authCustomerStore((state) => state);
+  const { setCustomer, setError, customer } = authCustomerStore((state) => state);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (customer) {
+      navigate('/');
+    }
+  }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    authUser({ ...customer, addresses: [address] })
+    authUser({ ...customerInfo, addresses: [address] })
       .then((res: ICustomerRes | string) => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
 
         if (typeof res === 'string') {
           errorNotification(res);
+        } else {
+          navigate('/');
         }
       })
       .catch((err: Error) => {
@@ -41,7 +52,7 @@ const AuthCustomer = (): JSX.Element => {
 
     input.getAttribute('data-address')
       ? setAddress({ ...address, [name]: value })
-      : setCustomerState({ ...customer, [name]: value });
+      : setCustomerState({ ...customerInfo, [name]: value });
 
     input.getAttribute('data-address');
   };
