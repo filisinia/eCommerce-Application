@@ -1,12 +1,15 @@
 import { useState } from 'react';
 
 import { Box, Typography, TextField, Button } from '@mui/material';
+import { toast, ToastContainer, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import authUser from 'api/customer/Auth';
 import { customerAddressState, customerState } from 'components/customer/AuthCustomerState';
 import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
+import errorNotification from 'utils/errorNotification';
 
 const AuthCustomer = (): JSX.Element => {
   const [customer, setCustomerState] = useState<ICustomerInfo>(customerState);
@@ -21,8 +24,15 @@ const AuthCustomer = (): JSX.Element => {
     authUser({ ...customer, addresses: [address] })
       .then((res: ICustomerRes | string) => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
+
+        if (typeof res === 'string') {
+          errorNotification(res);
+        }
       })
-      .catch((err: Error) => setError(err.message));
+      .catch((err: Error) => {
+        setError(err.message);
+        errorNotification(err.message);
+      });
   };
 
   const onChange = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -46,7 +56,6 @@ const AuthCustomer = (): JSX.Element => {
         <TextField label='Password' name='password' size='small' type='password' />
         <TextField
           label='First name'
-          required
           name='firstName'
           size='small'
           inputProps={{
@@ -105,6 +114,7 @@ const AuthCustomer = (): JSX.Element => {
 
         <Button type='submit'>Sign Up</Button>
       </Box>
+      <ToastContainer />
     </Box>
   );
 };
