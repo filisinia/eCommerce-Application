@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, Typography, TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import { Box, Typography, TextField, Button, IconButton, InputAdornment, Alert } from '@mui/material';
 
 import { validateEmail, validatePassword } from './LoginValidation';
 
+import loginUser from 'api/customer/Login';
 import styles from 'components/customer/AuthCustomerStyle';
+import { ICustomerRes } from 'types/customer';
 
 const LoginCustomer = (): JSX.Element => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -13,6 +15,7 @@ const LoginCustomer = (): JSX.Element => {
   const [password, setPassword] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
+  const [loginError, setLoginError] = useState<string>('');
 
   const handleClickShowPassword = (): void => {
     setShowPassword((prev: boolean) => !prev);
@@ -36,10 +39,20 @@ const LoginCustomer = (): JSX.Element => {
     setEmailError(emailValidationError);
     setPasswordError(passwordValidationError);
 
-    if (!emailValidationError && !passwordValidationError) {
-      // Handle successful form submission
-      console.log('Form submitted successfully', { email, password });
+    if (emailValidationError || passwordValidationError) {
+      setEmailError(emailValidationError);
+      setPasswordError(passwordValidationError);
+
+      return;
     }
+
+    loginUser({ email, password })
+      .then((res: ICustomerRes | string) => {
+        typeof res !== 'string' ? setLoginError('') : setLoginError(res);
+      })
+      .catch((error: string) => {
+        console.error('Authorizated error:', error);
+      });
   };
 
   return (
@@ -79,6 +92,11 @@ const LoginCustomer = (): JSX.Element => {
             ),
           }}
         />
+        {loginError && (
+          <Alert severity='error' sx={{ mb: 2 }}>
+            {loginError}
+          </Alert>
+        )}
         <Button type='submit' variant='contained' sx={{ width: '230px' }}>
           Log in
         </Button>

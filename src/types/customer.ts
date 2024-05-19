@@ -39,3 +39,8 @@ export interface IAuthCustomerError {
     };
   };
 }
+
+export interface ICustomerLoginData {
+  email: string;
+  password: string;
+}
