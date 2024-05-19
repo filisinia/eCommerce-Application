@@ -1,28 +1,49 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Box, Typography, TextField, Button } from '@mui/material';
+import { useNavigate, Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import authUser from 'api/customer/Auth';
 import { customerAddressState, customerState } from 'components/customer/AuthCustomerState';
 import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
+import errorNotification from 'utils/errorNotification';
 
 const AuthCustomer = (): JSX.Element => {
-  const [customer, setCustomerState] = useState<ICustomerInfo>(customerState);
+  const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
 
   const [address, setAddress] = useState<ICustomerAddress>(customerAddressState);
 
-  const { setCustomer, setError } = authCustomerStore((state) => state);
+  const { setCustomer, setError, customer } = authCustomerStore((state) => state);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // if (customer) {
+    //   navigate('/');
+    // }
+  }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    authUser({ ...customer, addresses: [address] })
+    authUser({ ...customerInfo, addresses: [address] })
       .then((res: ICustomerRes | string) => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
+
+        if (typeof res === 'string') {
+          errorNotification(res);
+        } else {
+          navigate('/');
+        }
       })
-      .catch((err: Error) => setError(err.message));
+      .catch((err: Error) => {
+        setError(err.message);
+        errorNotification(err.message);
+      });
   };
 
   const onChange = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -31,24 +52,33 @@ const AuthCustomer = (): JSX.Element => {
 
     input.getAttribute('data-address')
       ? setAddress({ ...address, [name]: value })
-      : setCustomerState({ ...customer, [name]: value });
+      : setCustomerState({ ...customerInfo, [name]: value });
 
     input.getAttribute('data-address');
   };
 
   return (
-    <Box>
+    <Box sx={styles.formContainer}>
       <Typography component='h1' variant='h3' sx={{ textAlign: 'center' }}>
         Sign in
       </Typography>
       <Box component='form' onSubmit={onSubmit} onChange={onChange} sx={styles.formStyle}>
         <TextField label='Email Address' name='email' autoFocus size='small' type='email' />
-        <TextField label='Password' name='password' size='small' type='password' />
+        <TextField
+          label='Password'
+          name='password'
+          size='small'
+          type='password'
+          inputProps={{
+            // pattern: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
+            title: 'Must contain at least one character,special character,number and Upper character ',
+          }}
+        />
         <TextField
           label='First name'
-          required
           name='firstName'
           size='small'
+          required
           inputProps={{
             pattern: '[A-Za-z]{1,}',
             title: 'Must contain at least one character and no special characters or numbers',
@@ -58,6 +88,7 @@ const AuthCustomer = (): JSX.Element => {
           label='Last name'
           name='lastName'
           size='small'
+          required
           inputProps={{
             pattern: '[A-Za-z]{1,}',
             title: 'Must contain at least one character and no special characters or numbers',
@@ -73,17 +104,25 @@ const AuthCustomer = (): JSX.Element => {
             label='Street'
             name='streetName'
             size='small'
+            required
             inputProps={{
               'data-address': true,
+              pattern: '[0-9A-Za-z]{1,}',
+              title: 'Must contain at least one character or number and no special characters',
             }}
+            sx={styles.addressField}
           />
           <TextField
             label='City'
             name='city'
             size='small'
+            required
             inputProps={{
               'data-address': true,
+              pattern: '[A-Za-z]{1,}',
+              title: 'Must contain at least one character and no special characters or numbers',
             }}
+            sx={styles.addressField}
           />
           <TextField
             label='Posatal Code'
@@ -92,6 +131,7 @@ const AuthCustomer = (): JSX.Element => {
             inputProps={{
               'data-address': true,
             }}
+            sx={styles.addressField}
           />
           <TextField
             label='Country'
@@ -100,11 +140,19 @@ const AuthCustomer = (): JSX.Element => {
             inputProps={{
               'data-address': true,
             }}
+            sx={styles.addressField}
           />
         </Box>
 
         <Button type='submit'>Sign Up</Button>
+      </Box>{' '}
+      <Box sx={styles.logInContainer}>
+        <Box sx={styles.logInSpan}>Or</Box>
+        <Link to='/logIn' style={styles.linkStyle}>
+          Log In
+        </Link>
       </Box>
+      <ToastContainer />
     </Box>
   );
 };
