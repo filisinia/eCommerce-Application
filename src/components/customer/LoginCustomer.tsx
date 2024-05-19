@@ -8,6 +8,8 @@ import styles from 'components/customer/AuthCustomerStyle';
 const LoginCustomer = (): JSX.Element => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const [password, setPassword] = useState<string>('');
+
   const handleClickShowPassword = (): void => {
     setShowPassword((prev: boolean) => !prev);
   };
@@ -31,7 +33,7 @@ const LoginCustomer = (): JSX.Element => {
           name='email'
           autoFocus
           size='small'
-          type='email'
+          type='text'
           sx={{ mb: 2, width: '230px' }}
         />
         <TextField
@@ -39,6 +41,8 @@ const LoginCustomer = (): JSX.Element => {
           name='password'
           size='small'
           type={showPassword ? 'text' : 'password'}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           sx={{ mb: 2, width: '230px' }}
           InputProps={{
             endAdornment: (
