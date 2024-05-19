@@ -58,17 +58,27 @@ const AuthCustomer = (): JSX.Element => {
   };
 
   return (
-    <Box>
+    <Box sx={styles.formContainer}>
       <Typography component='h1' variant='h3' sx={{ textAlign: 'center' }}>
         Sign in
       </Typography>
       <Box component='form' onSubmit={onSubmit} onChange={onChange} sx={styles.formStyle}>
         <TextField label='Email Address' name='email' autoFocus size='small' type='email' />
-        <TextField label='Password' name='password' size='small' type='password' />
+        <TextField
+          label='Password'
+          name='password'
+          size='small'
+          type='password'
+          inputProps={{
+            // pattern: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
+            title: 'Must contain at least one character,special character,number and Upper character ',
+          }}
+        />
         <TextField
           label='First name'
           name='firstName'
           size='small'
+          required
           inputProps={{
             pattern: '[A-Za-z]{1,}',
             title: 'Must contain at least one character and no special characters or numbers',
@@ -78,6 +88,7 @@ const AuthCustomer = (): JSX.Element => {
           label='Last name'
           name='lastName'
           size='small'
+          required
           inputProps={{
             pattern: '[A-Za-z]{1,}',
             title: 'Must contain at least one character and no special characters or numbers',
@@ -93,17 +104,25 @@ const AuthCustomer = (): JSX.Element => {
             label='Street'
             name='streetName'
             size='small'
+            required
             inputProps={{
               'data-address': true,
+              pattern: '[0-9A-Za-z]{1,}',
+              title: 'Must contain at least one character or number and no special characters',
             }}
+            sx={styles.addressField}
           />
           <TextField
             label='City'
             name='city'
             size='small'
+            required
             inputProps={{
               'data-address': true,
+              pattern: '[A-Za-z]{1,}',
+              title: 'Must contain at least one character and no special characters or numbers',
             }}
+            sx={styles.addressField}
           />
           <TextField
             label='Posatal Code'
@@ -112,6 +131,7 @@ const AuthCustomer = (): JSX.Element => {
             inputProps={{
               'data-address': true,
             }}
+            sx={styles.addressField}
           />
           <TextField
             label='Country'
@@ -120,6 +140,7 @@ const AuthCustomer = (): JSX.Element => {
             inputProps={{
               'data-address': true,
             }}
+            sx={styles.addressField}
           />
         </Box>
 
