@@ -3,9 +3,6 @@ import axios, { isAxiosError } from 'axios';
 import { ICustomer, IAuthCustomerSuccess, IAuthCustomerError, ICustomerRes } from 'types/customer';
 
 const baseUrl = 'https://api.europe-west1.gcp.commercetools.com/rs-shop-2023q4/customers';
-const token = 'AM7tIiYnwDA35OYcbTs42QzMGSu5WSvP';
-
-axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
 const authUser = async (user: ICustomer): Promise<ICustomerRes | string> => {
   try {

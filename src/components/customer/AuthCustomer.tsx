@@ -124,14 +124,13 @@ const AuthCustomer = (): JSX.Element => {
         </Box>
 
         <Button type='submit'>Sign Up</Button>
-      </Box>
+      </Box>{' '}
       <Box sx={styles.logInContainer}>
         <Box sx={styles.logInSpan}>Or</Box>
         <Link to='/logIn' style={styles.linkStyle}>
           Log In
         </Link>
       </Box>
-
       <ToastContainer />
     </Box>
   );
