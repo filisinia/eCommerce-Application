@@ -11,6 +11,7 @@ import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
 import errorNotification from 'utils/errorNotification';
+import { getLimitDate } from 'utils/getLimitDate';
 
 const AuthCustomer = (): JSX.Element => {
   const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
@@ -18,6 +19,9 @@ const AuthCustomer = (): JSX.Element => {
   const [address, setAddress] = useState<ICustomerAddress>(customerAddressState);
 
   const { setCustomer, setError, customer } = authCustomerStore((state) => state);
+
+  const dateLimit = 13;
+  const dateInputMaxDate = getLimitDate(dateLimit);
 
   const navigate = useNavigate();
 
@@ -63,16 +67,25 @@ const AuthCustomer = (): JSX.Element => {
         Sign in
       </Typography>
       <Box component='form' onSubmit={onSubmit} onChange={onChange} sx={styles.formStyle}>
-        <TextField label='Email Address' name='email' autoFocus size='small' type='email' />
+        <TextField
+          label='Email Address'
+          name='email'
+          autoFocus
+          size='small'
+          type='email'
+          required
+          value={customerInfo.email}
+        />
         <TextField
           label='Password'
           name='password'
           size='small'
           type='password'
           inputProps={{
-            // pattern: /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g,
+            pattern: '/(?=.*[0-9])(?=.*[!@#$%^&*`])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*`]{8,}/g',
             title: 'Must contain at least one character,special character,number and Upper character ',
           }}
+          value={customerInfo.password}
         />
         <TextField
           label='First name'
@@ -83,6 +96,7 @@ const AuthCustomer = (): JSX.Element => {
             pattern: '[A-Za-z]{1,}',
             title: 'Must contain at least one character and no special characters or numbers',
           }}
+          value={customerInfo.firstName}
         />
         <TextField
           label='Last name'
@@ -93,8 +107,18 @@ const AuthCustomer = (): JSX.Element => {
             pattern: '[A-Za-z]{1,}',
             title: 'Must contain at least one character and no special characters or numbers',
           }}
+          value={customerInfo.lastName}
         />
-        <TextField name='dayOfBirth' size='small' type='date' />
+        <TextField
+          name='dayOfBirth'
+          size='small'
+          type='date'
+          required
+          inputProps={{
+            max: dateInputMaxDate,
+          }}
+          value={customerInfo.dayOfBirth}
+        />
 
         <Typography component='h3' variant='h5'>
           Address
@@ -111,6 +135,7 @@ const AuthCustomer = (): JSX.Element => {
               title: 'Must contain at least one character or number and no special characters',
             }}
             sx={styles.addressField}
+            value={address.streetName}
           />
           <TextField
             label='City'
@@ -123,24 +148,29 @@ const AuthCustomer = (): JSX.Element => {
               title: 'Must contain at least one character and no special characters or numbers',
             }}
             sx={styles.addressField}
+            value={address.city}
           />
           <TextField
             label='Posatal Code'
             name='postalCode'
             size='small'
+            required
             inputProps={{
               'data-address': true,
             }}
             sx={styles.addressField}
+            value={address.postalCode}
           />
           <TextField
             label='Country'
             name='country'
             size='small'
+            required
             inputProps={{
               'data-address': true,
             }}
             sx={styles.addressField}
+            value={address.country}
           />
         </Box>
 
