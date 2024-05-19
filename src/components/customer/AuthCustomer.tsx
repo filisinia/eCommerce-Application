@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Box, Typography, TextField, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,9 +22,9 @@ const AuthCustomer = (): JSX.Element => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (customer) {
-      navigate('/');
-    }
+    // if (customer) {
+    //   navigate('/');
+    // }
   }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -125,6 +125,13 @@ const AuthCustomer = (): JSX.Element => {
 
         <Button type='submit'>Sign Up</Button>
       </Box>
+      <Box sx={styles.logInContainer}>
+        <Box sx={styles.logInSpan}>Or</Box>
+        <Link to='/logIn' style={styles.linkStyle}>
+          Log In
+        </Link>
+      </Box>
+
       <ToastContainer />
     </Box>
   );
