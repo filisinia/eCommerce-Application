@@ -2,7 +2,6 @@ import axios, { isAxiosError } from 'axios';
 
 import {
   ICustomerLoginData,
-  IAuthCustomerSuccess,
   IAuthCustomerError,
   ICustomerLoginSuccessData,
   ICustomerLoginSuccess,
