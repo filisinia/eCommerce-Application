@@ -209,7 +209,7 @@ const AuthCustomer = (): JSX.Element => {
             helperText='Must contain at least one character and no special characters or numbers'
           />
           <TextField
-            label='Posatal Code'
+            label='Postal Code'
             name='postalCode'
             size='small'
             required
@@ -273,7 +273,7 @@ const AuthCustomer = (): JSX.Element => {
             helperText='Must contain at least one character and no special characters or numbers'
           />
           <TextField
-            label='Posatal Code'
+            label='Postal Code'
             name='postalCode'
             size='small'
             required
