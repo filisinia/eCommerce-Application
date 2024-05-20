@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 
 const Header = (): JSX.Element => {
-  const { setCustomer } = authCustomerStore((state) => state);
+  const { setCustomer, customer } = authCustomerStore((state) => state);
 
   const onLogout = (): void => setCustomer(null);
 
@@ -17,15 +17,19 @@ const Header = (): JSX.Element => {
               Store Name
             </Button>
           </Box>
-          <Button component={Link} to='/login' variant='outlined' sx={{ marginRight: '10px' }}>
-            Log in
-          </Button>
           <Button component={Link} to='/signup' variant='contained' sx={{ marginRight: '10px' }}>
             Sign up
           </Button>
-          <Button variant='outlined' onClick={onLogout}>
-            Log out
+          <Button component={Link} to='/login' variant='outlined' sx={{ marginRight: '10px' }}>
+            Log in
           </Button>
+          {customer ? (
+            <Button variant='outlined' onClick={onLogout}>
+              Log out
+            </Button>
+          ) : (
+            ''
+          )}
         </Toolbar>
       </AppBar>
       <Toolbar />
