@@ -18,8 +18,8 @@ const styles = {
   formContainer: {
     m: '1rem',
   },
-  addressField: {
-    minWidth: '15rem',
+  textField: {
+    width: '100%',
   },
 };
 

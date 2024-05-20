@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Box, Typography, TextField, Button } from '@mui/material';
+import { postcodeValidator, postcodeValidatorExistsForCountry } from 'postcode-validator';
 import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +13,7 @@ import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
 import errorNotification from 'utils/errorNotification';
 import { getLimitDate } from 'utils/getLimitDate';
+import { emailValidate, passwordValidate, postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
 
 const AuthCustomer = (): JSX.Element => {
   const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
@@ -75,6 +77,8 @@ const AuthCustomer = (): JSX.Element => {
           type='email'
           required
           value={customerInfo.email}
+          error={!emailValidate(customerInfo.email)}
+          sx={styles.textField}
         />
         <TextField
           label='Password'
@@ -82,10 +86,13 @@ const AuthCustomer = (): JSX.Element => {
           size='small'
           type='password'
           inputProps={{
-            pattern: '/(?=.*[0-9])(?=.*[!@#$%^&*`])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*`]{8,}/g',
-            title: 'Must contain at least one character,special character,number and Upper character ',
+            title: 'Must contain at least one character,special character,number and Upper character',
           }}
+          required
           value={customerInfo.password}
+          error={!passwordValidate(customerInfo.password)}
+          helperText='Must contain at least one character,special character,number and Upper character'
+          sx={styles.textField}
         />
         <TextField
           label='First name'
@@ -93,10 +100,11 @@ const AuthCustomer = (): JSX.Element => {
           size='small'
           required
           inputProps={{
-            pattern: '[A-Za-z]{1,}',
             title: 'Must contain at least one character and no special characters or numbers',
           }}
-          value={customerInfo.firstName}
+          error={!textValidate(customerInfo.firstName)}
+          helperText='Must contain at least one character and no special characters or numbers'
+          sx={styles.textField}
         />
         <TextField
           label='Last name'
@@ -104,10 +112,12 @@ const AuthCustomer = (): JSX.Element => {
           size='small'
           required
           inputProps={{
-            pattern: '[A-Za-z]{1,}',
             title: 'Must contain at least one character and no special characters or numbers',
           }}
           value={customerInfo.lastName}
+          error={!textValidate(customerInfo.lastName)}
+          helperText='Must contain at least one character and no special characters or numbers'
+          sx={styles.textField}
         />
         <TextField
           name='dayOfBirth'
@@ -117,7 +127,10 @@ const AuthCustomer = (): JSX.Element => {
           inputProps={{
             max: dateInputMaxDate,
           }}
+          sx={styles.textField}
           value={customerInfo.dayOfBirth}
+          error={customerInfo.dayOfBirth.length === 0}
+          helperText='A valid date input ensuring the user is above a certain age (e.g., 13 years old or older)'
         />
 
         <Typography component='h3' variant='h5'>
@@ -131,11 +144,12 @@ const AuthCustomer = (): JSX.Element => {
             required
             inputProps={{
               'data-address': true,
-              pattern: '[0-9A-Za-z]{1,}',
               title: 'Must contain at least one character or number and no special characters',
             }}
-            sx={styles.addressField}
+            sx={styles.textField}
             value={address.streetName}
+            error={!textAndNumberValidate(address.streetName)}
+            helperText='Must contain at least one character or number and no special characters'
           />
           <TextField
             label='City'
@@ -144,11 +158,12 @@ const AuthCustomer = (): JSX.Element => {
             required
             inputProps={{
               'data-address': true,
-              pattern: '[A-Za-z]{1,}',
               title: 'Must contain at least one character and no special characters or numbers',
             }}
-            sx={styles.addressField}
+            sx={styles.textField}
             value={address.city}
+            error={!textValidate(address.city)}
+            helperText='Must contain at least one character and no special characters or numbers'
           />
           <TextField
             label='Posatal Code'
@@ -157,9 +172,13 @@ const AuthCustomer = (): JSX.Element => {
             required
             inputProps={{
               'data-address': true,
+              title:
+                'Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)',
             }}
-            sx={styles.addressField}
+            sx={styles.textField}
             value={address.postalCode}
+            error={!postCodeValidate(address.postalCode, address.country)}
+            helperText='Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)'
           />
           <TextField
             label='Country'
@@ -168,9 +187,12 @@ const AuthCustomer = (): JSX.Element => {
             required
             inputProps={{
               'data-address': true,
+              title: 'Must follow the format for the country (e.g."US" or "UK" )',
             }}
-            sx={styles.addressField}
+            sx={styles.textField}
             value={address.country}
+            error={!postcodeValidatorExistsForCountry(address.country)}
+            helperText='Must follow the format for the country (e.g."US" or "UK" )'
           />
         </Box>
 
