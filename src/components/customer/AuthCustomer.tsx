@@ -174,10 +174,6 @@ const AuthCustomer = (): JSX.Element => {
         <Typography component='h4' variant='h6'>
           Shipping Address
         </Typography>
-        <FormControlLabel
-          control={<Checkbox checked={isDefaultAddressChecked} onChange={changeDefaultAddress} />}
-          label='Set as billing address'
-        />
         <Box sx={styles.addressStyle}>
           <TextField
             label='Street'
@@ -237,7 +233,10 @@ const AuthCustomer = (): JSX.Element => {
             helperText='Must follow the format for the country (e.g."US" or "UK" )'
           />
         </Box>
-
+        <FormControlLabel
+          control={<Checkbox checked={isDefaultAddressChecked} onChange={changeDefaultAddress} />}
+          label='Set as billing address'
+        />
         <Typography component='h4' variant='h6'>
           Billing Address
         </Typography>
