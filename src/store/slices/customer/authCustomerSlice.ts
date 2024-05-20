@@ -6,8 +6,8 @@ import { ICustomer } from 'types/customer';
 interface ICustomerAuthState {
   customer: ICustomer | null;
   error: string | null;
-  setCustomer: (user: ICustomer) => void;
-  setError: (error: string) => void;
+  setCustomer: (customer: ICustomer | null) => void;
+  setError: (error: string | null) => void;
 }
 
 const authCustomerStore = create<ICustomerAuthState>()(

@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { Box, Typography, TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { postcodeValidatorExistsForCountry } from 'postcode-validator';
 import { useNavigate, Link } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import authCustomer from 'api/customer/authCustomer';
 import { customerAddressState, customerState } from 'components/customer/AuthCustomerState';
 import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
-import errorNotification from 'utils/errorNotification';
 import { getLimitDate } from 'utils/getLimitDate';
+import notification from 'utils/notification';
 import { emailValidate, passwordValidate, postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
 
 const AuthCustomer = (): JSX.Element => {
@@ -32,11 +30,11 @@ const AuthCustomer = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (customer) {
       navigate('/');
     }
-  }, []);
+  }, [customer]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -62,14 +60,15 @@ const AuthCustomer = (): JSX.Element => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
 
         if (typeof res === 'string') {
-          errorNotification(res);
+          notification('error', res);
         } else {
+          notification('success', 'You have been successfully registered');
           navigate('/');
         }
       })
       .catch((err: Error) => {
         setError(err.message);
-        errorNotification(err.message);
+        notification('error', err.message);
       });
   };
 
@@ -175,10 +174,6 @@ const AuthCustomer = (): JSX.Element => {
         <Typography component='h4' variant='h6'>
           Shipping Address
         </Typography>
-        <FormControlLabel
-          control={<Checkbox checked={isDefaultAddressChecked} onChange={changeDefaultAddress} />}
-          label='Set as billing address'
-        />
         <Box sx={styles.addressStyle}>
           <TextField
             label='Street'
@@ -209,7 +204,7 @@ const AuthCustomer = (): JSX.Element => {
             helperText='Must contain at least one character and no special characters or numbers'
           />
           <TextField
-            label='Posatal Code'
+            label='Postal Code'
             name='postalCode'
             size='small'
             required
@@ -238,7 +233,10 @@ const AuthCustomer = (): JSX.Element => {
             helperText='Must follow the format for the country (e.g."US" or "UK" )'
           />
         </Box>
-
+        <FormControlLabel
+          control={<Checkbox checked={isDefaultAddressChecked} onChange={changeDefaultAddress} />}
+          label='Set as billing address'
+        />
         <Typography component='h4' variant='h6'>
           Billing Address
         </Typography>
@@ -273,7 +271,7 @@ const AuthCustomer = (): JSX.Element => {
             helperText='Must contain at least one character and no special characters or numbers'
           />
           <TextField
-            label='Posatal Code'
+            label='Postal Code'
             name='postalCode'
             size='small'
             required
@@ -311,7 +309,6 @@ const AuthCustomer = (): JSX.Element => {
           Log In
         </Link>
       </Box>
-      <ToastContainer />
     </Box>
   );
 };
