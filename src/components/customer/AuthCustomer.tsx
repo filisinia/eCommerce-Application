@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { Box, Typography, TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { postcodeValidatorExistsForCountry } from 'postcode-validator';
@@ -32,11 +32,11 @@ const AuthCustomer = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (customer) {
       navigate('/');
     }
-  }, []);
+  }, [customer]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
