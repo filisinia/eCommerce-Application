@@ -20,6 +20,8 @@ const AuthCustomer = (): JSX.Element => {
 
   const [address, setAddress] = useState<ICustomerAddress>(customerAddressState);
 
+  const [billingAddress, setBillingAddress] = useState<ICustomerAddress>(customerAddressState);
+
   const { setCustomer, setError, customer } = authCustomerStore((state) => state);
 
   const [defaultAddress, setDefaultAddress] = useState<number | null>(null);
@@ -38,15 +40,17 @@ const AuthCustomer = (): JSX.Element => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+
+    const addresses = isDefaultAddressChecked ? [address] : [address, billingAddress];
     const customerReq =
       defaultAddress !== null
         ? {
             ...customerInfo,
-            addresses: [{ ...address }],
-            shippingAddresses: [defaultAddress],
-            billingAddresses: [defaultAddress],
-            defaultBillingAddress: defaultAddress,
-            defaultShippingAddress: defaultAddress,
+            addresses,
+            shippingAddresses: [0],
+            billingAddresses: [isDefaultAddressChecked ? 0 : 1],
+            defaultBillingAddress: isDefaultAddressChecked ? 0 : 1,
+            defaultShippingAddress: 0,
           }
         : {
             ...customerInfo,
@@ -73,11 +77,17 @@ const AuthCustomer = (): JSX.Element => {
     const input = e.target as HTMLInputElement;
     const { name, value } = input;
 
-    input.getAttribute('data-address')
-      ? setAddress({ ...address, [name]: value })
-      : setCustomerState({ ...customerInfo, [name]: value });
+    if (input.getAttribute('data-address')) {
+      setAddress({ ...address, [name]: value });
 
-    input.getAttribute('data-address');
+      return;
+    }
+    if (input.getAttribute('data-billingaddress')) {
+      setBillingAddress({ ...billingAddress, [name]: value });
+
+      return;
+    }
+    setCustomerState({ ...customerInfo, [name]: value });
   };
 
   const changeDefaultAddress = (): void => {
@@ -85,7 +95,11 @@ const AuthCustomer = (): JSX.Element => {
 
     if (!isDefaultAddressChecked) {
       setDefaultAddress(0);
+      setBillingAddress({ ...address });
+
+      return;
     }
+    setBillingAddress({ ...customerAddressState });
   };
 
   return (
@@ -158,12 +172,12 @@ const AuthCustomer = (): JSX.Element => {
           helperText='A valid date input ensuring the user is above a certain age (e.g., 13 years old or older)'
         />
 
-        <Typography component='h3' variant='h5'>
-          Address
+        <Typography component='h4' variant='h6'>
+          Shipping Address
         </Typography>
         <FormControlLabel
           control={<Checkbox checked={isDefaultAddressChecked} onChange={changeDefaultAddress} />}
-          label='Set as default address'
+          label='Set as billing address'
         />
         <Box sx={styles.addressStyle}>
           <TextField
@@ -221,6 +235,70 @@ const AuthCustomer = (): JSX.Element => {
             sx={styles.textField}
             value={address.country}
             error={!postcodeValidatorExistsForCountry(address.country)}
+            helperText='Must follow the format for the country (e.g."US" or "UK" )'
+          />
+        </Box>
+
+        <Typography component='h4' variant='h6'>
+          Billing Address
+        </Typography>
+
+        <Box sx={styles.addressStyle}>
+          <TextField
+            label='Street'
+            name='streetName'
+            size='small'
+            // required
+            inputProps={{
+              'data-billingaddress': true,
+              title: 'Must contain at least one character or number and no special characters',
+            }}
+            sx={styles.textField}
+            value={billingAddress.streetName}
+            error={!textAndNumberValidate(billingAddress.streetName)}
+            helperText='Must contain at least one character or number and no special characters'
+          />
+          <TextField
+            label='City'
+            name='city'
+            size='small'
+            // required
+            inputProps={{
+              'data-billingaddress': true,
+              title: 'Must contain at least one character and no special characters or numbers',
+            }}
+            sx={styles.textField}
+            value={billingAddress.city}
+            error={!textValidate(billingAddress.city)}
+            helperText='Must contain at least one character and no special characters or numbers'
+          />
+          <TextField
+            label='Posatal Code'
+            name='postalCode'
+            size='small'
+            required
+            inputProps={{
+              'data-billingaddress': true,
+              title:
+                'Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)',
+            }}
+            sx={styles.textField}
+            value={billingAddress.postalCode}
+            error={!postCodeValidate(address.postalCode, billingAddress.country)}
+            helperText='Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)'
+          />
+          <TextField
+            label='Country'
+            name='country'
+            size='small'
+            required
+            inputProps={{
+              'data-billingaddress': true,
+              title: 'Must follow the format for the country (e.g."US" or "UK" )',
+            }}
+            sx={styles.textField}
+            value={billingAddress.country}
+            error={!postcodeValidatorExistsForCountry(billingAddress.country)}
             helperText='Must follow the format for the country (e.g."US" or "UK" )'
           />
         </Box>
