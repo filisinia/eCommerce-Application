@@ -1,8 +1,6 @@
 import { AppBar, Button, Toolbar, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import { removeTokens } from 'api/customer/Token';
-
 const Header = (): JSX.Element => (
   <>
     <AppBar sx={{ backgroundColor: '#0d0d0d' }}>
@@ -12,7 +10,7 @@ const Header = (): JSX.Element => (
             Store Name
           </Button>
         </Box>
-        <Button component={Link} to='/login' variant='outlined' onClick={removeTokens} sx={{ marginRight: '10px' }}>
+        <Button component={Link} to='/login' variant='outlined' sx={{ marginRight: '10px' }}>
           Log out
         </Button>
         <Button component={Link} to='/signup' variant='contained'>
