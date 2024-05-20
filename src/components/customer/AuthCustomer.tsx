@@ -9,9 +9,8 @@ import { customerAddressState, customerState } from 'components/customer/AuthCus
 import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
-import errorNotification from 'utils/errorNotification';
 import { getLimitDate } from 'utils/getLimitDate';
-import successNotification from 'utils/successNotification';
+import notification from 'utils/notification';
 import { emailValidate, passwordValidate, postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
 
 const AuthCustomer = (): JSX.Element => {
@@ -61,15 +60,15 @@ const AuthCustomer = (): JSX.Element => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
 
         if (typeof res === 'string') {
-          errorNotification(res);
+          notification('error', res);
         } else {
-          successNotification('You have been successfully registered');
+          notification('success', 'You have been successfully registered');
           navigate('/');
         }
       })
       .catch((err: Error) => {
         setError(err.message);
-        errorNotification(err.message);
+        notification('error', err.message);
       });
   };
 

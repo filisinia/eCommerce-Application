@@ -6,9 +6,8 @@ import { ToastContainer } from 'react-toastify';
 
 import setApiToken from 'api/setApiToken';
 import Header from 'components/header/Header';
-import errorNotification from 'utils/errorNotification';
-
 import 'react-toastify/dist/ReactToastify.css';
+import notification from 'utils/notification';
 
 const AuthPage = lazy(() => import('pages/AuthPage/AuthPage'));
 const ErrorPage = lazy(() => import('pages/ErrorPage/ErrorPage'));
@@ -17,7 +16,7 @@ const MainPage = lazy(() => import('pages/MainPage/MainPage'));
 
 const App = (): JSX.Element => {
   useEffect(() => {
-    setApiToken().catch((e: Error) => errorNotification(e.message));
+    setApiToken().catch((e: Error) => notification('error', e.message));
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import { toast, Zoom } from 'react-toastify';
 
-const successNotification = (msg: string): void => {
-  toast.success(msg, {
+const notification = (type: 'success' | 'error', msg: string): void => {
+  toast[type](msg, {
     position: 'bottom-left',
     autoClose: 3000,
     hideProgressBar: false,
@@ -14,4 +14,4 @@ const successNotification = (msg: string): void => {
   });
 };
 
-export default successNotification;
+export default notification;
