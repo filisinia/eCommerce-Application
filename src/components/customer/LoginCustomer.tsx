@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Typography, TextField, Button, IconButton, InputAdornment, Alert } from '@mui/material';
@@ -23,6 +24,30 @@ const LoginCustomer = (): JSX.Element => {
   const { setCustomer, setError } = authCustomerStore((state) => state);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthentication = (): void => {
+      try {
+        const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
+
+        const accessToken = cookies.find((cookie) => cookie.startsWith('accessToken='));
+        const refreshToken = cookies.find((cookie) => cookie.startsWith('refreshToken='));
+
+        if (accessToken && refreshToken) {
+          // const res = await loginUserWithTokens({ accessToken, refreshToken });
+          // setCustomer(res);
+          console.log('куки найдены');
+          navigate('/');
+        } else {
+          console.log('куки не найдены');
+        }
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+      }
+    };
+
+    checkAuthentication();
+  }, []);
 
   const handleClickShowPassword = (): void => {
     setShowPassword((prev: boolean) => !prev);
