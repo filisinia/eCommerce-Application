@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Typography, TextField, Button, IconButton, InputAdornment, Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import { validateEmail, validatePassword } from './LoginValidation';
 
@@ -16,6 +17,8 @@ const LoginCustomer = (): JSX.Element => {
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
+
+  const navigate = useNavigate();
 
   const handleClickShowPassword = (): void => {
     setShowPassword((prev: boolean) => !prev);
@@ -48,10 +51,15 @@ const LoginCustomer = (): JSX.Element => {
 
     loginUser({ email, password })
       .then((res: ICustomerRes | string) => {
-        typeof res !== 'string' ? setLoginError('') : setLoginError(res);
+        if (typeof res === 'string') {
+          setLoginError(res);
+        } else {
+          setLoginError('');
+          navigate('/');
+        }
       })
       .catch((error: string) => {
-        console.error('Authorizated error:', error);
+        setLoginError('Authorizated error');
       });
   };
 
