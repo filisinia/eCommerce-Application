@@ -4,9 +4,11 @@ import { ICustomer, IAuthCustomerSuccess, IAuthCustomerError, ICustomerRes } fro
 
 const baseUrl = 'https://api.europe-west1.gcp.commercetools.com/rs-shop-2023q4/customers';
 
-const authUser = async (user: ICustomer): Promise<ICustomerRes | string> => {
+const authCustomer = async (customer: ICustomer): Promise<ICustomerRes | string> => {
   try {
-    const { data }: IAuthCustomerSuccess = await axios.post(baseUrl, JSON.stringify(user));
+    console.log(JSON.stringify(customer));
+
+    const { data }: IAuthCustomerSuccess = await axios.post(baseUrl, JSON.stringify(customer));
 
     return data.customer;
   } catch (e) {
@@ -20,4 +22,4 @@ const authUser = async (user: ICustomer): Promise<ICustomerRes | string> => {
   }
 };
 
-export default authUser;
+export default authCustomer;

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { Box, Typography, TextField, Button } from '@mui/material';
-import { postcodeValidator, postcodeValidatorExistsForCountry } from 'postcode-validator';
+import { Box, Typography, TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { postcodeValidatorExistsForCountry } from 'postcode-validator';
 import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import authUser from 'api/customer/Auth';
+import authCustomer from 'api/customer/authCustomer';
 import { customerAddressState, customerState } from 'components/customer/AuthCustomerState';
 import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
@@ -22,6 +22,9 @@ const AuthCustomer = (): JSX.Element => {
 
   const { setCustomer, setError, customer } = authCustomerStore((state) => state);
 
+  const [defaultAddress, setDefaultAddress] = useState<number | null>(null);
+  const [isDefaultAddressChecked, checkDefaultAddress] = useState<boolean>(false);
+
   const dateLimit = 13;
   const dateInputMaxDate = getLimitDate(dateLimit);
 
@@ -35,8 +38,22 @@ const AuthCustomer = (): JSX.Element => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    const customerReq =
+      defaultAddress !== null
+        ? {
+            ...customerInfo,
+            addresses: [{ ...address }],
+            shippingAddresses: [defaultAddress],
+            billingAddresses: [defaultAddress],
+            defaultBillingAddress: defaultAddress,
+            defaultShippingAddress: defaultAddress,
+          }
+        : {
+            ...customerInfo,
+            addresses: [{ ...address }],
+          };
 
-    authUser({ ...customerInfo, addresses: [address] })
+    authCustomer(customerReq)
       .then((res: ICustomerRes | string) => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
 
@@ -63,10 +80,18 @@ const AuthCustomer = (): JSX.Element => {
     input.getAttribute('data-address');
   };
 
+  const changeDefaultAddress = (): void => {
+    checkDefaultAddress(!isDefaultAddressChecked);
+
+    if (!isDefaultAddressChecked) {
+      setDefaultAddress(0);
+    }
+  };
+
   return (
     <Box sx={styles.formContainer}>
       <Typography component='h1' variant='h3' sx={{ textAlign: 'center' }}>
-        Sign in
+        Sign Up
       </Typography>
       <Box component='form' onSubmit={onSubmit} onChange={onChange} sx={styles.formStyle}>
         <TextField
@@ -75,7 +100,7 @@ const AuthCustomer = (): JSX.Element => {
           autoFocus
           size='small'
           type='email'
-          required
+          // required
           value={customerInfo.email}
           error={!emailValidate(customerInfo.email)}
           sx={styles.textField}
@@ -88,7 +113,7 @@ const AuthCustomer = (): JSX.Element => {
           inputProps={{
             title: 'Must contain at least one character,special character,number and Upper character',
           }}
-          required
+          // required
           value={customerInfo.password}
           error={!passwordValidate(customerInfo.password)}
           helperText='Must contain at least one character,special character,number and Upper character'
@@ -98,7 +123,7 @@ const AuthCustomer = (): JSX.Element => {
           label='First name'
           name='firstName'
           size='small'
-          required
+          // required
           inputProps={{
             title: 'Must contain at least one character and no special characters or numbers',
           }}
@@ -110,7 +135,7 @@ const AuthCustomer = (): JSX.Element => {
           label='Last name'
           name='lastName'
           size='small'
-          required
+          // required
           inputProps={{
             title: 'Must contain at least one character and no special characters or numbers',
           }}
@@ -123,7 +148,7 @@ const AuthCustomer = (): JSX.Element => {
           name='dayOfBirth'
           size='small'
           type='date'
-          required
+          // required
           inputProps={{
             max: dateInputMaxDate,
           }}
@@ -136,12 +161,16 @@ const AuthCustomer = (): JSX.Element => {
         <Typography component='h3' variant='h5'>
           Address
         </Typography>
+        <FormControlLabel
+          control={<Checkbox checked={isDefaultAddressChecked} onChange={changeDefaultAddress} />}
+          label='Set as default address'
+        />
         <Box sx={styles.addressStyle}>
           <TextField
             label='Street'
             name='streetName'
             size='small'
-            required
+            // required
             inputProps={{
               'data-address': true,
               title: 'Must contain at least one character or number and no special characters',
@@ -155,7 +184,7 @@ const AuthCustomer = (): JSX.Element => {
             label='City'
             name='city'
             size='small'
-            required
+            // required
             inputProps={{
               'data-address': true,
               title: 'Must contain at least one character and no special characters or numbers',

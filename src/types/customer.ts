@@ -15,13 +15,17 @@ export interface ICustomerInfo {
 
 export interface ICustomer extends ICustomerInfo {
   addresses: ICustomerAddress[];
+  shippingAddresses?: number[];
+  billingAddresses?: number[];
+  defaultBillingAddress?: number;
+  defaultShippingAddress?: number;
 }
 
 export interface ICustomerRes extends ICustomer {
   id: string;
   isEmailVerified: boolean;
-  shippingAddressIds: [];
-  billingAddressIds: [];
+  shippingAddressIds: string[];
+  billingAddressIds: string[];
 }
 
 export interface IAuthCustomerSuccess {
