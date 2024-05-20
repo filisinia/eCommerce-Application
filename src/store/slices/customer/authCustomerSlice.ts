@@ -16,8 +16,8 @@ const authCustomerStore = create<ICustomerAuthState>()(
       (set) => ({
         customer: null,
         error: null,
-        setCustomer: (customer: ICustomer) => set({ customer }),
-        setError: (error: string) => set({ error }),
+        setCustomer: (customer: ICustomer | null) => set({ customer }),
+        setError: (error: string | null) => set({ error }),
       }),
       { name: 'authCustomer' },
     ),

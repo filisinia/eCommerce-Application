@@ -33,9 +33,9 @@ const AuthCustomer = (): JSX.Element => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (customer) {
-    //   navigate('/');
-    // }
+    if (customer) {
+      navigate('/');
+    }
   }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
