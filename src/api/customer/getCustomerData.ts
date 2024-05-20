@@ -1,6 +1,6 @@
 import axios, { isAxiosError } from 'axios';
 
-import { IAuthCustomerError, ICustomerLoginSuccess, ICustomerRes } from 'types/customer';
+import { IAuthCustomerError, ICustomerRes } from 'types/customer';
 
 const baseUrl = 'https://api.europe-west1.gcp.commercetools.com';
 const projectKey = 'rs-shop-2023q4';
@@ -14,8 +14,6 @@ const fetchUserData = async (accessToken: string): Promise<ICustomerRes | string
         'Content-Type': 'application/json',
       },
     });
-
-    console.log(res);
 
     return res;
   } catch (e) {

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useLayoutEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Typography, TextField, Button, IconButton, InputAdornment, Alert } from '@mui/material';
@@ -68,10 +67,8 @@ const LoginCustomer = (): JSX.Element => {
           setError(res);
         } else {
           setLoginError('');
-          console.log(res);
 
           setTokens(res.access_token, res.refresh_token);
-          console.log(res.access_token);
 
           fetchUserData(res.access_token)
             .then((userData: ICustomerRes | string) => {
@@ -79,14 +76,15 @@ const LoginCustomer = (): JSX.Element => {
                 setCustomer(userData);
               }
             })
-            .catch((error) => {
-              console.error('Error fetching user data:', error);
+            .catch((error: string) => {
+              setError(error);
             });
           navigate('/');
         }
       })
       .catch((error: string) => {
         setLoginError('Authorization error');
+        setError(error);
       });
   };
 
