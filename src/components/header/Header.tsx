@@ -4,6 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { removeTokens } from 'api/customer/getAuthToken';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import notification from 'utils/notification';
 
@@ -14,6 +15,7 @@ const Header = (): JSX.Element => {
 
   const handleLogout = (): void => {
     notification('success', 'You have been successfully logged out');
+    removeTokens();
     setCustomer(null);
   };
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Typography, TextField, Button, IconButton, InputAdornment, Alert } from '@mui/material';
@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { validateEmail, validatePassword } from './LoginValidation';
 
+import { setTokens } from 'api/customer/getAuthToken';
+import fetchUserData from 'api/customer/getCustomerData';
 import loginUser from 'api/customer/Login';
-import { setTokens } from 'api/customer/Token';
 import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerLoginSuccessData, ICustomerRes } from 'types/customer';
@@ -21,33 +22,15 @@ const LoginCustomer = (): JSX.Element => {
   const [passwordError, setPasswordError] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
 
-  const { setCustomer, setError } = authCustomerStore((state) => state);
+  const { setCustomer, customer, setError } = authCustomerStore((state) => state);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const checkAuthentication = (): void => {
-      try {
-        const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
-
-        const accessToken = cookies.find((cookie) => cookie.startsWith('accessToken='));
-        const refreshToken = cookies.find((cookie) => cookie.startsWith('refreshToken='));
-
-        if (accessToken && refreshToken) {
-          // const res = await loginUserWithTokens({ accessToken, refreshToken });
-          // setCustomer(res);
-          console.log('куки найдены');
-          navigate('/');
-        } else {
-          console.log('куки не найдены');
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-      }
-    };
-
-    checkAuthentication();
-  }, []);
+  useLayoutEffect(() => {
+    if (customer) {
+      navigate('/');
+    }
+  }, [customer]);
 
   const handleClickShowPassword = (): void => {
     setShowPassword((prev: boolean) => !prev);
@@ -85,9 +68,20 @@ const LoginCustomer = (): JSX.Element => {
           setError(res);
         } else {
           setLoginError('');
+          console.log(res);
 
           setTokens(res.access_token, res.refresh_token);
+          console.log(res.access_token);
 
+          fetchUserData(res.access_token)
+            .then((userData: ICustomerRes | string) => {
+              if (typeof userData !== 'string') {
+                setCustomer(userData);
+              }
+            })
+            .catch((error) => {
+              console.error('Error fetching user data:', error);
+            });
           navigate('/');
         }
       })
