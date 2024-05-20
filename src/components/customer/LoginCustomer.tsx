@@ -7,8 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { validateEmail, validatePassword } from './LoginValidation';
 
 import loginUser from 'api/customer/Login';
+import { setTokens } from 'api/customer/Token';
 import styles from 'components/customer/AuthCustomerStyle';
-import { ICustomerRes } from 'types/customer';
+import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import { ICustomerLoginSuccessData, ICustomerRes } from 'types/customer';
 
 const LoginCustomer = (): JSX.Element => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -17,6 +19,8 @@ const LoginCustomer = (): JSX.Element => {
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
+
+  const { setCustomer, setError } = authCustomerStore((state) => state);
 
   const navigate = useNavigate();
 
@@ -50,16 +54,20 @@ const LoginCustomer = (): JSX.Element => {
     }
 
     loginUser({ email, password })
-      .then((res: ICustomerRes | string) => {
+      .then((res: ICustomerLoginSuccessData | string) => {
         if (typeof res === 'string') {
           setLoginError(res);
+          setError(res);
         } else {
           setLoginError('');
+
+          setTokens(res.access_token, res.refresh_token);
+
           navigate('/');
         }
       })
       .catch((error: string) => {
-        setLoginError('Authorizated error');
+        setLoginError('Authorization error');
       });
   };
 

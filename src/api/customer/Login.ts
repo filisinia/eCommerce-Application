@@ -1,18 +1,24 @@
 import axios, { isAxiosError } from 'axios';
 
-import { ICustomerLoginData, IAuthCustomerSuccess, ICustomerRes, IAuthCustomerError } from 'types/customer';
+import {
+  ICustomerLoginData,
+  IAuthCustomerSuccess,
+  IAuthCustomerError,
+  ICustomerLoginSuccessData,
+  ICustomerLoginSuccess,
+} from 'types/customer';
 
 const baseUrl = 'https://auth.europe-west1.gcp.commercetools.com';
 const projectKey = 'rs-shop-2023q4';
 const clientId = 'pdKV37-QDhz87157SdnJ0s2-';
 const clientSecret = 'TnuUqEcIBJgiL_u8lVwEMmQ2VT1Geqb8';
 
-const loginUser = async (user: ICustomerLoginData): Promise<ICustomerRes | string> => {
+const loginUser = async (user: ICustomerLoginData): Promise<ICustomerLoginSuccessData | string> => {
   const credentials = `${clientId}:${clientSecret}`;
   const encodedCredentials = btoa(credentials);
 
   try {
-    const { data }: IAuthCustomerSuccess = await axios.post(
+    const res: ICustomerLoginSuccess = await axios.post(
       `${baseUrl}/oauth/${projectKey}/customers/token`,
       new URLSearchParams({
         grant_type: 'password',
@@ -27,7 +33,7 @@ const loginUser = async (user: ICustomerLoginData): Promise<ICustomerRes | strin
       },
     );
 
-    return data.customer;
+    return res.data;
   } catch (e) {
     if (isAxiosError(e)) {
       const { response } = <IAuthCustomerError>e;
