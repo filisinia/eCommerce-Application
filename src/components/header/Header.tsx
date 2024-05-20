@@ -24,7 +24,7 @@ const Header = (): JSX.Element => {
             Log in
           </Button>
           {customer ? (
-            <Button variant='outlined' onClick={onLogout}>
+            <Button component={Link} to='/' variant='outlined' onClick={onLogout}>
               Log out
             </Button>
           ) : (
