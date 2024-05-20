@@ -1,15 +1,25 @@
-import { AppBar, Button, Toolbar, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import notification from 'utils/notification';
 
 const Header = (): JSX.Element => {
   const { setCustomer, customer } = authCustomerStore((state) => state);
+  const [isDrawerOpened, setIsDrawerOpened] = useState(false);
+  const navigate = useNavigate();
 
-  const onLogout = (): void => {
+  const handleLogout = (): void => {
     notification('success', 'You have been successfully logged out');
     setCustomer(null);
+  };
+
+  const handleDrawerItemClick = (path: string): void => {
+    setIsDrawerOpened(false);
+    navigate(path);
   };
 
   return (
@@ -21,22 +31,56 @@ const Header = (): JSX.Element => {
               Store Name
             </Button>
           </Box>
-          <Button component={Link} to='/signup' variant='contained' sx={{ marginRight: '10px' }}>
-            Sign up
-          </Button>
-          <Button component={Link} to='/login' variant='outlined' sx={{ marginRight: '10px' }}>
-            Log in
-          </Button>
-          {customer ? (
-            <Button component={Link} to='/' variant='outlined' onClick={onLogout}>
-              Log out
+          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px' }}>
+            <Button component={Link} to='/signup' variant='contained'>
+              Sign up
             </Button>
-          ) : (
-            ''
-          )}
+            <Button component={Link} to='/login' variant='outlined'>
+              Log in
+            </Button>
+            {customer ? (
+              <Button component={Link} to='/' variant='outlined' onClick={handleLogout}>
+                Log out
+              </Button>
+            ) : (
+              ''
+            )}
+          </Box>
+          <IconButton
+            size='large'
+            edge='start'
+            color='inherit'
+            aria-label='menu'
+            onClick={() => setIsDrawerOpened(true)}
+            sx={{ display: { xs: 'block', sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Toolbar />
+      <Drawer
+        anchor='right'
+        open={isDrawerOpened}
+        onClose={() => setIsDrawerOpened(false)}
+        PaperProps={{ sx: { width: '40vw', padding: '20px 0' } }}
+      >
+        <Button onClick={() => handleDrawerItemClick('/')}>Main</Button>
+        <Button onClick={() => handleDrawerItemClick('/signup')}>Sign up</Button>
+        <Button onClick={() => handleDrawerItemClick('/login')}>Log in</Button>
+        {customer ? (
+          <Button
+            onClick={() => {
+              handleDrawerItemClick('/');
+              handleLogout();
+            }}
+          >
+            Log out
+          </Button>
+        ) : (
+          ''
+        )}
+      </Drawer>
     </>
   );
 };
