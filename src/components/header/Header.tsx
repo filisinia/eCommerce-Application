@@ -11,7 +11,7 @@ const Header = (): JSX.Element => (
           </Button>
         </Box>
         <Button component={Link} to='/login' variant='outlined' sx={{ marginRight: '10px' }}>
-          Log out
+          Log in
         </Button>
         <Button component={Link} to='/signup' variant='contained'>
           Sign up
