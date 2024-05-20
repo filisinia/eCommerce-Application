@@ -3,8 +3,6 @@ import { useLayoutEffect, useState } from 'react';
 import { Box, Typography, TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { postcodeValidatorExistsForCountry } from 'postcode-validator';
 import { useNavigate, Link } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import authCustomer from 'api/customer/authCustomer';
 import { customerAddressState, customerState } from 'components/customer/AuthCustomerState';
@@ -13,6 +11,7 @@ import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
 import errorNotification from 'utils/errorNotification';
 import { getLimitDate } from 'utils/getLimitDate';
+import successNotification from 'utils/successNotification';
 import { emailValidate, passwordValidate, postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
 
 const AuthCustomer = (): JSX.Element => {
@@ -64,6 +63,7 @@ const AuthCustomer = (): JSX.Element => {
         if (typeof res === 'string') {
           errorNotification(res);
         } else {
+          successNotification('You have been successfully registered');
           navigate('/');
         }
       })
@@ -311,7 +311,6 @@ const AuthCustomer = (): JSX.Element => {
           Log In
         </Link>
       </Box>
-      <ToastContainer />
     </Box>
   );
 };

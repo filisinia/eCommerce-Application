@@ -2,11 +2,19 @@ import { AppBar, Button, Toolbar, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import successNotification from 'utils/successNotification';
 
 const Header = (): JSX.Element => {
   const { setCustomer, customer } = authCustomerStore((state) => state);
 
-  const onLogout = (): void => setCustomer(null);
+  const onLogout = (): void => {
+    successNotification('You have been successfully logged out');
+    setCustomer(null);
+  };
+
+  const testAlert = (): void => {
+    successNotification('You have been successfully logged out');
+  };
 
   return (
     <>
@@ -20,7 +28,7 @@ const Header = (): JSX.Element => {
           <Button component={Link} to='/signup' variant='contained' sx={{ marginRight: '10px' }}>
             Sign up
           </Button>
-          <Button component={Link} to='/login' variant='outlined' sx={{ marginRight: '10px' }}>
+          <Button onClick={testAlert} variant='outlined' sx={{ marginRight: '10px' }}>
             Log in
           </Button>
           {customer ? (

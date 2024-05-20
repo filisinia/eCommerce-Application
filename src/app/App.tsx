@@ -2,10 +2,13 @@ import { Suspense, lazy, useEffect } from 'react';
 
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import setApiToken from 'api/setApiToken';
 import Header from 'components/header/Header';
 import errorNotification from 'utils/errorNotification';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const AuthPage = lazy(() => import('pages/AuthPage/AuthPage'));
 const ErrorPage = lazy(() => import('pages/ErrorPage/ErrorPage'));
@@ -29,6 +32,7 @@ const App = (): JSX.Element => {
             <Route element={<ErrorPage />} path='*' />
           </Routes>
         </Suspense>
+        <ToastContainer />
       </CssBaseline>
     </BrowserRouter>
   );
