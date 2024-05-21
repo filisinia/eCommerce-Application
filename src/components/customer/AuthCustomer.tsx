@@ -18,15 +18,14 @@ import notification from 'utils/notification';
 
 const AuthCustomer = (): JSX.Element => {
   const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
-
   const [address, setAddress] = useState<ICustomerAddress>(customerAddressState);
-
-  const [billingAddress, setBillingAddress] = useState<ICustomerAddress>(customerAddressState);
-
   const { setCustomer, setError, customer } = authCustomerStore((state) => state);
 
+  const [billingAddress, setBillingAddress] = useState<ICustomerAddress>(customerAddressState);
   const [defaultAddress, setDefaultAddress] = useState<number | null>(null);
-  const [isDefaultAddressChecked, checkDefaultAddress] = useState<boolean>(false);
+  const [isTheSameAddress, checkTheSameAddress] = useState<boolean>(false);
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState<boolean>(false);
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState<boolean>(false);
 
   const dateLimit = 13;
   const dateInputMaxDate = getLimitDate(dateLimit);
@@ -37,24 +36,27 @@ const AuthCustomer = (): JSX.Element => {
     if (customer) navigate('/');
   }, [customer]);
 
+  const getDefaultBillingAddress = (): null | number => {
+    if (isTheSameAddress && defaultBillingAddress) {
+      return 0;
+    }
+
+    return defaultBillingAddress ? 1 : null;
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    const addresses = isDefaultAddressChecked ? [address] : [address, billingAddress];
-    const customerReq =
-      defaultAddress !== null
-        ? {
-            ...customerInfo,
-            addresses,
-            shippingAddresses: [0],
-            billingAddresses: [isDefaultAddressChecked ? 0 : 1],
-            defaultBillingAddress: isDefaultAddressChecked ? 0 : 1,
-            defaultShippingAddress: 0,
-          }
-        : {
-            ...customerInfo,
-            addresses: [{ ...address }],
-          };
+    const addresses = isTheSameAddress ? [address] : [address, billingAddress];
+
+    const customerReq = {
+      ...customerInfo,
+      addresses: defaultAddress ? [{ ...address }] : addresses,
+      shippingAddresses: [0],
+      billingAddresses: [isTheSameAddress ? 0 : 1],
+      defaultBillingAddress: getDefaultBillingAddress(),
+      defaultShippingAddress: defaultShippingAddress ? 0 : null,
+    };
 
     authCustomer(customerReq)
       .then((res: ICustomerRes | string) => {
@@ -85,10 +87,10 @@ const AuthCustomer = (): JSX.Element => {
     setCustomerState({ ...customerInfo, [name]: value });
   };
 
-  const changeDefaultAddress = (): void => {
-    checkDefaultAddress(!isDefaultAddressChecked);
+  const changeBillingAddress = (): void => {
+    checkTheSameAddress(!isTheSameAddress);
 
-    if (!isDefaultAddressChecked) {
+    if (!isTheSameAddress) {
       setDefaultAddress(0);
       setBillingAddress({ ...address });
 
@@ -96,6 +98,9 @@ const AuthCustomer = (): JSX.Element => {
     }
     setBillingAddress({ ...customerAddressState });
   };
+
+  const changeDefaultShippingAddress = (): void => setDefaultShippingAddress(!defaultShippingAddress);
+  const changeDefaultBillinggAddress = (): void => setDefaultBillingAddress(!defaultBillingAddress);
 
   return (
     <Box sx={styles.formContainer}>
@@ -108,11 +113,21 @@ const AuthCustomer = (): JSX.Element => {
         <AdressCustomerInputs address={address} data='shipping' title='Shipping Address' />
 
         <FormControlLabel
-          control={<Checkbox checked={isDefaultAddressChecked} onChange={changeDefaultAddress} />}
+          control={<Checkbox checked={defaultShippingAddress} onChange={changeDefaultShippingAddress} />}
+          label='Set as default shipping address'
+        />
+
+        <FormControlLabel
+          control={<Checkbox checked={isTheSameAddress} onChange={changeBillingAddress} />}
           label='Set as billing address'
         />
 
         <AdressCustomerInputs address={billingAddress} data='billing' title='Billing Address' />
+
+        <FormControlLabel
+          control={<Checkbox checked={defaultBillingAddress} onChange={changeDefaultBillinggAddress} />}
+          label='Set as default billing address'
+        />
 
         <Button type='submit' variant='contained' sx={styles.formButton}>
           Sign Up

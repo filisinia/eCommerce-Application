@@ -26,7 +26,7 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
         autoFocus
         size='small'
         type='email'
-        required
+        // required
         value={customer.email}
         error={!emailValidate(customer.email)}
         sx={styles.textField}
@@ -46,7 +46,7 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
             </InputAdornment>
           ),
         }}
-        required
+        // required
         value={customer.password}
         error={!passwordValidate(customer.password)}
         helperText='Must contain at least one character,special character,number and Upper character'
@@ -56,7 +56,7 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
         label='First name'
         name='firstName'
         size='small'
-        required
+        // required
         error={!textValidate(customer.firstName)}
         helperText='Must contain at least one character and no special characters or numbers'
         sx={styles.textField}
@@ -65,7 +65,7 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
         label='Last name'
         name='lastName'
         size='small'
-        required
+        // required
         value={customer.lastName}
         error={!textValidate(customer.lastName)}
         helperText='Must contain at least one character and no special characters or numbers'
@@ -75,7 +75,7 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
         name='dayOfBirth'
         size='small'
         type='date'
-        required
+        // required
         inputProps={{
           max: dateInputMaxDate,
         }}
