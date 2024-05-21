@@ -17,8 +17,8 @@ export interface ICustomer extends ICustomerInfo {
   addresses: ICustomerAddress[];
   shippingAddresses?: number[];
   billingAddresses?: number[];
-  defaultBillingAddress?: number;
-  defaultShippingAddress?: number;
+  defaultBillingAddress?: number | null;
+  defaultShippingAddress?: number | null;
 }
 
 export interface ICustomerRes extends ICustomer {
