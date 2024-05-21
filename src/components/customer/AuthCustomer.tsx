@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { Box, Typography, Button, FormControlLabel, Checkbox } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import AdressCustomerInputs from './inputs/AdressCustomerInputs';
 import CustomerInfoInputs from './inputs/CustomerInfoInputs';
@@ -32,7 +30,7 @@ const AuthCustomer = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (customer) navigate('/');
   }, [customer]);
 
@@ -61,7 +59,6 @@ const AuthCustomer = (): JSX.Element => {
     authCustomer(customerReq)
       .then((res: ICustomerRes | string) => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
-
         typeof res === 'string' ? notification('error', res) : navigate('/');
       })
       .catch((err: Error) => {
@@ -139,7 +136,6 @@ const AuthCustomer = (): JSX.Element => {
           Log In
         </Link>
       </Box>
-      <ToastContainer />
     </Box>
   );
 };
