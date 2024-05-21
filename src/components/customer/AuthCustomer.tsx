@@ -34,9 +34,7 @@ const AuthCustomer = (): JSX.Element => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (customer) {
-      navigate('/');
-    }
+    if (customer) navigate('/');
   }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -62,11 +60,7 @@ const AuthCustomer = (): JSX.Element => {
       .then((res: ICustomerRes | string) => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
 
-        if (typeof res === 'string') {
-          errorNotification(res);
-        } else {
-          navigate('/');
-        }
+        typeof res === 'string' ? errorNotification(res) : navigate('/');
       })
       .catch((err: Error) => {
         setError(err.message);
@@ -105,7 +99,7 @@ const AuthCustomer = (): JSX.Element => {
 
   return (
     <Box sx={styles.formContainer}>
-      <Typography component='h1' variant='h3' sx={{ textAlign: 'center' }}>
+      <Typography component='h2' variant='h3' sx={{ textAlign: 'center' }}>
         Sign Up
       </Typography>
       <Box component='form' onSubmit={onSubmit} onChange={onChange} sx={styles.formStyle}>
@@ -126,7 +120,9 @@ const AuthCustomer = (): JSX.Element => {
 
         <AdressCustomerInputs address={billingAddress} data='billing' />
 
-        <Button type='submit'>Sign Up</Button>
+        <Button type='submit' variant='contained' sx={styles.formButton}>
+          Sign Up
+        </Button>
       </Box>{' '}
       <Box sx={styles.logInContainer}>
         <Box sx={styles.logInSpan}>Or</Box>

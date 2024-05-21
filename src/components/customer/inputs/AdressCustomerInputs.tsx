@@ -19,10 +19,9 @@ const AdressCustomerInputs: FC<IAdressCustomerInputs> = ({ data, address }): JSX
       label='Street'
       name='streetName'
       size='small'
-      // required
+      required
       inputProps={{
         'data-address': data,
-        title: 'Must contain at least one character or number and no special characters',
       }}
       sx={styles.textField}
       value={address.streetName}
@@ -33,10 +32,9 @@ const AdressCustomerInputs: FC<IAdressCustomerInputs> = ({ data, address }): JSX
       label='City'
       name='city'
       size='small'
-      // required
+      required
       inputProps={{
         'data-address': data,
-        title: 'Must contain at least one character and no special characters or numbers',
       }}
       sx={styles.textField}
       value={address.city}
@@ -50,7 +48,6 @@ const AdressCustomerInputs: FC<IAdressCustomerInputs> = ({ data, address }): JSX
       required
       inputProps={{
         'data-address': data,
-        title: 'Must follow the format for the country (e.g., 12345 or A1B 2C3 for the U.S. and Canada, respectively)',
       }}
       sx={styles.textField}
       value={address.postalCode}
@@ -64,7 +61,6 @@ const AdressCustomerInputs: FC<IAdressCustomerInputs> = ({ data, address }): JSX
       required
       inputProps={{
         'data-address': data,
-        title: 'Must follow the format for the country (e.g."US" or "UK" )',
       }}
       sx={styles.textField}
       value={address.country}
