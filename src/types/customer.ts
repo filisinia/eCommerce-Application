@@ -43,3 +43,17 @@ export interface IAuthCustomerError {
     };
   };
 }
+
+export interface ICustomerLoginData {
+  email: string;
+  password: string;
+}
+
+export interface ICustomerLoginSuccess {
+  data: ICustomerLoginSuccessData;
+}
+
+export interface ICustomerLoginSuccessData {
+  access_token: string;
+  refresh_token: string;
+}

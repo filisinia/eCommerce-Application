@@ -13,8 +13,8 @@ import { customerAddressState, customerState } from 'components/customer/AuthCus
 import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
-import errorNotification from 'utils/errorNotification';
 import { getLimitDate } from 'utils/getLimitDate';
+import notification from 'utils/notification';
 
 const AuthCustomer = (): JSX.Element => {
   const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
@@ -35,7 +35,7 @@ const AuthCustomer = (): JSX.Element => {
 
   useEffect(() => {
     if (customer) navigate('/');
-  }, []);
+  }, [customer]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -60,11 +60,11 @@ const AuthCustomer = (): JSX.Element => {
       .then((res: ICustomerRes | string) => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
 
-        typeof res === 'string' ? errorNotification(res) : navigate('/');
+        typeof res === 'string' ? notification('error', res) : navigate('/');
       })
       .catch((err: Error) => {
         setError(err.message);
-        errorNotification(err.message);
+        notification('error', err.message);
       });
   };
 
@@ -105,20 +105,14 @@ const AuthCustomer = (): JSX.Element => {
       <Box component='form' onSubmit={onSubmit} onChange={onChange} sx={styles.formStyle}>
         <CustomerInfoInputs customer={customerInfo} dateInputMaxDate={dateInputMaxDate} />
 
-        <Typography component='h4' variant='h6'>
-          Shipping Address
-        </Typography>
+        <AdressCustomerInputs address={address} data='shipping' title='Shipping Address' />
+
         <FormControlLabel
           control={<Checkbox checked={isDefaultAddressChecked} onChange={changeDefaultAddress} />}
           label='Set as billing address'
         />
-        <AdressCustomerInputs address={address} data='shipping' />
 
-        <Typography component='h4' variant='h6'>
-          Billing Address
-        </Typography>
-
-        <AdressCustomerInputs address={billingAddress} data='billing' />
+        <AdressCustomerInputs address={billingAddress} data='billing' title='Billing Address' />
 
         <Button type='submit' variant='contained' sx={styles.formButton}>
           Sign Up

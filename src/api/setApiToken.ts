@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { IApiTokenSuccess } from 'types/token';
-import errorNotification from 'utils/errorNotification';
+import notification from 'utils/notification';
 
 const baseUrl = 'https://auth.europe-west1.gcp.commercetools.com/oauth/token?grant_type=client_credentials';
 
@@ -21,7 +21,7 @@ const setApiToken = async (): Promise<void> => {
     axios.defaults.headers.common.Authorization = `Bearer ${res.data.access_token}`;
   } catch (e) {
     if (axios.isAxiosError(e)) {
-      errorNotification(e.message);
+      notification('error', e.message);
     }
   }
 };
