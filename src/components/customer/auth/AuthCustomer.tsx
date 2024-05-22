@@ -52,7 +52,14 @@ const AuthCustomer = (): JSX.Element => {
     authCustomer(customerReq)
       .then((res: ICustomerRes | string) => {
         typeof res !== 'string' ? setCustomer(res) : setError(res);
-        typeof res === 'string' ? notification('error', res) : navigate('/');
+
+        if (typeof res === 'string') {
+          notification('error', res);
+
+          return;
+        }
+        navigate('/');
+        notification('success', 'You have been registered');
       })
       .catch((err: Error) => {
         setError(err.message);
@@ -64,17 +71,15 @@ const AuthCustomer = (): JSX.Element => {
     const input = e.target as HTMLInputElement;
     const { name, value } = input;
 
-    if (input.getAttribute('data-address') === 'shipping') {
-      setAddress({ ...address, [name]: value });
+    const addressAttribute = input.getAttribute('data-address');
 
-      return;
+    if (addressAttribute) {
+      addressAttribute === 'shipping'
+        ? setAddress({ ...address, [name]: value })
+        : setBillingAddress({ ...billingAddress, [name]: value });
+    } else {
+      setCustomerState({ ...customerInfo, [name]: value });
     }
-    if (input.getAttribute('data-address') === 'billing') {
-      setBillingAddress({ ...billingAddress, [name]: value });
-
-      return;
-    }
-    setCustomerState({ ...customerInfo, [name]: value });
   };
 
   const changeBillingAddress = (): void => {
@@ -83,10 +88,9 @@ const AuthCustomer = (): JSX.Element => {
     if (!isTheSameAddress) {
       setDefaultAddress(0);
       setBillingAddress({ ...address });
-
-      return;
+    } else {
+      setBillingAddress({ ...customerAddressState });
     }
-    setBillingAddress({ ...customerAddressState });
   };
 
   const changeDefaultShippingAddress = (): void => setDefaultShippingAddress(!defaultShippingAddress);
