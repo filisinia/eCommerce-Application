@@ -1,13 +1,12 @@
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Box, Typography, Button, FormControlLabel, Checkbox } from '@mui/material';
-import { useNavigate, Link } from 'react-router-dom';
-
-import AdressCustomerInputs from './inputs/AdressCustomerInputs';
-import CustomerInfoInputs from './inputs/CustomerInfoInputs';
+import { useNavigate } from 'react-router-dom';
 
 import authCustomer from 'api/customer/authCustomer';
-import { customerAddressState, customerState } from 'components/customer/AuthCustomerState';
+import { customerAddressState, customerState } from 'components/customer/auth/AuthCustomerState';
+import AdressCustomerInputs from 'components/customer/auth/inputs/AdressCustomerInputs';
+import CustomerInfoInputs from 'components/customer/auth/inputs/CustomerInfoInputs';
 import styles from 'components/customer/AuthCustomerStyle';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
@@ -17,7 +16,7 @@ import notification from 'utils/notification';
 const AuthCustomer = (): JSX.Element => {
   const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
   const [address, setAddress] = useState<ICustomerAddress>(customerAddressState);
-  const { setCustomer, setError, customer } = authCustomerStore((state) => state);
+  const { setCustomer, setError } = authCustomerStore((state) => state);
 
   const [billingAddress, setBillingAddress] = useState<ICustomerAddress>(customerAddressState);
   const [defaultAddress, setDefaultAddress] = useState<number | null>(null);
@@ -30,14 +29,8 @@ const AuthCustomer = (): JSX.Element => {
 
   const navigate = useNavigate();
 
-  useLayoutEffect(() => {
-    if (customer) navigate('/');
-  }, [customer]);
-
   const getDefaultBillingAddress = (): null | number => {
-    if (isTheSameAddress && defaultBillingAddress) {
-      return 0;
-    }
+    if (isTheSameAddress && defaultBillingAddress) return 0;
 
     return defaultBillingAddress ? 1 : null;
   };
@@ -129,12 +122,6 @@ const AuthCustomer = (): JSX.Element => {
         <Button type='submit' variant='contained' sx={styles.formButton}>
           Sign Up
         </Button>
-      </Box>{' '}
-      <Box sx={styles.logInContainer}>
-        <Box sx={styles.logInSpan}>Or</Box>
-        <Link to='/logIn' style={styles.linkStyle}>
-          Log In
-        </Link>
       </Box>
     </Box>
   );

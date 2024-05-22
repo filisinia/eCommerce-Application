@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 import { Box, TextField, Typography } from '@mui/material';
 import { postcodeValidatorExistsForCountry } from 'postcode-validator';
 
-import styles from '../AuthCustomerStyle';
+import styles from '../../AuthCustomerStyle';
 
 import { ICustomerAddress } from 'types/customer';
 import { postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
@@ -76,4 +76,4 @@ const AdressCustomerInputs: FC<IAdressCustomerInputs> = ({ data, address, title 
   </>
 );
 
-export default AdressCustomerInputs;
+export default memo(AdressCustomerInputs);
