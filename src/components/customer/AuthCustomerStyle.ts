@@ -9,14 +9,8 @@ const styles = {
     m: '20px auto 0',
   },
   addressStyle: { display: 'flex', columnGap: '1rem', flexWrap: 'wrap', justifyContent: 'center', rowGap: '20px' },
-  logInContainer: { m: 'auto', width: '8rem', display: 'flex', justifyContent: 'center' },
-  logInSpan: { paddingRight: '1rem', display: 'inline' },
-  linkStyle: {
-    textDecoration: 'none',
-    color: 'blue',
-  },
   formContainer: {
-    m: '10px',
+    m: '20px',
   },
   textField: {
     width: '100%',

@@ -1,9 +1,9 @@
-import { FC, useState } from 'react';
+import { FC, useState, memo } from 'react';
 
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 
-import styles from '../AuthCustomerStyle';
+import styles from '../../AuthCustomerStyle';
 
 import { ICustomerInfo } from 'types/customer';
 import { emailValidate, passwordValidate, textValidate } from 'utils/validate';
@@ -88,4 +88,4 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
   );
 };
 
-export default CustomerInfoInputs;
+export default memo(CustomerInfoInputs);
