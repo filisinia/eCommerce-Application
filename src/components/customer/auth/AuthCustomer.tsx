@@ -12,6 +12,7 @@ import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
 import { getLimitDate } from 'utils/getLimitDate';
 import notification from 'utils/notification';
+import { validateCustomerAuth } from 'utils/validate';
 
 const AuthCustomer = (): JSX.Element => {
   const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
@@ -48,6 +49,12 @@ const AuthCustomer = (): JSX.Element => {
       defaultBillingAddress: getDefaultBillingAddress(),
       defaultShippingAddress: defaultShippingAddress ? 0 : null,
     };
+
+    if (!validateCustomerAuth(customerInfo, address, billingAddress)) {
+      notification('error', 'Bad Validation');
+
+      return;
+    }
 
     authCustomer(customerReq)
       .then((res: ICustomerRes | string) => {

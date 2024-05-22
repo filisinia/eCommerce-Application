@@ -16,6 +16,8 @@ interface ICustomerInputsProps {
 const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDate }): JSX.Element => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
+  const { email, password, firstName, lastName, dayOfBirth } = customer;
+
   const changePasswordVisible = (): void => setPasswordVisible(!isPasswordVisible);
 
   return (
@@ -27,8 +29,8 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
         size='small'
         type='email'
         required
-        value={customer.email}
-        error={!emailValidate(customer.email)}
+        value={email}
+        error={!emailValidate(email)}
         sx={styles.textField}
         helperText='Must contain a valide email'
       />
@@ -47,8 +49,8 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
           ),
         }}
         required
-        value={customer.password}
-        error={!passwordValidate(customer.password)}
+        value={password}
+        error={!passwordValidate(password)}
         helperText='Must contain at least one character,special character,number and Upper character'
         sx={styles.textField}
       />
@@ -57,17 +59,26 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
         name='firstName'
         size='small'
         required
-        error={!textValidate(customer.firstName)}
+        error={!textValidate(firstName)}
         helperText='Must contain at least one character and no special characters or numbers'
         sx={styles.textField}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position='end'>
+              <IconButton aria-label='toggle password visibility' onClick={changePasswordVisible} edge='end'>
+                {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
       <TextField
         label='Last name'
         name='lastName'
         size='small'
         required
-        value={customer.lastName}
-        error={!textValidate(customer.lastName)}
+        value={lastName}
+        error={!textValidate(lastName)}
         helperText='Must contain at least one character and no special characters or numbers'
         sx={styles.textField}
       />
@@ -80,8 +91,8 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
           max: dateInputMaxDate,
         }}
         sx={styles.textField}
-        value={customer.dayOfBirth}
-        error={customer.dayOfBirth.length === 0}
+        value={dayOfBirth}
+        error={dayOfBirth.length === 0}
         helperText='A valid date input ensuring the user is above a certain age (e.g., 13 years old or older)'
       />
     </>
