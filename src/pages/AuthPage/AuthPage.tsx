@@ -12,7 +12,7 @@ const AuthPage = (): JSX.Element => {
 
   useLayoutEffect(() => {
     if (customer) navigate('/');
-  }, [customer]);
+  }, []);
 
   return (
     <>
