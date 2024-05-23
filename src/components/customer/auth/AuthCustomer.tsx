@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, Typography, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { Box, Typography, Button, FormControlLabel, Checkbox, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import authCustomer from 'api/customer/authCustomer';
@@ -117,19 +117,27 @@ const AuthCustomer = (): JSX.Element => {
 
         <AdressCustomerInputs address={address} data='shipping' title='Shipping Address' />
 
-        <FormControlLabel
-          control={<Checkbox checked={defaultShippingAddress} onChange={changeDefaultShippingAddress} />}
-          label='Set as default shipping address'
-        />
-
-        <FormControlLabel
-          control={<Checkbox checked={isTheSameAddress} onChange={changeBillingAddress} />}
-          label='Set as billing address'
-        />
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid item xs={12} sm={6}>
+            <FormControlLabel
+              sx={styles.textField}
+              control={<Checkbox checked={defaultShippingAddress} onChange={changeDefaultShippingAddress} />}
+              label='Set as default shipping address'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControlLabel
+              sx={styles.textField}
+              control={<Checkbox checked={isTheSameAddress} onChange={changeBillingAddress} />}
+              label='Set as billing address'
+            />
+          </Grid>
+        </Grid>
 
         <AdressCustomerInputs address={billingAddress} data='billing' title='Billing Address' />
 
         <FormControlLabel
+          sx={styles.textField}
           control={<Checkbox checked={defaultBillingAddress} onChange={changeDefaultBillinggAddress} />}
           label='Set as default billing address'
         />
