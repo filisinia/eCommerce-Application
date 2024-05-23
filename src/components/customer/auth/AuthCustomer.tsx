@@ -24,6 +24,7 @@ const AuthCustomer = (): JSX.Element => {
   const [isTheSameAddress, checkTheSameAddress] = useState<boolean>(false);
   const [defaultShippingAddress, setDefaultShippingAddress] = useState<boolean>(false);
   const [defaultBillingAddress, setDefaultBillingAddress] = useState<boolean>(false);
+  const [isDisabled, setDisabled] = useState<boolean>(false);
 
   const dateLimit = 13;
   const dateInputMaxDate = getLimitDate(dateLimit);
@@ -39,6 +40,8 @@ const AuthCustomer = (): JSX.Element => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
+    setDisabled(true);
+
     const addresses = isTheSameAddress ? [address] : [address, billingAddress];
 
     const customerReq = {
@@ -52,26 +55,27 @@ const AuthCustomer = (): JSX.Element => {
 
     if (!validateCustomerAuth(customerInfo, address, billingAddress)) {
       notification('error', 'Bad Validation');
+    } else {
+      authCustomer(customerReq)
+        .then((res: ICustomerRes | string) => {
+          typeof res !== 'string' ? setCustomer(res) : setError(res);
 
-      return;
+          if (typeof res === 'string') {
+            notification('error', res);
+          } else {
+            navigate('/');
+            notification('success', 'You have been registered');
+          }
+        })
+        .catch((err: Error) => {
+          setError(err.message);
+          notification('error', err.message);
+        });
     }
 
-    authCustomer(customerReq)
-      .then((res: ICustomerRes | string) => {
-        typeof res !== 'string' ? setCustomer(res) : setError(res);
+    const disabledTime = 500;
 
-        if (typeof res === 'string') {
-          notification('error', res);
-
-          return;
-        }
-        navigate('/');
-        notification('success', 'You have been registered');
-      })
-      .catch((err: Error) => {
-        setError(err.message);
-        notification('error', err.message);
-      });
+    setTimeout(() => setDisabled(false), disabledTime);
   };
 
   const onChange = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -130,7 +134,7 @@ const AuthCustomer = (): JSX.Element => {
           label='Set as default billing address'
         />
 
-        <Button type='submit' variant='contained' sx={styles.formButton}>
+        <Button disabled={isDisabled} type='submit' variant='contained' sx={styles.formButton}>
           Sign Up
         </Button>
       </Box>
