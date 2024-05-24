@@ -18,6 +18,11 @@
     "prettier",
     "plugin:@typescript-eslint/recommended"
   ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -121,6 +126,7 @@
         "allowExpressions": true
       }
     ],
+    "@typescript-eslint/no-unused-expressions": ["error", { "allowTernary": true }],
     "prettier/prettier": [
       "error",
       {

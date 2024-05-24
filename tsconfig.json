@@ -5,6 +5,7 @@
         "name": "typescript-plugin-css-modules"
       }
     ],
+    "baseUrl": "src",
     "typeRoots": ["node_modules/@types", "src/typings.d.ts"],
     "target": "es2016",
     "lib": ["dom", "dom.iterable", "esnext"],
