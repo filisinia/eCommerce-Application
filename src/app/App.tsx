@@ -13,6 +13,7 @@ const AuthPage = lazy(() => import('pages/AuthPage/AuthPage'));
 const ErrorPage = lazy(() => import('pages/ErrorPage/ErrorPage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 const MainPage = lazy(() => import('pages/MainPage/MainPage'));
+const ProductsPage = lazy(() => import('pages/ProductsPage/ProductsPage'));
 
 const App = (): JSX.Element => {
   useEffect(() => {
@@ -28,6 +29,7 @@ const App = (): JSX.Element => {
             <Route element={<MainPage />} path='/' />
             <Route element={<AuthPage />} path='/signup' />
             <Route element={<LoginPage />} path='/login' />
+            <Route element={<ProductsPage />} path='/products' />
             <Route element={<ErrorPage />} path='*' />
           </Routes>
         </Suspense>

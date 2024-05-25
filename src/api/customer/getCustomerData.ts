@@ -1,6 +1,7 @@
-import axios, { isAxiosError } from 'axios';
+import axios from 'axios';
 
-import { IAuthCustomerError, ICustomerRes } from 'types/customer';
+import { ICustomerRes } from 'types/customer';
+import { cathFetchError } from 'utils/errors';
 
 const baseUrl = 'https://api.europe-west1.gcp.commercetools.com';
 const projectKey = 'rs-shop-2023q4';
@@ -17,13 +18,7 @@ const fetchUserData = async (accessToken: string): Promise<ICustomerRes | string
 
     return res;
   } catch (e) {
-    if (isAxiosError(e)) {
-      const { response } = <IAuthCustomerError>e;
-
-      return response?.data?.message || 'An unexpected error occurred';
-    }
-
-    return 'An unexpected error occurred';
+    return cathFetchError(e);
   }
 };
 
