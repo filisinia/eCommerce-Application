@@ -7,7 +7,6 @@ const ProductsItemStyle = {
     p: 2,
   },
   image: { width: '300px', height: '300px' },
-  description: { textAlign: 'center' },
   text: { textAlign: 'center' },
   margin: { mb: 2 },
 };
