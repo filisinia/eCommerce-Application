@@ -21,6 +21,10 @@ const MainPage = (): JSX.Element => (
     <Button component={Link} to='/login' variant='outlined' startIcon={<VpnKeyIcon />}>
       Log in
     </Button>
+    <br />
+    <Button component={Link} to='/product-info' variant='outlined' startIcon={<VpnKeyIcon />}>
+      Product-info
+    </Button>
   </Container>
 );
 

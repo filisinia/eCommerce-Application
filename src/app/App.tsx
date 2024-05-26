@@ -14,6 +14,8 @@ const ErrorPage = lazy(() => import('pages/ErrorPage/ErrorPage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 const MainPage = lazy(() => import('pages/MainPage/MainPage'));
 
+const ProductPage = lazy(() => import('pages/ProductPage/ProductPage'));
+
 const App = (): JSX.Element => {
   useEffect(() => {
     setApiToken().catch((e: Error) => notification('error', e.message));
@@ -28,6 +30,7 @@ const App = (): JSX.Element => {
             <Route element={<MainPage />} path='/' />
             <Route element={<AuthPage />} path='/signup' />
             <Route element={<LoginPage />} path='/login' />
+            <Route element={<ProductPage />} path='/product-info' />
             <Route element={<ErrorPage />} path='*' />
           </Routes>
         </Suspense>
