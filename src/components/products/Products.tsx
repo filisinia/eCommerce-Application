@@ -3,7 +3,7 @@ import { useLayoutEffect, useState } from 'react';
 import { Box } from '@mui/material';
 
 import fetchProducts from 'api/products/productsApi';
-import ProductsList from 'api/products/ProductsList';
+import ProductsList from 'components/products/ProductsList';
 import { IProduct } from 'types/products';
 import notification from 'utils/notification';
 
@@ -29,7 +29,7 @@ const Products = (): JSX.Element => {
     getProducts(productsLimit).catch((e: Error) => notification('error', e.message));
   }, []);
 
-  return <ProductsList />;
+  return products ? <ProductsList products={products} /> : <Box>Oops</Box>;
 };
 
 export default Products;

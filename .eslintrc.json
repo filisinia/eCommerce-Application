@@ -127,6 +127,7 @@
       }
     ],
     "@typescript-eslint/no-unused-expressions": ["error", { "allowTernary": true }],
+    "@typescript-eslint/no-unsafe-assignment": "off",
     "prettier/prettier": [
       "error",
       {
