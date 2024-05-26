@@ -70,7 +70,11 @@ export interface IProduct {
 }
 
 export interface IProducts {
-  products: IProduct[];
+  limit: number;
+  total: number;
+  results: IProduct[];
 }
 
-export interface IFetchProductSuccess {}
+export interface IFetchProductSuccess {
+  data: IProducts;
+}
