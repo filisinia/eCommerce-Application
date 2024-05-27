@@ -1,8 +1,11 @@
 import { useLayoutEffect, useState } from 'react';
 
-import { Container, Typography } from '@mui/material';
+import { Box, Container } from '@mui/material';
 
 import fetchProductInfo from 'api/products/productInfoApi';
+import ProductDescription from 'components/productInfo/ProductDescription';
+import ProductImages from 'components/productInfo/ProductImages';
+import ProductPageStyle from 'pages/ProductPage/ProductPageStyle';
 import { IProduct } from 'types/products';
 import notification from 'utils/notification';
 
@@ -20,21 +23,20 @@ const ProductPage = (): JSX.Element => {
     getProductInfo().catch((e: Error) => notification('error', e.message));
   }, []);
 
-  const images = productInfo?.masterData.current.masterVariant.images.map((imageData) => (
-    <img
-      style={{ height: '400px' }}
-      src={imageData.url}
-      alt={productInfo.masterData.current.name['en-US']}
-      key={imageData.url}
-    />
-  ));
-
   return (
-    <Container>
-      <Typography>Product page</Typography>
-      <Container>{images}</Container>
-      <Typography>{productInfo?.masterData.current.name['en-US']}</Typography>
-      <Typography>{productInfo?.masterData.current.description['en-US']}</Typography>
+    <Container sx={ProductPageStyle.container}>
+      {productInfo ? (
+        <>
+          <Box sx={ProductPageStyle.imagesBox}>
+            <ProductImages productInfo={productInfo} />
+          </Box>
+          <Box sx={ProductPageStyle.descriptionBox}>
+            <ProductDescription productInfo={productInfo} />
+          </Box>
+        </>
+      ) : (
+        ''
+      )}
     </Container>
   );
 };
