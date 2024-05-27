@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from 'react';
 
-import fetchProducts from 'api/products/productsApi';
+import { fetchProducts, sortPdoucts } from 'api/products/productsApi';
 import Loader from 'components/Loader/Loader';
 import ProductsList from 'components/products/ProductsList';
 import { IProduct } from 'types/products';
@@ -12,7 +12,9 @@ const Products = (): JSX.Element => {
   const [totalPage, setTotalPage] = useState<number>(0);
 
   const getProducts = async (limit: number): Promise<void> => {
-    const data = await fetchProducts(limit);
+    // const data = await fetchProducts(limit);
+
+    const data = await sortPdoucts();
 
     if (typeof data !== 'string') {
       setProducts(data.results);
@@ -28,7 +30,15 @@ const Products = (): JSX.Element => {
     getProducts(productsLimit).catch((e: Error) => notification('error', e.message));
   }, []);
 
-  return !products ? <Loader /> : <ProductsList products={products} />;
+  return !products ? (
+    <Loader />
+  ) : (
+    <main>
+      <section>
+        <ProductsList products={products} />;
+      </section>
+    </main>
+  );
 };
 
 export default Products;

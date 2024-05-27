@@ -6,7 +6,7 @@ import { cathFetchError } from 'utils/errors';
 
 const baseUrl = 'https://api.europe-west1.gcp.commercetools.com/rs-shop-2023q4';
 
-const fetchProducts = async (limit: number): Promise<IProducts | string> => {
+export const fetchProducts = async (limit: number): Promise<IProducts | string> => {
   try {
     await setApiToken(); //* Need to fix
     const { data }: IFetchProductSuccess = await axios(`${baseUrl}/products?limit=${limit}`);
@@ -17,4 +17,14 @@ const fetchProducts = async (limit: number): Promise<IProducts | string> => {
   }
 };
 
-export default fetchProducts;
+export const sortPdoucts = async (): Promise<IProducts | string> => {
+  try {
+    await setApiToken(); //* Need to fix
+
+    const { data }: IFetchProductSuccess = await axios(`${baseUrl}/products?sort=priceMode`);
+
+    return data;
+  } catch (e) {
+    return cathFetchError(e);
+  }
+};

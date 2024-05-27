@@ -36,7 +36,8 @@ const ProdcutsItem: FC<IProdcutsItem> = ({ product }): JSX.Element => {
 
         <span className={discounted ? 'price price__discount' : 'price'}>{value.centAmount} USD</span>
         <Typography component='p' sx={style.text}>
-          {productDescription} <b> ...</b>
+          {productDescription}
+          <b>...</b>
         </Typography>
       </Box>
     </Grid>
