@@ -1,10 +1,11 @@
-import { ImageList, ImageListItem } from '@mui/material';
+import { Box, ImageList, ImageListItem } from '@mui/material';
 
 import ProductInfoStyle from 'components/productInfo/ProductInfoStyle';
 import { IProduct } from 'types/products';
 
 const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element => {
   const imagesData = productInfo?.masterData.current.masterVariant.images;
+  const imagesQuantity = imagesData.length;
 
   const mainImage = (
     <img
@@ -25,7 +26,9 @@ const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element 
   return (
     <>
       {mainImage}
-      <ImageList sx={{ width: '50%' }}>{images}</ImageList>
+      <ImageList cols={imagesQuantity - 1} gap={10} sx={ProductInfoStyle.productImages.imageList}>
+        {images}
+      </ImageList>
     </>
   );
 };

@@ -3,16 +3,17 @@ const ProductPageStyle = {
     display: 'flex',
     gap: '15px',
     padding: '40px 0',
+    xs: {
+      flexDirection: 'column',
+    },
   },
 
   imagesBox: {
-    flex: '1 0 50%',
+    flex: '0 0 40%',
   },
 
   descriptionBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
+    flexGrow: '1',
   },
 };
 

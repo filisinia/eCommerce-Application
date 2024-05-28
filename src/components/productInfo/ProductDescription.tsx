@@ -7,7 +7,7 @@ const ProductDescription = ({ productInfo }: { productInfo: IProduct }): JSX.Ele
   const priceData = productInfo?.masterData?.current?.masterVariant?.prices?.[0];
 
   return (
-    <>
+    <Box sx={ProductInfoStyle.productDescription.descriptionBox}>
       <Typography component='h2' variant='h4' sx={ProductInfoStyle.productDescription.name}>
         {productInfo?.masterData?.current?.name?.['en-US']}
       </Typography>
@@ -18,7 +18,7 @@ const ProductDescription = ({ productInfo }: { productInfo: IProduct }): JSX.Ele
         <Typography>{priceData?.discounted?.value?.centAmount}</Typography>
       </Box>
       <Typography>{productInfo?.masterData?.current?.description?.['en-US']}</Typography>
-    </>
+    </Box>
   );
 };
 

@@ -10,7 +10,7 @@ import { IProduct } from 'types/products';
 import notification from 'utils/notification';
 
 const ProductPage = (): JSX.Element => {
-  const productKey = 'modern-upholstered-twin-bed';
+  const productKey = 'traditional-l-seater-sofa';
   const [productInfo, setProductInfo] = useState<IProduct | null>(null);
 
   const getProductInfo = async (): Promise<void> => {
