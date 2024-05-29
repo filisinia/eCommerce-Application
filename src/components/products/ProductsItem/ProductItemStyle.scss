@@ -44,13 +44,14 @@
   &__price {
     color: $main--color;
     font-weight: bold;
-    padding-bottom: 10px;
+    margin: 0.5rem;
   }
   &__discount {
     font-weight: normal;
     color: red;
     text-decoration: line-through;
     font-size: 12px;
+    margin: 0.3rem;
   }
   &__img--container {
     width: 103%;
@@ -70,6 +71,7 @@
     @include flexCenter(column);
     margin: 1rem;
   }
+
   &__name,
   &__description {
     text-align: center;
