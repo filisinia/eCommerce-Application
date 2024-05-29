@@ -36,6 +36,15 @@ const ProductInfoStyle = {
       display: 'flex',
       gap: '25px',
     },
+
+    currentPrice: {
+      fontWeight: '600',
+    },
+
+    oldPrice: {
+      color: 'gray',
+      textDecoration: 'line-through',
+    },
   },
 };
 

@@ -12,10 +12,12 @@ const ProductDescription = ({ productInfo }: { productInfo: IProduct }): JSX.Ele
         {productInfo?.masterData?.current?.name?.['en-US']}
       </Typography>
       <Box sx={ProductInfoStyle.productDescription.priceBox}>
-        <Typography>
-          {priceData?.value?.centAmount} {priceData?.value?.currencyCode}
+        <Typography sx={ProductInfoStyle.productDescription.currentPrice}>
+          {priceData?.value?.centAmount.toLocaleString()} {priceData?.value?.currencyCode}
         </Typography>
-        <Typography>{priceData?.discounted?.value?.centAmount}</Typography>
+        <Typography sx={ProductInfoStyle.productDescription.oldPrice}>
+          {priceData?.discounted?.value?.centAmount.toLocaleString()}
+        </Typography>
       </Box>
       <Typography>{productInfo?.masterData?.current?.description?.['en-US']}</Typography>
     </Box>

@@ -1,4 +1,4 @@
-import { Box, ImageList, ImageListItem } from '@mui/material';
+import { ImageList, ImageListItem } from '@mui/material';
 
 import ProductInfoStyle from 'components/productInfo/ProductInfoStyle';
 import { IProduct } from 'types/products';
