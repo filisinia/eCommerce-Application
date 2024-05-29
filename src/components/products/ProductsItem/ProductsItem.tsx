@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import { IProduct } from 'types/products';
 
@@ -11,8 +12,9 @@ interface IProdcutsItem {
 }
 
 const ProdcutsItem: FC<IProdcutsItem> = ({ product }): JSX.Element => {
-  const { id } = product;
+  const navigate = useNavigate();
 
+  const { id } = product;
   const { masterVariant, name, description } = product.masterData.current;
   const { value, discounted } = masterVariant.prices[0];
 
