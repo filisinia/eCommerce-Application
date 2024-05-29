@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { ImageList, ImageListItem } from '@mui/material';
 
 import ProductInfoStyle from 'components/productInfo/ProductInfoStyle';
@@ -8,12 +10,18 @@ const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element 
   const imagesData = productInfo?.masterData.current.masterVariant.images;
   const imagesQuantity = imagesData.length;
 
-  const mainImage = (
-    <img src={imagesData[0].url} style={ProductInfoStyle.productImages.mainImage} alt={name['en-US']} />
-  );
+  const [mainImageURL, setMainImageURL] = useState(imagesData[0].url);
 
+  const mainImage = <img src={mainImageURL} style={ProductInfoStyle.productImages.mainImage} alt={name['en-US']} />;
   const images = imagesData.map((imageData) => (
-    <ImageListItem key={imageData.url} sx={ProductInfoStyle.productImages.imageItem}>
+    <ImageListItem
+      key={imageData.url}
+      onClick={() => setMainImageURL(imageData.url)}
+      sx={[
+        ProductInfoStyle.productImages.imageItem,
+        imageData.url === mainImageURL ? ProductInfoStyle.productImages.imageSelectedItem : {},
+      ]}
+    >
       <img src={imageData.url} alt={name['en-US']} />
     </ImageListItem>
   ));

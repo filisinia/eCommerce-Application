@@ -2,13 +2,17 @@ const ProductInfoStyle = {
   productImages: {
     mainImage: {
       width: '100%',
-      border: '1px solid #d5d5d5',
+      border: '2px solid #d5d5d5',
     },
 
     imageItem: {
       maxWidth: '100px',
       aspectRatio: '1/1',
-      border: '1px solid #d5d5d5',
+      border: '2px solid #d5d5d5',
+    },
+
+    imageSelectedItem: {
+      border: '2px solid #999999',
     },
 
     imageList: {
