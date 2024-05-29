@@ -1,0 +1,11 @@
+html {
+  font-style: normal;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}
+body {
+  max-width: 1440px;
+  padding: 0 2rem;
+  margin: auto;
+}
