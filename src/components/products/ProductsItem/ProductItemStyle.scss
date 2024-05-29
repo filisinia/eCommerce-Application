@@ -5,7 +5,8 @@
   list-style: none;
   width: 25%;
   cursor: pointer;
-  transition: 1s;
+  opacity: 0;
+  animation: scaleAni 2s forwards;
 
   &__container {
     width: 100%;
@@ -73,5 +74,15 @@
   &__description {
     text-align: center;
     font-size: $h3-font-size;
+  }
+}
+@keyframes scaleAni {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 }
