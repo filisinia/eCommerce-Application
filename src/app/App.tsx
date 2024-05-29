@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import setApiToken from 'api/setApiToken';
 import Header from 'components/header/Header';
 import 'react-toastify/dist/ReactToastify.css';
+import ProtectedRoute from 'components/ProtectedRoute/ProtectedRoute';
 import notification from 'utils/notification';
 
 const AuthPage = lazy(() => import('pages/AuthPage/AuthPage'));
@@ -26,10 +27,18 @@ const App = (): JSX.Element => {
         <Header />
         <Suspense>
           <Routes>
-            <Route element={<MainPage />} path='/' />
             <Route element={<AuthPage />} path='/signup' />
             <Route element={<LoginPage />} path='/login' />
-            <Route element={<ProductsPage />} path='/products' />
+
+            <Route element={<MainPage />} path='/' />
+            <Route
+              element={
+                <ProtectedRoute>
+                  <ProductsPage />
+                </ProtectedRoute>
+              }
+              path='/products'
+            />
             <Route element={<ErrorPage />} path='*' />
           </Routes>
         </Suspense>
