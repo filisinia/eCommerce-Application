@@ -16,6 +16,7 @@ const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 const MainPage = lazy(() => import('pages/MainPage/MainPage'));
 const ProductsPage = lazy(() => import('pages/ProductsPage/ProductsPage'));
 const ProductPage = lazy(() => import('pages/ProductPage/ProductPage'));
+const ProfilePage = lazy(() => import('pages/ProfilePage/ProfilePage'));
 
 const App = (): JSX.Element => {
   useEffect(() => {
@@ -32,9 +33,17 @@ const App = (): JSX.Element => {
             <Route element={<LoginPage />} path='/login' />
             <Route element={<MainPage />} path='/' />
             <Route element={<ErrorPage />} path='*' />
-
             <Route element={<ProductsPage />} path='/products' />
             <Route element={<ProductPage />} path='/products/:product' />
+
+            <Route
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+              path='/profile'
+            />
           </Routes>
         </Suspense>
         <ToastContainer />

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
+import { AccountCircleOutlined, ExitToAppOutlined } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 
 import { removeTokens } from 'api/customer/getAuthToken';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
@@ -34,14 +35,28 @@ const Header = (): JSX.Element => {
             </Button>
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px' }}>
-            <Button component={Link} to='/products'>
-              Products
+            <Button>
+              <NavLink
+                to='/products'
+                className={({ isActive }) => (isActive ? 'active' : '')}
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? 'bold' : '',
+                  color: isActive ? '#f64c0e' : '#1565c0',
+                })}
+              >
+                Products
+              </NavLink>
             </Button>
 
             {customer ? (
-              <Button component={Link} to='/' variant='outlined' onClick={handleLogout}>
-                Log out
-              </Button>
+              <>
+                <IconButton component={Link} to='/profile'>
+                  <AccountCircleOutlined color='primary' />
+                </IconButton>
+                <IconButton component={Link} to='/' onClick={handleLogout}>
+                  <ExitToAppOutlined color='primary' />
+                </IconButton>
+              </>
             ) : (
               <>
                 <Button component={Link} to='/signup' variant='contained'>

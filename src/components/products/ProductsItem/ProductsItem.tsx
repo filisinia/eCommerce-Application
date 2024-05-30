@@ -22,24 +22,24 @@ const ProdcutsItem: FC<IProdcutsItem> = ({ product }): JSX.Element => {
   return (
     <Grid component='li' item key={id} lg={3} md={4} sm={6} className='product' sx={{ gridAutoColumns: '1fr' }}>
       <div className='product__container'>
-        <div className='product__img--container'>
-          <img src={masterVariant?.images[0]?.url} alt={name['en-US']} className='product__img' />
-        </div>
-        <div className='product__info'>
-          <Link to={`/products/${id}`}>
+        <Link to={`/products/${id}`}>
+          <div className='product__img--container'>
+            <img src={masterVariant?.images[0]?.url} alt={name['en-US']} className='product__img' />
+          </div>
+          <div className='product__info'>
             <h3 className='product__name'>{name['en-US']}</h3>
-          </Link>
 
-          {discounted && <span className='product__price'> {discounted.value.centAmount} USD</span>}
+            {discounted && <span className='product__price'> {discounted.value.centAmount} USD</span>}
 
-          <span className={discounted ? 'product__price product__discount' : 'product__price'}>
-            {value.centAmount} USD
-          </span>
-          <p className='product__description'>
-            {productDescription}
-            <b>...</b>
-          </p>
-        </div>
+            <span className={discounted ? 'product__price product__discount' : 'product__price'}>
+              {value.centAmount} USD
+            </span>
+            <p className='product__description'>
+              {productDescription}
+              <b>...</b>
+            </p>
+          </div>{' '}
+        </Link>
       </div>
     </Grid>
   );
