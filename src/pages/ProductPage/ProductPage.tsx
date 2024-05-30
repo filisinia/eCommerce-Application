@@ -1,11 +1,7 @@
 import { useLayoutEffect, useState } from 'react';
 
-import { Box, Container } from '@mui/material';
-
 import fetchProductInfo from 'api/products/productInfoApi';
-import ProductDescription from 'components/productInfo/ProductDescription';
-import ProductImages from 'components/productInfo/ProductImages';
-import ProductPageStyle from 'pages/ProductPage/ProductPageStyle';
+import ProductInfo from 'components/productInfo/ProductInfo';
 import { IProduct } from 'types/products';
 import notification from 'utils/notification';
 
@@ -23,22 +19,7 @@ const ProductPage = (): JSX.Element => {
     getProductInfo().catch((e: Error) => notification('error', e.message));
   }, []);
 
-  return (
-    <Container sx={ProductPageStyle.container}>
-      {productInfo ? (
-        <>
-          <Box sx={ProductPageStyle.imagesBox}>
-            <ProductImages productInfo={productInfo} />
-          </Box>
-          <Box sx={ProductPageStyle.descriptionBox}>
-            <ProductDescription productInfo={productInfo} />
-          </Box>
-        </>
-      ) : (
-        ''
-      )}
-    </Container>
-  );
+  return productInfo ? <ProductInfo productInfo={productInfo} /> : <span>Loading...</span>;
 };
 
 export default ProductPage;
