@@ -30,7 +30,7 @@ const App = (): JSX.Element => {
             <Route element={<MainPage />} path='/' />
             <Route element={<AuthPage />} path='/signup' />
             <Route element={<LoginPage />} path='/login' />
-            <Route element={<ProductPage />} path='/product-info' />
+            <Route element={<ProductPage />} path='/products/:productKey' />
             <Route element={<ErrorPage />} path='*' />
           </Routes>
         </Suspense>
