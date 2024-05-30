@@ -16,15 +16,3 @@ export const fetchProducts = async (limit: number): Promise<IProducts | string> 
     return cathFetchError(e);
   }
 };
-
-export const sortPdoucts = async (): Promise<IProducts | string> => {
-  try {
-    await setApiToken(); //* Need to fix
-
-    const { data }: IFetchProductSuccess = await axios(`${baseUrl}/products?sort=priceMode`);
-
-    return data;
-  } catch (e) {
-    return cathFetchError(e);
-  }
-};

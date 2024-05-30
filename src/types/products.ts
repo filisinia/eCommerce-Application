@@ -1,3 +1,8 @@
+export interface IProductAttributes {
+  name: string;
+  value: { 'en-US': string; 'en-GB': string; 'de-DE': string };
+}
+
 export interface IProduct {
   id: string;
   productType: {
@@ -47,6 +52,7 @@ export interface IProduct {
             };
           },
         ];
+        attributes: IProductAttributes[];
 
         images: [
           {
