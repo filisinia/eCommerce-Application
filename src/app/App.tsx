@@ -33,22 +33,8 @@ const App = (): JSX.Element => {
             <Route element={<MainPage />} path='/' />
             <Route element={<ErrorPage />} path='*' />
 
-            <Route
-              element={
-                <ProtectedRoute>
-                  <ProductsPage />
-                </ProtectedRoute>
-              }
-              path='/products'
-            />
-            <Route
-              element={
-                <ProtectedRoute>
-                  <ProductPage />
-                </ProtectedRoute>
-              }
-              path='/products/:product'
-            />
+            <Route element={<ProductsPage />} path='/products' />
+            <Route element={<ProductPage />} path='/products/:product' />
           </Routes>
         </Suspense>
         <ToastContainer />

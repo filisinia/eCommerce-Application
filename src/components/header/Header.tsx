@@ -34,18 +34,23 @@ const Header = (): JSX.Element => {
             </Button>
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px' }}>
-            <Button component={Link} to='/signup' variant='contained'>
-              Sign up
+            <Button component={Link} to='/products'>
+              Products
             </Button>
-            <Button component={Link} to='/login' variant='outlined'>
-              Log in
-            </Button>
+
             {customer ? (
               <Button component={Link} to='/' variant='outlined' onClick={handleLogout}>
                 Log out
               </Button>
             ) : (
-              ''
+              <>
+                <Button component={Link} to='/signup' variant='contained'>
+                  Sign up
+                </Button>
+                <Button component={Link} to='/login' variant='outlined'>
+                  Log in
+                </Button>
+              </>
             )}
           </Box>
           <IconButton
