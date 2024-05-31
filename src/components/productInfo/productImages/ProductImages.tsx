@@ -10,22 +10,28 @@ const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element 
   const { name } = productInfo.masterData.current || {};
   const imagesData = productInfo?.masterData.current.masterVariant.images;
   const imagesQuantity = imagesData.length;
+  const lastImageIndex = imagesQuantity - 1;
 
   const [mainImageIndex, setMainImageIndex] = useState(0);
 
-  const handlePrevClick = (): void => {
-    const newMainImageIndex = mainImageIndex === 0 ? imagesQuantity - 1 : mainImageIndex - 1;
+  const showPrevImage = (): void => {
+    const newMainImageIndex = mainImageIndex === 0 ? lastImageIndex : mainImageIndex - 1;
 
     setMainImageIndex(newMainImageIndex);
   };
 
-  const handleNextClick = (): void => {
-    const newMainImageIndex = mainImageIndex === imagesQuantity - 1 ? 0 : mainImageIndex + 1;
+  const showNextImage = (): void => {
+    const newMainImageIndex = mainImageIndex === lastImageIndex ? 0 : mainImageIndex + 1;
 
     setMainImageIndex(newMainImageIndex);
   };
 
-  const mainImage = <img src={imagesData[mainImageIndex].url} style={styles.mainImage} alt={name['en-US']} />;
+  const imageWidthInPercent = 100;
+
+  const sliderImages = imagesData.map((imageData) => (
+    <img src={imageData.url} alt={name['en-US']} key={imageData.url} style={styles.slideImage} />
+  ));
+
   const images = imagesData.map((imageData, index) => (
     <ImageListItem
       key={imageData.url}
@@ -37,13 +43,24 @@ const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element 
   ));
 
   return imagesQuantity === 1 ? (
-    <Box>{mainImage}</Box>
+    <Box>
+      <img src={imagesData[0].url} alt={name['en-US']} key={imagesData[0].url} style={styles.slideImage} />
+    </Box>
   ) : (
     <>
-      <Box sx={styles.mainImageBox}>
-        <ArrowBackIos onClick={handlePrevClick} sx={styles.arrow} />
-        <Box>{mainImage}</Box>
-        <ArrowForwardIos onClick={handleNextClick} sx={styles.arrow} />
+      <Box sx={styles.sliderBox}>
+        <ArrowBackIos onClick={showPrevImage} sx={styles.arrow} />
+        <Box sx={styles.slideImagesWrapper}>
+          <Box
+            sx={{
+              ...styles.slideImagesBox,
+              transform: `translateX(-${imageWidthInPercent * mainImageIndex}%)`,
+            }}
+          >
+            {sliderImages}
+          </Box>
+        </Box>
+        <ArrowForwardIos onClick={showNextImage} sx={styles.arrow} />
       </Box>
       <ImageList cols={imagesQuantity} sx={styles.imageList}>
         {images}

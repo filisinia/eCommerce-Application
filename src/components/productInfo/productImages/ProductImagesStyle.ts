@@ -1,15 +1,28 @@
 const styles = {
-  mainImageBox: {
+  sliderBox: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     gap: '5px',
     minHeight: '400px',
+    overflow: 'hidden',
   },
 
-  mainImage: {
+  slideImagesWrapper: {
     width: '100%',
-    cursor: 'pointer',
+    overflow: 'hidden',
+  },
+
+  slideImagesBox: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    transition: 'transform 0.3s ease-in-out',
+  },
+
+  slideImage: {
+    maxWidth: '100%',
+    height: '100%',
   },
 
   image: {
