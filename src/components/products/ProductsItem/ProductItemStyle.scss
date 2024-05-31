@@ -8,74 +8,16 @@
   opacity: 0;
   animation: scaleAni 2s forwards;
 
-  &__container {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    @include flexCenter(column);
-    @include border(0.2rem, $border-color, 2rem);
-    margin: 1rem;
-    transition: 1s;
-
-    &:hover {
-      box-shadow:
-        0px 5px 5px -3px rgba(255, 127, 80, 0.8),
-        0px 8px 10px 1px rgba(255, 127, 80, 0.64),
-        0px 3px 14px 2px rgba(255, 127, 80, 0.62);
-      .product {
-        &__price {
-          color: aqua;
-        }
-        &__img--container {
-          background-color: white;
-        }
-        &__img {
-          transform: scale(1.1);
-        }
-      }
-      background-color: $border-color;
-      @include border(0.2rem, $main--color, 2rem);
-      &__description {
-        color: $main--color;
-      }
-    }
-  }
-
   &__price {
     color: $main--color;
     font-weight: bold;
     margin: 0.5rem;
   }
   &__discount {
-    font-weight: normal;
-    color: red;
+    color: $old-price-color;
     text-decoration: line-through;
     font-size: 12px;
     margin: 0.3rem;
-  }
-  &__img--container {
-    width: 103%;
-    height: 300px;
-    border-radius: 2rem;
-    overflow: hidden;
-    background-color: white;
-  }
-
-  &__img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    object-position: 0 0;
-  }
-  &__info {
-    @include flexCenter(column);
-    margin: 1rem;
-  }
-
-  &__name,
-  &__description {
-    text-align: center;
-    font-size: $h3-font-size;
   }
 }
 @keyframes scaleAni {

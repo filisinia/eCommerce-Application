@@ -12,8 +12,6 @@ const Products = (): JSX.Element => {
   const getProducts = async (limit: number): Promise<void> => {
     const data = await fetchProducts(limit);
 
-    console.log(data);
-
     typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
   };
 
@@ -27,7 +25,7 @@ const Products = (): JSX.Element => {
     <Loader />
   ) : (
     <main>
-      <section>
+      <section className='section'>
         <ProductsList products={products} />;
       </section>
     </main>

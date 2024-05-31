@@ -38,12 +38,12 @@ const Header = (): JSX.Element => {
             <Button>
               <NavLink
                 to='/products'
-                className={({ isActive }) => (isActive ? 'active' : '')}
                 style={({ isActive }) => ({
-                  fontWeight: isActive ? 'bold' : '',
-                  color: isActive ? '#f64c0e' : '#1565c0',
+                  fontWeight: isActive ? 'bold' : 'normal',
+                  color: isActive ? 'rgb(255, 228, 196)' : '#1565c0',
                 })}
               >
+                {' '}
                 Products
               </NavLink>
             </Button>
