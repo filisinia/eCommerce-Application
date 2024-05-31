@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-import { ImageList, ImageListItem } from '@mui/material';
+import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
+import { Box, ImageList, ImageListItem } from '@mui/material';
 
 import styles from 'components/productInfo/productImages/ProductImagesStyle';
 import { IProduct } from 'types/products';
@@ -10,14 +11,26 @@ const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element 
   const imagesData = productInfo?.masterData.current.masterVariant.images;
   const imagesQuantity = imagesData.length;
 
-  const [mainImageURL, setMainImageURL] = useState(imagesData[0].url);
+  const [mainImageIndex, setMainImageIndex] = useState(0);
 
-  const mainImage = <img src={mainImageURL} style={styles.mainImage} alt={name['en-US']} />;
-  const images = imagesData.map((imageData) => (
+  const handlePrevClick = (): void => {
+    const newMainImageIndex = mainImageIndex === 0 ? imagesQuantity - 1 : mainImageIndex - 1;
+
+    setMainImageIndex(newMainImageIndex);
+  };
+
+  const handleNextClick = (): void => {
+    const newMainImageIndex = mainImageIndex === imagesQuantity - 1 ? 0 : mainImageIndex + 1;
+
+    setMainImageIndex(newMainImageIndex);
+  };
+
+  const mainImage = <img src={imagesData[mainImageIndex].url} style={styles.mainImage} alt={name['en-US']} />;
+  const images = imagesData.map((imageData, index) => (
     <ImageListItem
       key={imageData.url}
-      onClick={() => setMainImageURL(imageData.url)}
-      sx={[styles.image, imageData.url === mainImageURL ? styles.selectedImage : {}]}
+      onClick={() => setMainImageIndex(index)}
+      sx={[styles.image, imageData.url === imagesData[mainImageIndex].url ? styles.selectedImage : {}]}
     >
       <img src={imageData.url} alt={name['en-US']} />
     </ImageListItem>
@@ -25,8 +38,12 @@ const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element 
 
   return (
     <>
-      {mainImage}
-      <ImageList cols={imagesQuantity} gap={10} sx={styles.imageList}>
+      <Box>
+        <ArrowBackIos onClick={handlePrevClick} sx={styles.arrow} />
+        {mainImage}
+        <ArrowForwardIos onClick={handleNextClick} sx={[styles.arrow, { transform: 'translateX(-80%)' }]} />
+      </Box>
+      <ImageList cols={imagesQuantity} sx={styles.imageList}>
         {images}
       </ImageList>
     </>

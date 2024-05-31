@@ -17,6 +17,18 @@ const styles = {
     margin: '0 auto',
     justifyItems: 'center',
   },
+
+  arrow: {
+    position: 'absolute',
+    transition: 'scale 0.3s',
+    fontSize: '40px',
+    color: '#a7a7a7',
+    top: '50%',
+
+    '&:hover': {
+      scale: '1.05',
+    },
+  },
 };
 
 export default styles;

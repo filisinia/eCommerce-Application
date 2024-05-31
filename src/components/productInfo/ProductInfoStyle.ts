@@ -16,7 +16,7 @@ const styles = {
 
   imagesBox: {
     flex: '0 0 40%',
-    maxWidth: '600px',
+    maxWidth: '400px',
   },
 
   descriptionBox: {
