@@ -12,12 +12,11 @@ interface IProdcutsItem {
 }
 
 const Card = styled.div`
-  width: 100%;
   height: 100%;
+  transition: 1s all;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  transition: 1s all;
+  justify-content: space-around;
 
   &:hover {
     background-color: rgb(43, 40, 40);

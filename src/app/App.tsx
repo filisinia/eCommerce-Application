@@ -35,7 +35,6 @@ const App = (): JSX.Element => {
             <Route element={<ErrorPage />} path='*' />
             <Route element={<ProductsPage />} path='/products' />
             <Route element={<ProductPage />} path='/products/:product' />
-
             <Route
               element={
                 <ProtectedRoute>
