@@ -3,6 +3,7 @@ const styles = {
     display: 'flex',
     gap: '15px',
     padding: '40px 0',
+    userSelect: 'none',
 
     '@media (max-width: 780px)': {
       flexDirection: 'column',

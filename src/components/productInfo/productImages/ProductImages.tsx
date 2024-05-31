@@ -36,12 +36,14 @@ const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element 
     </ImageListItem>
   ));
 
-  return (
+  return imagesQuantity === 1 ? (
+    <Box>{mainImage}</Box>
+  ) : (
     <>
-      <Box>
+      <Box sx={styles.mainImageBox}>
         <ArrowBackIos onClick={handlePrevClick} sx={styles.arrow} />
-        {mainImage}
-        <ArrowForwardIos onClick={handleNextClick} sx={[styles.arrow, { transform: 'translateX(-80%)' }]} />
+        <Box>{mainImage}</Box>
+        <ArrowForwardIos onClick={handleNextClick} sx={styles.arrow} />
       </Box>
       <ImageList cols={imagesQuantity} sx={styles.imageList}>
         {images}
