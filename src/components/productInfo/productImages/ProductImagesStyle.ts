@@ -23,6 +23,7 @@ const styles = {
   slideImage: {
     maxWidth: '100%',
     height: '100%',
+    cursor: 'pointer',
   },
 
   image: {

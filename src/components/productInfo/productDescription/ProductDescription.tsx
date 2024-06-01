@@ -1,9 +1,18 @@
 import { Box, Typography } from '@mui/material';
 
 import styles from 'components/productInfo/productDescription/productDescriptionStyle';
-import { IProduct } from 'types/products';
+import productInfoStore from 'store/slices/productInfo/productInfoSlice';
+import notification from 'utils/notification';
 
-const ProductDescription = ({ productInfo }: { productInfo: IProduct }): JSX.Element => {
+const ProductDescription = (): JSX.Element => {
+  const { productInfo } = productInfoStore((state) => state);
+
+  if (!productInfo) {
+    notification('error', 'The product info was not provided');
+
+    return <span>Error</span>;
+  }
+
   const { name, description } = productInfo?.masterData?.current || {};
   const priceData = productInfo?.masterData?.current?.masterVariant?.prices?.[0];
 

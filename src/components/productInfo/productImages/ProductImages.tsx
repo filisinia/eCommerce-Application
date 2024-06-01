@@ -1,18 +1,39 @@
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material';
 import { Box, ImageList, ImageListItem } from '@mui/material';
 
 import styles from 'components/productInfo/productImages/ProductImagesStyle';
-import { IProduct } from 'types/products';
+import productInfoStore from 'store/slices/productInfo/productInfoSlice';
+import notification from 'utils/notification';
 
-const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element => {
+const ProductImages = (): JSX.Element => {
+  const { productInfo } = productInfoStore((state) => state);
+  const [mainImageIndex, setMainImageIndex] = useState(0);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+
+  const showModal = (): void => {
+    console.log('show modal');
+  };
+
+  useEffect(() => {
+    sliderRef?.current?.addEventListener('click', showModal);
+
+    return () => {
+      sliderRef?.current?.removeEventListener('click', showModal);
+    };
+  }, []);
+
+  if (!productInfo) {
+    notification('error', 'The product info was not provided');
+
+    return <span>Error</span>;
+  }
+
   const { name } = productInfo.masterData.current || {};
   const imagesData = productInfo?.masterData.current.masterVariant.images;
   const imagesQuantity = imagesData.length;
   const lastImageIndex = imagesQuantity - 1;
-
-  const [mainImageIndex, setMainImageIndex] = useState(0);
 
   const showPrevImage = (): void => {
     const newMainImageIndex = mainImageIndex === 0 ? lastImageIndex : mainImageIndex - 1;
@@ -50,7 +71,7 @@ const ProductImages = ({ productInfo }: { productInfo: IProduct }): JSX.Element 
     <>
       <Box sx={styles.sliderBox}>
         <ArrowBackIos onClick={showPrevImage} sx={styles.arrow} />
-        <Box sx={styles.slideImagesWrapper}>
+        <Box ref={sliderRef} sx={styles.slideImagesWrapper}>
           <Box
             sx={{
               ...styles.slideImagesBox,
