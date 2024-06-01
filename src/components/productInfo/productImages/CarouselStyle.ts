@@ -52,6 +52,12 @@ const styles = {
       scale: '1.15',
     },
   },
+
+  closeIcon: {
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+  },
 };
 
 export default styles;
