@@ -17,6 +17,7 @@ const Carousel = forwardRef(({ type }: { type: 'carousel' | 'modalCarousel' }, r
   const imagesData = productInfo.masterData.current.masterVariant.images;
   const imagesQuantity = imagesData.length;
   const lastImageIndex = imagesQuantity - 1;
+  let x1: number | null = null;
 
   const imageIndex = type === 'carousel' ? mainImageIndex : modalImageIndex;
   const setImageIndex = type === 'carousel' ? setMainImageIndex : setModalImageIndex;
@@ -31,6 +32,40 @@ const Carousel = forwardRef(({ type }: { type: 'carousel' | 'modalCarousel' }, r
     const newImageIndex = imageIndex === lastImageIndex ? 0 : imageIndex + 1;
 
     setImageIndex(newImageIndex);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent): void => {
+    x1 = e.clientX;
+  };
+
+  const handleTouchStart = (e: React.TouchEvent): void => {
+    x1 = e.touches[0].clientX;
+  };
+
+  const handleSwipe = (x2: number): void => {
+    if (x1 && x2 - x1 > 0) {
+      showPrevImage();
+    } else {
+      showNextImage();
+    }
+
+    x1 = null;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent): void => {
+    if (!x1) return;
+
+    const x2 = e.clientX;
+
+    handleSwipe(x2);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent): void => {
+    if (!x1) return;
+
+    const x2 = e.touches[0].clientX;
+
+    handleSwipe(x2);
   };
 
   const imageWidthInPercent = 100;
@@ -59,6 +94,11 @@ const Carousel = forwardRef(({ type }: { type: 'carousel' | 'modalCarousel' }, r
         <ArrowBackIos onClick={showPrevImage} sx={styles.arrow} />
         <Box ref={ref} sx={styles.slideImagesWrapper}>
           <Box
+            component='section'
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
             sx={{
               ...styles.slideImagesBox,
               transform: `translateX(-${imageWidthInPercent * imageIndex}%)`,
