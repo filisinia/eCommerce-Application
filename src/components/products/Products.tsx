@@ -1,8 +1,8 @@
 import { useLayoutEffect, useState } from 'react';
 
-import { Button } from '@mui/material';
+import ProductsSortSelector from './ProductsSortSelector/ProductsSortSelector';
 
-import { fetchProducts, sortProductsByPrice } from 'api/products/productsApi';
+import { fetchProducts, sortProductsByType } from 'api/products/productsApi';
 import Loader from 'components/Loader/Loader';
 import ProductsList from 'components/products/ProductsList';
 import { IProduct, IProducts } from 'types/products';
@@ -11,8 +11,8 @@ import notification from 'utils/notification';
 const Products = (): JSX.Element => {
   const [products, setProducts] = useState<null | IProduct[]>(null);
 
-  const setPoductsByPrice = (): void => {
-    sortProductsByPrice('asc')
+  const sortProducts = (type: string, direction: string): void => {
+    sortProductsByType(type, direction)
       .then((data: IProducts | string) => {
         typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
       })
@@ -37,9 +37,7 @@ const Products = (): JSX.Element => {
     <Loader />
   ) : (
     <main>
-      <Button type='button' onClick={setPoductsByPrice}>
-        Sort by Price
-      </Button>
+      <ProductsSortSelector sortProducts={sortProducts} />
       <section className='section'>
         <ProductsList products={products} />
       </section>
