@@ -43,8 +43,8 @@ const Card = styled.div`
 `;
 
 const ProdcutsItem = ({ product }: IProdcutsItem): JSX.Element => {
-  const { id } = product;
-  const { masterVariant, name, description } = product.masterData.current;
+  const { masterVariant, name, description } = product;
+  const { id } = masterVariant;
   const { value, discounted } = masterVariant.prices[0];
 
   const descriptionSize = 150;

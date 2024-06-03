@@ -11,9 +11,9 @@ interface IProductsList {
 }
 
 const ProductsList: FC<IProductsList> = ({ products }): JSX.Element => (
-  <Grid component='ul' container sx={{ paddingInlineStart: '0' }} spacing={2}>
+  <Grid component='ul' container sx={{ paddingInlineStart: '0' }} spacing={2} justifyContent='space-around'>
     {products.map((product) => (
-      <ProdcutsItem product={product} key={product.id} />
+      <ProdcutsItem product={product} key={product?.id || ''} />
     ))}
   </Grid>
 );

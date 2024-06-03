@@ -23,10 +23,13 @@ interface IProductPrice {
   };
 }
 
-interface IProductCategory {
+export interface IProductCategory {
   typeId: string;
   id: string;
+  name: { [key: string]: string };
+  key: string;
 }
+
 interface IProductAvailability {
   isOnStock: boolean;
   availableQuantity: number;
@@ -36,24 +39,17 @@ interface IProductAvailability {
 
 export interface IProduct {
   id: string;
-  productType: IProductCategory;
-  masterData: {
-    current: {
-      name: { [key: string]: string };
-      description: { [key: string]: string };
-      categories: IProductCategory[];
-      categoryOrderHints: { [key: string]: string };
-      masterVariant: {
-        id: string;
-        prices: IProductPrice[];
-        attributes: IProductAttributes[];
-        images: { url: string }[];
-        availability: IProductAvailability;
-      };
-    };
+  name: { [key: string]: string };
+  description: { [key: string]: string };
+  categories: IProductCategory[];
+  categoryOrderHints: { [key: string]: string };
+  masterVariant: {
+    id: string;
+    prices: IProductPrice[];
+    attributes: IProductAttributes[];
+    images: { url: string }[];
+    availability: IProductAvailability;
   };
-  key: string;
-  taxCategory: IProductCategory;
 }
 
 export interface IProducts {
@@ -62,6 +58,15 @@ export interface IProducts {
   results: IProduct[];
 }
 
+export interface IProductCategories {
+  limit: number;
+  total: number;
+  results: IProductCategory[];
+}
+
 export interface IFetchProductSuccess {
   data: IProducts;
+}
+export interface IFetchProductsCategoriesSuccess {
+  data: IProductCategories;
 }
