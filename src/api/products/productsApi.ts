@@ -1,8 +1,15 @@
 import axios from 'axios';
 
 import setApiToken from 'api/setApiToken';
-import { IFetchProductSuccess, IFetchProductsCategoriesSuccess, IProductCategories, IProducts } from 'types/products';
-import { cathFetchError } from 'utils/errors';
+import {
+  IFetchProductInfo,
+  IFetchProductSuccess,
+  IFetchProductsCategoriesSuccess,
+  IProduct,
+  IProductCategories,
+  IProducts,
+} from 'types/products';
+import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}`;
 const defaultLimit = 24;
@@ -14,7 +21,7 @@ export const fetchProducts = async (limit: number = defaultLimit): Promise<IProd
 
     return data;
   } catch (e) {
-    return cathFetchError(e);
+    return catchFetchError(e);
   }
 };
 
@@ -24,7 +31,7 @@ export const fetchProductsCategories = async (limit: number = defaultLimit): Pro
 
     return res.data;
   } catch (e) {
-    return cathFetchError(e);
+    return catchFetchError(e);
   }
 };
 
@@ -42,6 +49,19 @@ export const sortProductsByType = async (
 
     return data;
   } catch (e) {
-    return cathFetchError(e);
+    return catchFetchError(e);
+  }
+};
+
+export const fetchProductInfo = async (productKey: string): Promise<IProduct | string> => {
+  try {
+    await setApiToken();
+
+    const response: IFetchProductInfo = await axios(`${baseUrl}/products/key=${productKey}`);
+    const data: IProduct = response.data.masterData.current;
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
   }
 };

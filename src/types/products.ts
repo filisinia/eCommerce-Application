@@ -39,6 +39,7 @@ interface IProductAvailability {
 
 export interface IProduct {
   id: string;
+  key: string;
   name: { [key: string]: string };
   description: { [key: string]: string };
   categories: IProductCategory[];
@@ -67,6 +68,44 @@ export interface IProductCategories {
 export interface IFetchProductSuccess {
   data: IProducts;
 }
+
 export interface IFetchProductsCategoriesSuccess {
   data: IProductCategories;
+}
+
+interface IMasterData {
+  current: IProduct;
+  hasStagedChanges: boolean;
+  published: boolean;
+  staged: IProduct;
+}
+
+export interface IProductInfo {
+  createdAt: string;
+  createdBy: {
+    isPlatformClient: boolean;
+  };
+  id: string;
+  key: string;
+  lastMessageSequenceNumber: number;
+  lastModifiedAt: string;
+  lastModifiedBy: {
+    isPlatformClient: boolean;
+  };
+  lastVariantId: number;
+  masterData: IMasterData;
+  productType: {
+    id: string;
+    typeId: string;
+  };
+  taxCategory: {
+    id: string;
+    typeId: string;
+  };
+  version: number;
+  versionModifiedAt: string;
+}
+
+export interface IFetchProductInfo {
+  data: IProductInfo;
 }

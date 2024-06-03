@@ -3,8 +3,7 @@ import { FC, useState, memo } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, InputAdornment, TextField, Grid } from '@mui/material';
 
-import styles from '../../AuthCustomerStyle';
-
+import styles from 'components/customer/AuthCustomerStyle';
 import { ICustomerInfo } from 'types/customer';
 import { emailValidate, passwordValidate, textValidate } from 'utils/validate';
 

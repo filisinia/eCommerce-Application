@@ -32,9 +32,8 @@ const App = (): JSX.Element => {
             <Route element={<AuthPage />} path='/signup' />
             <Route element={<LoginPage />} path='/login' />
             <Route element={<MainPage />} path='/' />
-            <Route element={<ErrorPage />} path='*' />
             <Route element={<ProductsPage />} path='/products' />
-            <Route element={<ProductPage />} path='/products/:product' />
+            <Route element={<ProductPage />} path='/products/:productKey' />
             <Route
               element={
                 <ProtectedRoute>
@@ -43,6 +42,7 @@ const App = (): JSX.Element => {
               }
               path='/profile'
             />
+            <Route element={<ErrorPage />} path='*' />
           </Routes>
         </Suspense>
         <ToastContainer />
