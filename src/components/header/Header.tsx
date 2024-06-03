@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
+import { AccountCircleOutlined, ExitToAppOutlined } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 
 import { removeTokens } from 'api/customer/getAuthToken';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
@@ -34,18 +35,37 @@ const Header = (): JSX.Element => {
             </Button>
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px' }}>
-            <Button component={Link} to='/signup' variant='contained'>
-              Sign up
+            <Button>
+              <NavLink
+                to='/products'
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? 'bold' : 'normal',
+                  color: isActive ? 'rgb(255, 228, 196)' : '#1565c0',
+                })}
+              >
+                {' '}
+                Products
+              </NavLink>
             </Button>
-            <Button component={Link} to='/login' variant='outlined'>
-              Log in
-            </Button>
+
             {customer ? (
-              <Button component={Link} to='/' variant='outlined' onClick={handleLogout}>
-                Log out
-              </Button>
+              <>
+                <IconButton component={Link} to='/profile'>
+                  <AccountCircleOutlined color='primary' />
+                </IconButton>
+                <IconButton component={Link} to='/' onClick={handleLogout}>
+                  <ExitToAppOutlined color='primary' />
+                </IconButton>
+              </>
             ) : (
-              ''
+              <>
+                <Button component={Link} to='/signup' variant='contained'>
+                  Sign up
+                </Button>
+                <Button component={Link} to='/login' variant='outlined'>
+                  Log in
+                </Button>
+              </>
             )}
           </Box>
           <IconButton

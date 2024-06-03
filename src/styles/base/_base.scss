@@ -1,0 +1,15 @@
+html {
+  font-style: normal;
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+}
+#root {
+  max-width: 1440px;
+  padding: 0 1rem;
+  margin: auto;
+}
+
+main {
+  margin-top: 2rem;
+}

@@ -13,8 +13,7 @@ const Carousel = forwardRef(({ type }: { type: 'carousel' | 'modalCarousel' }, r
 
   if (!productInfo) return null;
 
-  const { name } = productInfo.masterData.current || {};
-  const imagesData = productInfo.masterData.current.masterVariant.images;
+  const imagesData = productInfo.masterVariant.images;
   const imagesQuantity = imagesData.length;
   const lastImageIndex = imagesQuantity - 1;
   let x1: number | null = null;
@@ -71,7 +70,7 @@ const Carousel = forwardRef(({ type }: { type: 'carousel' | 'modalCarousel' }, r
   const imageWidthInPercent = 100;
 
   const sliderImages = imagesData.map((imageData) => (
-    <img src={imageData.url} alt={name['en-US']} key={imageData.url} style={styles.slideImage} />
+    <img src={imageData.url} alt={productInfo.name['en-US']} key={imageData.url} style={styles.slideImage} />
   ));
 
   const images = imagesData.map((imageData, index) => (
@@ -80,13 +79,13 @@ const Carousel = forwardRef(({ type }: { type: 'carousel' | 'modalCarousel' }, r
       onClick={() => setImageIndex(index)}
       sx={[styles.image, imageData.url === imagesData[imageIndex].url ? styles.selectedImage : {}]}
     >
-      <img src={imageData.url} alt={name['en-US']} />
+      <img src={imageData.url} alt={productInfo.name['en-US']} />
     </ImageListItem>
   ));
 
   return imagesQuantity === 1 ? (
     <Box>
-      <img src={imagesData[0].url} alt={name['en-US']} key={imagesData[0].url} style={styles.slideImage} />
+      <img src={imagesData[0].url} alt={productInfo.name['en-US']} key={imagesData[0].url} style={styles.slideImage} />
     </Box>
   ) : (
     <>

@@ -2,7 +2,8 @@ import { useLayoutEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import fetchProductInfo from 'api/products/productInfoApi';
+import { fetchProductInfo } from 'api/products/productsApi';
+import Loader from 'components/Loader/Loader';
 import ProductInfo from 'components/productInfo/ProductInfo';
 import productInfoStore from 'store/slices/productInfo/productInfoSlice';
 import notification from 'utils/notification';
@@ -12,11 +13,7 @@ const ProductPage = (): JSX.Element => {
   const { productInfo, setProductInfo } = productInfoStore((state) => state);
 
   const getProductInfo = async (): Promise<void> => {
-    if (!productKey) {
-      notification('error', 'The product key was not provided');
-
-      return;
-    }
+    if (!productKey) return;
     const fetchedProductInfo = await fetchProductInfo(productKey);
 
     if (typeof fetchedProductInfo !== 'string') setProductInfo(fetchedProductInfo);
@@ -26,7 +23,7 @@ const ProductPage = (): JSX.Element => {
     getProductInfo().catch((e: Error) => notification('error', e.message));
   }, [productKey]);
 
-  return productInfo ? <ProductInfo /> : <span>Loading...</span>;
+  return productInfo ? <ProductInfo /> : <Loader />;
 };
 
 export default ProductPage;
