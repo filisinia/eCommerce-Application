@@ -13,27 +13,14 @@ export const passwordValidate = (password: string): boolean =>
 
 export const emailValidate = (email: string): boolean => /^\s*[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}\s*$/.test(email);
 
-export const postCodeValidate = (postCode: string, country: string): boolean => {
-  let isValid = false;
+export const postCodeValidate = (postCode: string, country: string): boolean =>
+  postcodeValidatorExistsForCountry(country) && postcodeValidator(postCode, country);
 
-  if (postcodeValidatorExistsForCountry(country)) {
-    if (postcodeValidator(postCode, country)) isValid = true;
-  }
+const isValidCustomer = ({ email, password, firstName, lastName }: ICustomerInfo): boolean =>
+  emailValidate(email) && passwordValidate(password) && textValidate(firstName) && textValidate(lastName);
 
-  return isValid;
-};
-
-const isValidCustomer = (customer: ICustomerInfo): boolean => {
-  const { email, password, firstName, lastName } = customer;
-
-  return emailValidate(email) && passwordValidate(password) && textValidate(firstName) && textValidate(lastName);
-};
-
-const isValidCustomerAddress = (address: ICustomerAddress): boolean => {
-  const { streetName, city, country, postalCode } = address;
-
-  return textAndNumberValidate(streetName) && textValidate(city) && postCodeValidate(postalCode, country);
-};
+const isValidCustomerAddress = ({ streetName, city, country, postalCode }: ICustomerAddress): boolean =>
+  textAndNumberValidate(streetName) && textValidate(city) && postCodeValidate(postalCode, country);
 
 export const validateCustomerAuth = (
   customer: ICustomerInfo,

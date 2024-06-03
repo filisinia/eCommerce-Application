@@ -1,6 +1,7 @@
 import axios, { isAxiosError } from 'axios';
 
-import { ICustomer, IAuthCustomerSuccess, IAuthCustomerError, ICustomerRes } from 'types/customer';
+import { ICustomer, IAuthCustomerSuccess, ICustomerRes } from 'types/customer';
+import { IFetchError } from 'types/errors';
 
 const baseUrl = 'https://api.europe-west1.gcp.commercetools.com/rs-shop-2023q4/customers';
 
@@ -11,7 +12,7 @@ const authCustomer = async (customer: ICustomer): Promise<ICustomerRes | string>
     return data.customer;
   } catch (e) {
     if (isAxiosError(e)) {
-      const { response } = <IAuthCustomerError>e;
+      const { response } = <IFetchError>e;
 
       return response.data.message;
     }
