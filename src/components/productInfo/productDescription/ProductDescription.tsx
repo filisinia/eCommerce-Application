@@ -9,6 +9,8 @@ const ProductDescription = (): JSX.Element | null => {
   if (!productInfo) return null;
 
   const priceData = productInfo.masterVariant.prices[0];
+  const price = priceData.value;
+  const priceDiscounted = priceData.discounted?.value;
 
   return (
     <Box sx={styles.descriptionBox}>
@@ -16,10 +18,12 @@ const ProductDescription = (): JSX.Element | null => {
         {productInfo.name['en-US']}
       </Typography>
       <Box sx={styles.priceBox}>
-        <Typography sx={styles.currentPrice}>
-          {priceData?.value?.centAmount.toLocaleString()} {priceData.value.currencyCode}
+        <Typography sx={priceDiscounted ? styles.currentPrice : { display: 'none' }}>
+          {priceDiscounted?.centAmount.toLocaleString()} {priceDiscounted?.currencyCode}
         </Typography>
-        <Typography sx={styles.oldPrice}>{priceData.discounted?.value?.centAmount.toLocaleString()}</Typography>
+        <Typography sx={priceDiscounted ? styles.oldPrice : styles.currentPrice}>
+          {price.centAmount.toLocaleString()} {price.currencyCode}
+        </Typography>
       </Box>
       <Typography>{productInfo.description['en-US']}</Typography>
     </Box>

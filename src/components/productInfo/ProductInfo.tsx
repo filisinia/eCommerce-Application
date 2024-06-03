@@ -1,8 +1,7 @@
 import { Box, Container } from '@mui/material';
 
-import ProductDescription from './productDescription/ProductDescription';
-import ProductImages from './productImages/ProductImages';
-
+import ProductDescription from 'components/productInfo/productDescription/ProductDescription';
+import ProductImages from 'components/productInfo/productImages/ProductImages';
 import styles from 'components/productInfo/ProductInfoStyle';
 
 const ProductInfo = (): JSX.Element => (

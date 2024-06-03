@@ -22,7 +22,7 @@ const styles = {
   },
 
   oldPrice: {
-    color: 'gray',
+    color: '#ff5252',
     textDecoration: 'line-through',
   },
 };

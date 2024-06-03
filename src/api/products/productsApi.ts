@@ -58,7 +58,7 @@ export const fetchProductInfo = async (productKey: string): Promise<IProduct | s
     await setApiToken();
 
     const response: IFetchProductInfo = await axios(`${baseUrl}/products/key=${productKey}`);
-    const data: IProduct = response.masterData.current;
+    const data: IProduct = response.data.masterData.current;
 
     return data;
   } catch (e) {

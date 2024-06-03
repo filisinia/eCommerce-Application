@@ -1,10 +1,9 @@
 import { useLayoutEffect, useState } from 'react';
 
-import ProductsSortSelector from './ProductsSortSelector/ProductsSortSelector';
-
 import { fetchProducts, sortProductsByType } from 'api/products/productsApi';
 import Loader from 'components/Loader/Loader';
 import ProductsList from 'components/products/ProductsList';
+import ProductsSortSelector from 'components/products/ProductsSortSelector/ProductsSortSelector';
 import { IProduct, IProducts } from 'types/products';
 import notification from 'utils/notification';
 

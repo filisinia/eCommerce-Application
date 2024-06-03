@@ -4,12 +4,11 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Typography, TextField, Button, IconButton, InputAdornment, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import { validateEmail, validatePassword } from './LoginValidation';
-
 import { setTokens } from 'api/customer/getAuthToken';
 import fetchUserData from 'api/customer/getCustomerData';
 import loginUser from 'api/customer/Login';
 import styles from 'components/customer/AuthCustomerStyle';
+import { validateEmail, validatePassword } from 'components/customer/LoginValidation';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
 import { ICustomerLoginSuccessData, ICustomerRes } from 'types/customer';
 

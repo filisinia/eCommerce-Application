@@ -7,7 +7,7 @@ import { IProduct } from 'types/products';
 
 import 'components/products/ProductsItem/ProductItemStyle.scss';
 
-interface IProdcutsItem {
+interface IProductsItem {
   product: IProduct;
 }
 
@@ -42,7 +42,7 @@ const Card = styled.div`
   }
 `;
 
-const ProdcutsItem = ({ product }: IProdcutsItem): JSX.Element => {
+const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
   const { masterVariant, name, description } = product;
   const { id } = masterVariant;
   const { value, discounted } = masterVariant.prices[0];
@@ -56,7 +56,7 @@ const ProdcutsItem = ({ product }: IProdcutsItem): JSX.Element => {
         <CardHeader
           title={name['en-US']}
           action={
-            <Link to={`/products/${id}`}>
+            <Link to={`/products/${product.key}`}>
               <IconButton>
                 <InfoOutlined />
               </IconButton>
@@ -72,9 +72,9 @@ const ProdcutsItem = ({ product }: IProdcutsItem): JSX.Element => {
         />
 
         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', rowGap: '0.2rem' }}>
-          {discounted && <span className='product__price'> {discounted.value.centAmount} USD</span>}
+          {discounted && <span className='product__price'> {discounted.value.centAmount.toLocaleString()} USD</span>}
           <span className={discounted ? 'product__price product__discount' : 'product__price'}>
-            {value.centAmount} USD
+            {value.centAmount.toLocaleString()} USD
           </span>
 
           <Typography>
@@ -86,4 +86,4 @@ const ProdcutsItem = ({ product }: IProdcutsItem): JSX.Element => {
   );
 };
 
-export default ProdcutsItem;
+export default ProduсtsItem;

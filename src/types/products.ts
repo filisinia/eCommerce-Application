@@ -39,6 +39,7 @@ interface IProductAvailability {
 
 export interface IProduct {
   id: string;
+  key: string;
   name: { [key: string]: string };
   description: { [key: string]: string };
   categories: IProductCategory[];
@@ -79,7 +80,7 @@ interface IMasterData {
   staged: IProduct;
 }
 
-export interface IFetchProductInfo {
+export interface IProductInfo {
   createdAt: string;
   createdBy: {
     isPlatformClient: boolean;
@@ -103,4 +104,8 @@ export interface IFetchProductInfo {
   };
   version: number;
   versionModifiedAt: string;
+}
+
+export interface IFetchProductInfo {
+  data: IProductInfo;
 }

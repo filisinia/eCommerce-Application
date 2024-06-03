@@ -2,8 +2,7 @@ import { FC } from 'react';
 
 import { Grid } from '@mui/material';
 
-import ProdcutsItem from './ProductsItem/ProductsItem';
-
+import ProduсtsItem from 'components/products/ProductsItem/ProductsItem';
 import { IProduct } from 'types/products';
 
 interface IProductsList {
@@ -13,7 +12,7 @@ interface IProductsList {
 const ProductsList: FC<IProductsList> = ({ products }): JSX.Element => (
   <Grid component='ul' container sx={{ paddingInlineStart: '0' }} spacing={2} justifyContent='space-around'>
     {products.map((product) => (
-      <ProdcutsItem product={product} key={product?.id || ''} />
+      <ProduсtsItem product={product} key={product?.id || ''} />
     ))}
   </Grid>
 );
