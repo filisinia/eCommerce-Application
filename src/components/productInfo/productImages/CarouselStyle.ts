@@ -21,8 +21,7 @@ const styles = {
   },
 
   slideImage: {
-    maxWidth: '100%',
-    height: '100%',
+    width: '100%',
     cursor: 'pointer',
   },
 
@@ -37,7 +36,6 @@ const styles = {
   },
 
   imageList: {
-    width: 'max-content',
     margin: '0 auto',
     justifyItems: 'center',
   },
@@ -50,6 +48,10 @@ const styles = {
 
     '&:hover': {
       scale: '1.15',
+    },
+
+    '@media (max-width: 468px)': {
+      display: 'none',
     },
   },
 
