@@ -38,6 +38,7 @@ const styles = {
   imageList: {
     margin: '0 auto',
     justifyItems: 'center',
+    alignItems: 'stretch',
     width: 'fit-content',
   },
 

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { AccountCircleOutlined, ExitToAppOutlined } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material';
-import { Link, useNavigate, NavLink } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { removeTokens } from 'api/customer/getAuthToken';
 import authCustomerStore from 'store/slices/customer/authCustomerSlice';
@@ -13,6 +13,8 @@ const Header = (): JSX.Element => {
   const { setCustomer, customer } = authCustomerStore((state) => state);
   const [isDrawerOpened, setIsDrawerOpened] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isProductsActive = location.pathname === '/products';
 
   const handleLogout = (): void => {
     notification('success', 'You have been successfully logged out');
@@ -35,17 +37,15 @@ const Header = (): JSX.Element => {
             </Button>
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px' }}>
-            <Button>
-              <NavLink
-                to='/products'
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? 'bold' : 'normal',
-                  color: isActive ? 'rgb(255, 228, 196)' : '#1565c0',
-                })}
-              >
-                {' '}
-                Products
-              </NavLink>
+            <Button
+              component={Link}
+              to='/products'
+              style={{
+                fontWeight: isProductsActive ? 'bold' : 'normal',
+                color: isProductsActive ? 'rgb(255, 228, 196)' : '#1565c0',
+              }}
+            >
+              Products
             </Button>
 
             {customer ? (
@@ -88,6 +88,7 @@ const Header = (): JSX.Element => {
         PaperProps={{ sx: { width: '40vw', padding: '20px 0' } }}
       >
         <Button onClick={() => handleDrawerItemClick('/')}>Main</Button>
+        <Button onClick={() => handleDrawerItemClick('/products')}>Products</Button>
         <Button onClick={() => handleDrawerItemClick('/signup')}>Sign up</Button>
         <Button onClick={() => handleDrawerItemClick('/login')}>Log in</Button>
         {customer ? (
