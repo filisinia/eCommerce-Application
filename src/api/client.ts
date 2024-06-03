@@ -7,5 +7,3 @@ const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
 });
 
 const getProject = (): Promise<unknown> => apiRoot.get().execute();
-
-getProject().then(console.log).catch(console.error);
