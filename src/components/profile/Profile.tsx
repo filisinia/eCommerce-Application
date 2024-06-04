@@ -1,28 +1,41 @@
-import { Typography } from '@mui/material';
+import { useState } from 'react';
+
+import { Modal } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 
 import EditProfileInfo from './EditProfileInfo';
 import ProfileAdress from './ProfileAdress';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 
 import customerStore from 'store/slices/customer/customerSlice';
 
 const Profile = (): JSX.Element => {
   const { customer } = customerStore((state) => state);
+  const [isEditInfo, setEditInfo] = useState<boolean>(false);
+  const onEditProfile = (): void => setEditInfo(!isEditInfo);
 
   const defaultBillingAddress = customer?.addresses.find(({ id }) => id === customer.defaultBillingAddressId);
   const defaultShippinggAddress = customer?.addresses.find(({ id }) => id === customer.defaultShippingAddressId);
 
-  return (
-    <section style={{ width: '40rem', margin: '2rem auto' }}>
-      {customer && <EditProfileInfo customer={customer} />}
+  return !customer ? (
+    <Navigate to='/login' replace />
+  ) : (
+    <section style={{ maxWidth: '40rem', margin: '2rem auto' }}>
+      <Modal
+        open={isEditInfo}
+        onClose={() => setEditInfo(false)}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'rgb(255, 228, 196)',
+          zIndex: '999',
+        }}
+      >
+        <EditProfileInfo customer={customer} />
+      </Modal>
 
-      <article style={{ marginBottom: '2rem' }}>
-        <Typography variant='h5' component='h5'>
-          {customer?.firstName} {customer?.lastName}
-        </Typography>
-        <p>
-          Date Of Birth: <b>{customer?.dateOfBirth}</b>{' '}
-        </p>
-      </article>
+      {customer && <ProfileInfo customer={customer} onEdit={onEditProfile} />}
 
       <article>
         <h4>Addresses :</h4>
