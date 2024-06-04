@@ -73,7 +73,9 @@ const Carousel = forwardRef(
     const imageWidthInPercent = 100;
 
     const sliderImages = imagesData.map((imageData) => (
-      <img src={imageData.url} alt={productInfo.name['en-US']} key={imageData.url} style={styles.slideImage} />
+      <Box key={imageData.url} sx={styles.slideImageBox}>
+        <img src={imageData.url} alt={productInfo.name['en-US']} style={styles.slideImage} />
+      </Box>
     ));
 
     const images = imagesData.map((imageData, index) => (

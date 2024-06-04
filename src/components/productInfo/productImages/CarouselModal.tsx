@@ -14,7 +14,6 @@ const CarouselModal = ({
   setModalImageIndex,
 }: ICarouselModalProps): JSX.Element => {
   const handleClose = (): void => {
-    if (!modalImageIndex) return;
     setMainImageIndex(modalImageIndex);
     setIsModalOpen(false);
   };
