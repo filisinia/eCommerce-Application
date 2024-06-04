@@ -3,7 +3,7 @@ import { FC, useState, memo } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { IconButton, InputAdornment, TextField, Grid } from '@mui/material';
 
-import styles from 'components/customer/AuthCustomerStyle';
+import styles from 'components/customer/CustomerStyle';
 import { ICustomerInfo } from 'types/customer';
 import { emailValidate, passwordValidate, textValidate } from 'utils/validate';
 
@@ -15,7 +15,7 @@ interface ICustomerInputsProps {
 const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDate }): JSX.Element => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
-  const { email, password, firstName, lastName, dayOfBirth } = customer;
+  const { email, password, firstName, lastName, dateOfBirth } = customer;
 
   const changePasswordVisible = (): void => setPasswordVisible(!isPasswordVisible);
 
@@ -89,7 +89,7 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
       </Grid>
       <Grid item xs={12} sm={4}>
         <TextField
-          name='dayOfBirth'
+          name='dateOfBirth'
           size='small'
           type='date'
           required
@@ -97,10 +97,10 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
             max: dateInputMaxDate,
           }}
           sx={styles.textField}
-          value={dayOfBirth}
-          error={dayOfBirth.length === 0}
+          value={dateOfBirth}
+          error={dateOfBirth.length === 0}
           helperText={
-            dayOfBirth.length === 0 &&
+            dateOfBirth.length === 0 &&
             'A valid date input ensuring the user is above a certain age (e.g., 13 years old or older)'
           }
         />

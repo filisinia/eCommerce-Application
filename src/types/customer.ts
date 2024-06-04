@@ -10,7 +10,7 @@ export interface ICustomerInfo {
   password: string;
   firstName: string;
   lastName: string;
-  dayOfBirth: string;
+  dateOfBirth: string;
 }
 
 export interface ICustomer extends ICustomerInfo {
@@ -29,9 +29,7 @@ export interface ICustomerRes extends ICustomer {
 }
 
 export interface IAuthCustomerSuccess {
-  data: {
-    customer: ICustomerRes;
-  };
+  data: ICustomerRes;
 }
 
 export interface IAuthCustomerError {

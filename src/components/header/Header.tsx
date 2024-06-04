@@ -6,7 +6,7 @@ import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material'
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { removeTokens } from 'api/customer/getAuthToken';
-import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import authCustomerStore from 'store/slices/customer/customerSlice';
 import notification from 'utils/notification';
 
 const Header = (): JSX.Element => {

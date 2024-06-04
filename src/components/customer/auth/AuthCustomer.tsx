@@ -7,8 +7,8 @@ import authCustomer from 'api/customer/authCustomer';
 import { customerAddressState, customerState } from 'components/customer/auth/AuthCustomerState';
 import AdressCustomerInputs from 'components/customer/auth/inputs/AdressCustomerInputs';
 import CustomerInfoInputs from 'components/customer/auth/inputs/CustomerInfoInputs';
-import styles from 'components/customer/AuthCustomerStyle';
-import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import styles from 'components/customer/CustomerStyle';
+import authCustomerStore from 'store/slices/customer/customerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
 import { getLimitDate } from 'utils/getLimitDate';
 import notification from 'utils/notification';
@@ -83,6 +83,8 @@ const AuthCustomer = (): JSX.Element => {
     const { name, value } = input;
 
     const addressAttribute = input.getAttribute('data-address');
+
+    console.log({ name, value });
 
     if (addressAttribute) {
       addressAttribute === 'shipping'
