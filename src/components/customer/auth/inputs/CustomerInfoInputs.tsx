@@ -66,6 +66,7 @@ const CustomerInfoInputs: FC<ICustomerInputsProps> = ({ customer, dateInputMaxDa
           name='firstName'
           size='small'
           required
+          value={firstName}
           error={!textValidate(firstName)}
           helperText={
             !textValidate(firstName) && 'Must contain at least one character and no special characters or numbers'

@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 
+import EditProfileInfo from './EditProfileInfo';
 import ProfileAdress from './ProfileAdress';
 
 import customerStore from 'store/slices/customer/customerSlice';
@@ -11,7 +12,9 @@ const Profile = (): JSX.Element => {
   const defaultShippinggAddress = customer?.addresses.find(({ id }) => id === customer.defaultShippingAddressId);
 
   return (
-    <section style={{ width: '20rem', margin: 'auto' }}>
+    <section style={{ width: '40rem', margin: '2rem auto' }}>
+      {customer && <EditProfileInfo customer={customer} />}
+
       <article style={{ marginBottom: '2rem' }}>
         <Typography variant='h5' component='h5'>
           {customer?.firstName} {customer?.lastName}
