@@ -1,4 +1,5 @@
 export interface ICustomerAddress {
+  id: string;
   streetName: string;
   city: string;
   postalCode: string;
@@ -26,6 +27,8 @@ export interface ICustomerRes extends ICustomer {
   isEmailVerified: boolean;
   shippingAddressIds: string[];
   billingAddressIds: string[];
+  defaultShippingAddressId: string;
+  defaultBillingAddressId: string;
 }
 
 export interface IAuthCustomerSuccess {

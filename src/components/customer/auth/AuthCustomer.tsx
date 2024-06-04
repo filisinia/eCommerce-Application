@@ -84,8 +84,6 @@ const AuthCustomer = (): JSX.Element => {
 
     const addressAttribute = input.getAttribute('data-address');
 
-    console.log({ name, value });
-
     if (addressAttribute) {
       addressAttribute === 'shipping'
         ? setAddress({ ...address, [name]: value })
