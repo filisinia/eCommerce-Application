@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react';
 
 import { fetchProducts, sortProductsByType } from 'api/products/productsApi';
 import Loader from 'components/Loader/Loader';
-import ProductsCategories from 'components/products/ProductsCategories';
+import ProductsCategories from 'components/products/Categories/ProductsCategories';
 import ProductsList from 'components/products/ProductsList';
 import ProductsSortSelector from 'components/products/ProductsSortSelector/ProductsSortSelector';
 import { IProduct, IProducts } from 'types/products';
@@ -37,8 +37,8 @@ const Products = (): JSX.Element => {
     <Loader />
   ) : (
     <main>
-      <ProductsSortSelector sortProducts={sortProducts} />
       <ProductsCategories />
+      <ProductsSortSelector sortProducts={sortProducts} />
       <section className='section'>
         <ProductsList products={products} />
       </section>

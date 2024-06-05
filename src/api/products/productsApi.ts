@@ -27,7 +27,7 @@ export const fetchProducts = async (limit: number = defaultLimit, category?: str
 
 export const fetchProductsCategories = async (): Promise<string | IProductCategories> => {
   try {
-    const res: IFetchProductsCategoriesSuccess = await axios(`${baseUrl}/categories?where=ancestors%20is%20empty`);
+    const res: IFetchProductsCategoriesSuccess = await axios(`${baseUrl}/categories`);
 
     return res.data;
   } catch (e) {

@@ -24,6 +24,11 @@ interface IProductPrice {
 }
 
 export interface IProductCategory {
+  ancestors: IProductCategory[];
+  parent: {
+    id: string;
+    typeId: string;
+  };
   typeId: string;
   id: string;
   name: { [key: string]: string };
