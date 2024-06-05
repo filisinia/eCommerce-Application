@@ -103,3 +103,35 @@ export const addCustomerAddress = async (
     return catchFetchError(e);
   }
 };
+
+export const postDefaultBillingAddress = async (
+  version: number,
+  addressId: string,
+  id: string,
+): Promise<ICustomerRes | string> => {
+  try {
+    const req = { version, actions: [{ action: 'setDefaultBillingAddress', addressId }] };
+
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const postDefaultShippinggAddress = async (
+  version: number,
+  addressId: string,
+  id: string,
+): Promise<ICustomerRes | string> => {
+  try {
+    const req = { version, actions: [{ action: 'setDefaultShippingAddress', addressId }] };
+
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};

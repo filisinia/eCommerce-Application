@@ -3,10 +3,14 @@ import { useState } from 'react';
 import { Box, Button, Checkbox, FormControlLabel, Grid, TextField } from '@mui/material';
 import { postcodeValidatorExistsForCountry } from 'postcode-validator';
 
-import { addCustomerAddress } from 'api/customer/update/updateCustomer';
+import {
+  addCustomerAddress,
+  postDefaultBillingAddress,
+  postDefaultShippinggAddress,
+} from 'api/customer/update/updateCustomer';
 import styles from 'components/customer/CustomerStyle';
 import customerSlice from 'store/slices/customer/customerSlice';
-import { ICustomerAddress } from 'types/customer';
+import { ICustomerAddress, ICustomerRes } from 'types/customer';
 import notification from 'utils/notification';
 import { isValidCustomerAddress, postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
 
@@ -32,13 +36,60 @@ const EditProfileAddress = ({ address, onClose, type }: IEditProfileAddress): JS
     setNewAddress({ ...newAddress, [name]: value });
   };
 
+  const setDefaultAndBillingAddresses = (data: ICustomerRes): void => {
+    const { addresses, version, id } = data;
+
+    postDefaultShippinggAddress(version, addresses.pop()!.id, id)
+      .then((res) => {
+        if (typeof res !== 'string') {
+          postDefaultBillingAddress(res.version, res.addresses.pop()!.id, res.id)
+            .then((response) =>
+              typeof response !== 'string' ? setCustomer(response) : notification('error', response),
+            )
+            .catch((err: Error) => notification('error', err.message));
+        }
+      })
+      .catch((err: Error) => notification('error', err.message));
+  };
+
+  const setCustomerDefaultBillingAddresses = (data: ICustomerRes): void => {
+    const { addresses, version, id } = data;
+
+    postDefaultBillingAddress(version, addresses.pop()!.id, id)
+      .then((response) => (typeof response !== 'string' ? setCustomer(response) : notification('error', response)))
+      .catch((err: Error) => notification('error', err.message));
+  };
+  const setCustomerShippingBillingAddresses = (data: ICustomerRes): void => {
+    const { addresses, version, id } = data;
+
+    postDefaultShippinggAddress(version, addresses.pop()!.id, id)
+      .then((response) => (typeof response !== 'string' ? setCustomer(response) : notification('error', response)))
+      .catch((err: Error) => notification('error', err.message));
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    if (!isValidCustomerAddress(newAddress)) {
-      notification('error', 'Bad Validation');
-    } else {
+
+    if (!isValidCustomerAddress(newAddress)) notification('error', 'Bad Validation');
+    else {
       addCustomerAddress(customer!.version, newAddress, customer!.id)
-        .then((data) => (typeof data !== 'string' ? (setCustomer(data), onClose()) : notification('error', data)))
+        .then((data) => {
+          if (typeof data !== 'string' && defaultShippingAddress && defaultBillingAddress) {
+            setDefaultAndBillingAddresses(data);
+
+            return;
+          }
+          if (typeof data !== 'string' && defaultBillingAddress) {
+            setCustomerDefaultBillingAddresses(data);
+          }
+          if (typeof data !== 'string' && defaultShippingAddress) {
+            setCustomerShippingBillingAddresses(data);
+          }
+          if (typeof data === 'string') {
+            notification('error', data);
+          }
+          onClose();
+        })
         .catch((err: Error) => notification('error', err.message));
     }
   };

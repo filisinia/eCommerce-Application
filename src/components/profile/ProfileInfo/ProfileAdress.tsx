@@ -3,12 +3,13 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import EditIcon from '@mui/icons-material/Edit';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { CardContent, CardHeader, Grid, IconButton } from '@mui/material';
+import { CardActions, CardContent, CardHeader, Checkbox, FormControlLabel, Grid, IconButton } from '@mui/material';
 
 import EditModal from '../editProfile/EditModal';
 import EditProfileAddress from '../editProfile/EditProfileAddress';
 
 import { removeCustomerAddress } from 'api/customer/update/updateCustomer';
+import styles from 'components/customer/CustomerStyle';
 import customerStore from 'store/slices/customer/customerSlice';
 import { ICustomerAddress } from 'types/customer';
 import notification from 'utils/notification';
@@ -51,6 +52,12 @@ interface IProfileAddress {
 const ProfileAdress = ({ address, title, version, customerID }: IProfileAddress): JSX.Element => {
   const { id, streetName, city, postalCode, country } = address;
   const { setCustomer } = customerStore((state) => state);
+
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState<boolean>(false);
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState<boolean>(false);
+
+  const changeDefaultShippingAddress = (): void => setDefaultShippingAddress(!defaultShippingAddress);
+  const changeDefaultBillinggAddress = (): void => setDefaultBillingAddress(!defaultBillingAddress);
 
   const [isOpenEditAddress, setOpenEditAddress] = useState<boolean>(false);
   const onEditAddress = (): void => setOpenEditAddress(!isOpenEditAddress);
@@ -101,6 +108,18 @@ const ProfileAdress = ({ address, title, version, customerID }: IProfileAddress)
               Postal Code: <b>{postalCode}</b>
             </span>
           </CardContent>
+          <CardActions>
+            <FormControlLabel
+              sx={styles.textField}
+              control={<Checkbox checked={defaultBillingAddress} onChange={changeDefaultBillinggAddress} />}
+              label='Set as default billing address'
+            />
+            <FormControlLabel
+              sx={styles.textField}
+              control={<Checkbox checked={defaultShippingAddress} onChange={changeDefaultShippingAddress} />}
+              label='Set as default shipping address'
+            />
+          </CardActions>
         </Card>
       </Grid>
     </>
