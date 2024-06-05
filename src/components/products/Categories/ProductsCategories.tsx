@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react';
+import { FC, useLayoutEffect, useState } from 'react';
 
 import { Box, Button } from '@mui/material';
 
@@ -8,7 +8,11 @@ import { fetchProductsCategories } from 'api/products/productsApi';
 import { IProductCategory } from 'types/products';
 import notification from 'utils/notification';
 
-const ProductsCategories = (): JSX.Element => {
+interface IProductsCategoriesProps {
+  setCategoryId: (categoryId: string) => void;
+}
+
+const ProductsCategories: FC<IProductsCategoriesProps> = ({ setCategoryId }): JSX.Element => {
   const [categories, setCategories] = useState<IProductCategory[]>([]);
   const [activeCategoryBtn, setActiveCategoryBtn] = useState<HTMLButtonElement | null>(null);
 
@@ -21,6 +25,12 @@ const ProductsCategories = (): JSX.Element => {
   useLayoutEffect((): void => {
     getCategories().catch((e: Error) => notification('error', e.message));
   }, []);
+
+  const selectCategory = (e: React.MouseEvent): void => {
+    const targetElem = e.target;
+
+    if (targetElem instanceof HTMLButtonElement) setCategoryId(targetElem.id);
+  };
 
   const removeActiveCategory = (): void => {
     setActiveCategoryBtn(null);
@@ -45,7 +55,7 @@ const ProductsCategories = (): JSX.Element => {
   });
 
   return (
-    <Box onMouseLeave={removeActiveCategory}>
+    <Box onMouseLeave={removeActiveCategory} onClick={selectCategory}>
       <Box>{categoriesElems}</Box>
       <ProductsSubcategories
         anchorEl={activeCategoryBtn}

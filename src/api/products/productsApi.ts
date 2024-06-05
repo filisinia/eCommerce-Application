@@ -18,7 +18,7 @@ export const fetchProducts = async (category: string, limit: number = defaultLim
   try {
     await setApiToken(); //* Need to fix
     const { data }: IFetchProductSuccess = await axios(
-      `${baseUrl}/product-projections/search?filter=categories.id%3A%22e4cacec0-aa5f-4c3f-993a-9165dbeeded1%22&limit=${limit}`,
+      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${category}%22&limit=${limit}`,
     );
 
     return data;

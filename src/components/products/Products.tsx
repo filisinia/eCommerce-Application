@@ -10,7 +10,7 @@ import notification from 'utils/notification';
 
 const Products = (): JSX.Element => {
   const newArrivalsId = 'e4cacec0-aa5f-4c3f-993a-9165dbeeded1';
-  const [category, setCategory] = useState<string>(newArrivalsId);
+  const [categoryId, setCategoryId] = useState<string>(newArrivalsId);
   const [products, setProducts] = useState<null | IProduct[]>(null);
 
   const sortProducts = (type: string, direction: string): void => {
@@ -24,7 +24,7 @@ const Products = (): JSX.Element => {
   };
 
   const getProducts = async (limit: number): Promise<void> => {
-    const data = await fetchProducts(category, limit);
+    const data = await fetchProducts(categoryId, limit);
 
     typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
   };
@@ -33,13 +33,13 @@ const Products = (): JSX.Element => {
     const limit = 12;
 
     getProducts(limit).catch((e: Error) => notification('error', e.message));
-  }, []);
+  }, [categoryId]);
 
   return !products ? (
     <Loader />
   ) : (
     <main>
-      <ProductsCategories />
+      <ProductsCategories setCategoryId={setCategoryId} />
       <ProductsSortSelector sortProducts={sortProducts} />
       <section className='section'>
         <ProductsList products={products} />
