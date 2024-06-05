@@ -76,6 +76,7 @@ const EditProfileAddress = ({ address, onClose, type }: IEditProfileAddress): JS
         .then((data) => {
           if (typeof data !== 'string' && defaultShippingAddress && defaultBillingAddress) {
             setDefaultAndBillingAddresses(data);
+            onClose();
 
             return;
           }
