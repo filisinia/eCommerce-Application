@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo, useState } from 'react';
 
 import { Button, Fade, Paper, Popper } from '@mui/material';
 
@@ -15,23 +15,44 @@ const ProductsSubcategories: FC<IProductsSubcategoriesProps> = ({
   ancestorId,
   categories,
 }): JSX.Element | null => {
-  const subcategoriesElems = categories.map((category) => {
-    if (category?.parent?.id && category.parent.id === ancestorId) {
-      return (
-        <Button key={category.id} id={category.id}>
-          {category.name['en-US']}
-        </Button>
-      );
-    }
+  const [activeSubcategoryBtn, setActiveSubcategoryBtn] = useState<HTMLButtonElement | null>(null);
 
-    return null;
-  });
+  const subcategoriesElems = useMemo(
+    () =>
+      categories
+        .filter((category) => category?.parent?.id && category.parent.id === ancestorId)
+        .map((category) => (
+          <Button
+            key={category.id}
+            id={category.id}
+            onMouseEnter={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              setActiveSubcategoryBtn(e.currentTarget);
+            }}
+          >
+            {category.name['en-US']}
+          </Button>
+        )),
+    [ancestorId, categories],
+  );
 
-  return anchorEl ? (
-    <Popper open anchorEl={anchorEl} transition sx={{ zIndex: '5' }}>
+  const handleClosePopper = (): void => {
+    setActiveSubcategoryBtn(null);
+  };
+
+  return anchorEl && subcategoriesElems.length > 0 ? (
+    <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} transition sx={{ zIndex: '5' }}>
       {({ TransitionProps }) => (
         <Fade {...TransitionProps} timeout={350}>
-          <Paper>{subcategoriesElems}</Paper>
+          <Paper onMouseLeave={handleClosePopper}>
+            {activeSubcategoryBtn ? (
+              <ProductsSubcategories
+                anchorEl={activeSubcategoryBtn}
+                ancestorId={activeSubcategoryBtn?.id || ''}
+                categories={categories}
+              />
+            ) : null}
+            {subcategoriesElems}
+          </Paper>
         </Fade>
       )}
     </Popper>

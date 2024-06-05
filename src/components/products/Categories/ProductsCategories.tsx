@@ -12,19 +12,19 @@ const ProductsCategories = (): JSX.Element => {
   const [categories, setCategories] = useState<IProductCategory[]>([]);
   const [activeCategoryBtn, setActiveCategoryBtn] = useState<HTMLButtonElement | null>(null);
 
-  const resetActiveCategory = (): void => {
-    setActiveCategoryBtn(null);
-  };
-
   const getCategories = async (): Promise<void> => {
     const data = await fetchProductsCategories();
 
     typeof data !== 'string' ? setCategories(data.results) : notification('error', data);
   };
 
-  useLayoutEffect(() => {
+  useLayoutEffect((): void => {
     getCategories().catch((e: Error) => notification('error', e.message));
   }, []);
+
+  const removeActiveCategory = (): void => {
+    setActiveCategoryBtn(null);
+  };
 
   const categoriesElems = categories.map((category) => {
     if (category.ancestors && category.ancestors.length === 0) {
@@ -35,7 +35,6 @@ const ProductsCategories = (): JSX.Element => {
           onMouseEnter={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             if (e.currentTarget instanceof HTMLButtonElement) setActiveCategoryBtn(e.currentTarget);
           }}
-          onMouseLeave={resetActiveCategory}
         >
           {category.name['en-US']}
         </Button>
@@ -46,14 +45,14 @@ const ProductsCategories = (): JSX.Element => {
   });
 
   return (
-    <>
+    <Box onMouseLeave={removeActiveCategory}>
       <Box>{categoriesElems}</Box>
       <ProductsSubcategories
         anchorEl={activeCategoryBtn}
         ancestorId={activeCategoryBtn?.id || ''}
         categories={categories}
       />
-    </>
+    </Box>
   );
 };
 
