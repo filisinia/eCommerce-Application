@@ -9,6 +9,8 @@ import { IProduct, IProducts } from 'types/products';
 import notification from 'utils/notification';
 
 const Products = (): JSX.Element => {
+  const newArrivalsId = 'e4cacec0-aa5f-4c3f-993a-9165dbeeded1';
+  const [category, setCategory] = useState<string>(newArrivalsId);
   const [products, setProducts] = useState<null | IProduct[]>(null);
 
   const sortProducts = (type: string, direction: string): void => {
@@ -22,7 +24,7 @@ const Products = (): JSX.Element => {
   };
 
   const getProducts = async (limit: number): Promise<void> => {
-    const data = await fetchProducts(limit);
+    const data = await fetchProducts(category, limit);
 
     typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
   };

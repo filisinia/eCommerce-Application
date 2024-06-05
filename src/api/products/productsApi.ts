@@ -14,10 +14,12 @@ import { catchFetchError } from 'utils/errors';
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}`;
 const defaultLimit = 24;
 
-export const fetchProducts = async (limit: number = defaultLimit, category?: string): Promise<IProducts | string> => {
+export const fetchProducts = async (category: string, limit: number = defaultLimit): Promise<IProducts | string> => {
   try {
     await setApiToken(); //* Need to fix
-    const { data }: IFetchProductSuccess = await axios(`${baseUrl}/product-projections?limit=${limit}`);
+    const { data }: IFetchProductSuccess = await axios(
+      `${baseUrl}/product-projections/search?filter=categories.id%3A%22e4cacec0-aa5f-4c3f-993a-9165dbeeded1%22&limit=${limit}`,
+    );
 
     return data;
   } catch (e) {
