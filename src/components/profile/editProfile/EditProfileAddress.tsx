@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, Grid, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField } from '@mui/material';
 import { postcodeValidatorExistsForCountry } from 'postcode-validator';
 
 import styles from 'components/customer/CustomerStyle';
@@ -9,9 +9,10 @@ import { postCodeValidate, textAndNumberValidate, textValidate } from 'utils/val
 
 interface IEditProfileAddress {
   address: ICustomerAddress;
+  onClose: () => void;
 }
 
-const EditProfileAddress = ({ address }: IEditProfileAddress): JSX.Element => {
+const EditProfileAddress = ({ address, onClose }: IEditProfileAddress): JSX.Element => {
   const [newAddress, setNewAddress] = useState<ICustomerAddress>(address);
   const { streetName, city, country, postalCode } = newAddress;
 
@@ -94,6 +95,18 @@ const EditProfileAddress = ({ address }: IEditProfileAddress): JSX.Element => {
               'Must follow the format for the country (e.g."US" or "UK" )'
             }
           />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Button type='submit' variant='contained' sx={{ width: '100%' }}>
+            Edit
+          </Button>
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <Button type='submit' variant='contained' onClick={onClose} sx={{ width: '100%' }}>
+            Close
+          </Button>
         </Grid>
       </Grid>
     </Box>

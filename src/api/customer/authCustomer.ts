@@ -9,7 +9,7 @@ const authCustomer = async (customer: ICustomer): Promise<ICustomerRes | string>
   try {
     const { data }: IAuthCustomerSuccess = await axios.post(baseUrl, JSON.stringify(customer));
 
-    return data;
+    return data.customer;
   } catch (e) {
     return catchFetchError(e);
   }

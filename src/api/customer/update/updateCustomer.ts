@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { IAuthCustomerSuccess, ICustomerPasswordToken, ICustomerPasswordTokenRes, ICustomerRes } from 'types/customer';
+import { ICustomerSuccess, ICustomerPasswordToken, ICustomerPasswordTokenRes, ICustomerRes } from 'types/customer';
 import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}`;
@@ -27,10 +27,7 @@ export const updateCustomerInfo = async (customer: IUpdateCustomerInfo): Promise
       ],
     };
 
-    const { data }: IAuthCustomerSuccess = await axios.post(
-      `${baseUrl}/customers/${id}`,
-      JSON.stringify(updatedCustomer),
-    );
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(updatedCustomer));
 
     return data;
   } catch (e) {
@@ -56,7 +53,7 @@ export const updateCustomerPassword = async (
   newPassword: string,
 ): Promise<ICustomerRes | string> => {
   try {
-    const { data }: IAuthCustomerSuccess = await axios.post(
+    const { data }: ICustomerSuccess = await axios.post(
       `${baseUrl}/customers/password/reset`,
       JSON.stringify({ tokenValue, newPassword }),
     );

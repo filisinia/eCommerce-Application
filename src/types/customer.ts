@@ -32,8 +32,12 @@ export interface ICustomerRes extends ICustomer {
   defaultBillingAddressId: string;
 }
 
-export interface IAuthCustomerSuccess {
+export interface ICustomerSuccess {
   data: ICustomerRes;
+}
+
+export interface IAuthCustomerSuccess {
+  data: { customer: ICustomerRes };
 }
 
 export interface IAuthCustomerError {
