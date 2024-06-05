@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-import { ICustomerSuccess, ICustomerPasswordToken, ICustomerPasswordTokenRes, ICustomerRes } from 'types/customer';
+import {
+  ICustomerSuccess,
+  ICustomerPasswordToken,
+  ICustomerPasswordTokenRes,
+  ICustomerRes,
+  ICustomerAddress,
+} from 'types/customer';
 import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}`;
@@ -77,6 +83,20 @@ export const removeCustomerAddress = async (
     const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
 
     return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const addAddress = async (version: number, address: ICustomerAddress, id: string): Promise<string> => {
+  try {
+    const req = { version, actions: [{ action: 'addAddress', address }] };
+
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    const addressID = data.addresses.pop();
+
+    return addressID?.id ? addressID?.id : '';
   } catch (e) {
     return catchFetchError(e);
   }

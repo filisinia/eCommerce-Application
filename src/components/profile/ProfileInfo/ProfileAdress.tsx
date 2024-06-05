@@ -72,7 +72,7 @@ const ProfileAdress = ({ address, title, version, customerID }: IProfileAddress)
         key={id}
         style={{
           marginBottom: '2rem',
-          width: '30rem',
+          maxWidth: '40rem',
           border: '.1rem solid rgba(43, 40, 40, 0.62)',
           borderRadius: '1rem',
         }}

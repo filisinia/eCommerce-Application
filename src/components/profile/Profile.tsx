@@ -1,3 +1,4 @@
+import { Box, Button } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
 import ProfileAdress from './ProfileInfo/ProfileAdress';
@@ -58,6 +59,13 @@ const Profile = (): JSX.Element => {
             customerID={customer.id}
           />
         )}
+
+        <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: '40rem', flexDirection: 'column' }}>
+          <Button variant='contained' sx={{ mb: '1rem' }}>
+            Add Billing Address
+          </Button>
+          <Button variant='contained'>Add Shipping Address</Button>
+        </Box>
       </article>
     </section>
   );
