@@ -1,13 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import Carousel from 'components/productInfo/productImages/Carousel';
 import CarouselModal from 'components/productInfo/productImages/CarouselModal';
+import productInfoStore from 'store/slices/productInfo/productInfoSlice';
 
 const ProductImages = (): JSX.Element => {
-  const [mainImageIndex, setMainImageIndex] = useState<number>(0);
-  const [modalImageIndex, setModalImageIndex] = useState<number>(0);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+  const { setIsModalOpen, mainImageIndex, setModalImageIndex } = productInfoStore((state) => state);
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const showModal = (): void => {
@@ -25,13 +23,8 @@ const ProductImages = (): JSX.Element => {
 
   return (
     <>
-      <Carousel
-        type='carousel'
-        {...{ mainImageIndex, modalImageIndex, setMainImageIndex, setModalImageIndex, ref: sliderRef }}
-      />
-      <CarouselModal
-        {...{ isModalOpen, mainImageIndex, modalImageIndex, setIsModalOpen, setMainImageIndex, setModalImageIndex }}
-      />
+      <Carousel type='carousel' ref={sliderRef} />
+      <CarouselModal />
     </>
   );
 };

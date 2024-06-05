@@ -63,3 +63,21 @@ export const updateCustomerPassword = async (
     return catchFetchError(e);
   }
 };
+
+export const removeCustomerAddress = async (
+  version: number,
+  addressId: string,
+  id: string,
+): Promise<ICustomerRes | string> => {
+  try {
+    const req = {
+      version,
+      actions: [{ action: 'removeAddress', addressId }],
+    };
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};

@@ -2,12 +2,16 @@ import { useState } from 'react';
 
 import styled from '@emotion/styled';
 import EditIcon from '@mui/icons-material/Edit';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { CardContent, CardHeader, Grid, IconButton } from '@mui/material';
 
 import EditModal from '../editProfile/EditModal';
 import EditProfileAddress from '../editProfile/EditProfileAddress';
 
+import { removeCustomerAddress } from 'api/customer/update/updateCustomer';
+import customerStore from 'store/slices/customer/customerSlice';
 import { ICustomerAddress } from 'types/customer';
+import notification from 'utils/notification';
 
 const Card = styled.div`
   height: 100%;
@@ -37,11 +41,25 @@ const Card = styled.div`
   }
 `;
 
-const ProfileAdress = ({ address, title }: { address: ICustomerAddress; title: string }): JSX.Element => {
+interface IProfileAddress {
+  address: ICustomerAddress;
+  title: string;
+  customerID: string;
+  version: number;
+}
+
+const ProfileAdress = ({ address, title, version, customerID }: IProfileAddress): JSX.Element => {
   const { id, streetName, city, postalCode, country } = address;
+  const { setCustomer } = customerStore((state) => state);
 
   const [isOpenEditAddress, setOpenEditAddress] = useState<boolean>(false);
   const onEditAddress = (): void => setOpenEditAddress(!isOpenEditAddress);
+
+  const removeAddress = (): void => {
+    removeCustomerAddress(version, id, customerID)
+      .then((data) => (typeof data !== 'string' ? setCustomer(data) : notification('error', data)))
+      .catch((err: Error) => notification('error', err.message));
+  };
 
   return (
     <>
@@ -64,9 +82,14 @@ const ProfileAdress = ({ address, title }: { address: ICustomerAddress; title: s
             title={title}
             subheader={`Place: ${country} ${city}`}
             action={
-              <IconButton type='button' onClick={onEditAddress}>
-                <EditIcon />
-              </IconButton>
+              <>
+                <IconButton type='button' onClick={onEditAddress}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton type='button' onClick={removeAddress}>
+                  <HighlightOffIcon />
+                </IconButton>
+              </>
             }
           />
 

@@ -31,12 +31,32 @@ const Profile = (): JSX.Element => {
 
       <article style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
         <h4 style={{ marginBottom: '1rem' }}>Addresses :</h4>
-        {customer?.addresses.map((address) => <ProfileAdress key={address.id} address={address} title='Address' />)}
+        {customer?.addresses.map((address) => (
+          <ProfileAdress
+            key={address.id}
+            address={address}
+            title='Address'
+            version={customer.version}
+            customerID={customer.id}
+          />
+        ))}
 
-        {defaultBillingAddress && <ProfileAdress address={defaultBillingAddress} title='Default Billing Address:' />}
+        {defaultBillingAddress && (
+          <ProfileAdress
+            address={defaultBillingAddress}
+            title='Default Billing Address:'
+            version={customer.version}
+            customerID={customer.id}
+          />
+        )}
 
         {defaultShippinggAddress && (
-          <ProfileAdress address={defaultShippinggAddress} title='Default Shipping Address:' />
+          <ProfileAdress
+            address={defaultShippinggAddress}
+            title='Default Shipping Address:'
+            version={customer.version}
+            customerID={customer.id}
+          />
         )}
       </article>
     </section>
