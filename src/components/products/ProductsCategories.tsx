@@ -12,6 +12,8 @@ const ProductsCategories = (): JSX.Element => {
   const getCategories = async (): Promise<void> => {
     const data = await fetchProductsCategories();
 
+    console.log(data);
+
     typeof data !== 'string' ? setCategories(data.results) : notification('error', data);
   };
 
