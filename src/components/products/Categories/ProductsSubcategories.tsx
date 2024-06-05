@@ -16,7 +16,7 @@ const ProductsSubcategories: FC<IProductsSubcategoriesProps> = ({
   categories,
 }): JSX.Element | null => {
   const subcategoriesElems = categories.map((category) => {
-    if (category.parent.id === ancestorId) {
+    if (category?.parent?.id && category.parent.id === ancestorId) {
       return (
         <Button key={category.id} id={category.id}>
           {category.name['en-US']}
