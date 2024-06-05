@@ -24,6 +24,7 @@ export interface ICustomer extends ICustomerInfo {
 
 export interface ICustomerRes extends ICustomer {
   id: string;
+  version: number;
   isEmailVerified: boolean;
   shippingAddressIds: string[];
   billingAddressIds: string[];

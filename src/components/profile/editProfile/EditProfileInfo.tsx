@@ -3,12 +3,16 @@ import { useState } from 'react';
 import { Box, Button, Grid, TextField } from '@mui/material';
 
 import styles from 'components/customer/CustomerStyle';
+import { validateEmail } from 'components/customer/login/LoginValidation';
+import { updateCustomerInfo } from 'components/customer/update/updateCustomer';
 import { ICustomerRes } from 'types/customer';
 import { getLimitDate } from 'utils/getLimitDate';
+import notification from 'utils/notification';
 import { emailValidate, textValidate } from 'utils/validate';
 
 interface IEditProfileInfo {
   customer: ICustomerRes;
+  onClose: () => void;
 }
 
 interface IEditState {
@@ -18,9 +22,10 @@ interface IEditState {
   dateOfBirth: string;
 }
 
-const EditProfileInfo = ({ customer }: IEditProfileInfo): JSX.Element => {
+const EditProfileInfo = ({ customer, onClose }: IEditProfileInfo): JSX.Element => {
   const [info, setInfo] = useState<IEditState>({ ...customer });
   const { email, firstName, lastName, dateOfBirth } = info;
+  const { id, version } = customer;
 
   const onChange = (e: React.FormEvent<HTMLFormElement>): void => {
     const { name, value } = e.target as HTMLInputElement;
@@ -30,6 +35,17 @@ const EditProfileInfo = ({ customer }: IEditProfileInfo): JSX.Element => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+
+    if (!validateEmail(email) && !textValidate(firstName) && !textValidate(lastName)) {
+      notification('error', 'Bad Validation');
+
+      return;
+    }
+    const updatedCustomer = { ...info, id, version };
+
+    updateCustomerInfo(updatedCustomer)
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
   };
   const dateLimit = 13;
   const dateInputMaxDate = getLimitDate(dateLimit);
@@ -100,9 +116,14 @@ const EditProfileInfo = ({ customer }: IEditProfileInfo): JSX.Element => {
         </Grid>
       </Grid>
 
-      <Button type='submit' variant='contained' sx={{ display: 'flex', m: '1rem auto', p: '.3rem 2rem' }}>
-        Edit
-      </Button>
+      <Box sx={{ width: '100%' }}>
+        <Button type='submit' variant='contained' sx={{ width: '100%', mb: '1rem' }}>
+          Edit
+        </Button>
+        <Button type='submit' variant='contained' sx={{ width: '100%' }} onClick={onClose}>
+          Close
+        </Button>
+      </Box>
     </Box>
   );
 };
