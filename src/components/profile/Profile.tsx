@@ -28,6 +28,7 @@ const Profile = (): JSX.Element => {
     <section
       style={{
         maxWidth: '40rem',
+        height: '100%',
         margin: '2rem auto',
         display: 'flex',
         flexDirection: 'column',
@@ -44,7 +45,7 @@ const Profile = (): JSX.Element => {
       </Button>
 
       <EditModal isOpen={isOpenEditPassword} onClose={onEditPassword}>
-        <EditProfilePassword password={customer.password} onClose={onEditPassword} />
+        <EditProfilePassword email={customer.email} onClose={onEditPassword} />
       </EditModal>
 
       <article style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>

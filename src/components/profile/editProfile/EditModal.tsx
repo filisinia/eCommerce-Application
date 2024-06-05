@@ -20,7 +20,7 @@ const EditModal = ({ children, isOpen, onClose }: IEditModal): JSX.Element => (
       zIndex: '999',
     }}
   >
-    {children}
+    <div>{children}</div>
   </Modal>
 );
 

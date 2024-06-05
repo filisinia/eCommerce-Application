@@ -59,3 +59,14 @@ export interface ICustomerLoginSuccessData {
   access_token: string;
   refresh_token: string;
 }
+
+export interface ICustomerPasswordToken {
+  value: string;
+  id: string;
+}
+export interface ICustomerPasswordTokenRes {
+  data: {
+    value: string;
+    id: string;
+  };
+}

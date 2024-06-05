@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { Box, Button, Grid, TextField } from '@mui/material';
 
+import { updateCustomerInfo } from 'api/customer/update/updateCustomer';
 import styles from 'components/customer/CustomerStyle';
 import { validateEmail } from 'components/customer/login/LoginValidation';
-import { updateCustomerInfo } from 'components/customer/update/updateCustomer';
 import customerSlice from 'store/slices/customer/customerSlice';
 import { ICustomerRes } from 'types/customer';
 import { getLimitDate } from 'utils/getLimitDate';
@@ -49,12 +49,19 @@ const EditProfileInfo = ({ customer, onClose }: IEditProfileInfo): JSX.Element =
     updateCustomerInfo(updatedCustomer)
       .then((res) => (typeof res !== 'string' ? setCustomer(res) : notification('error', res)))
       .catch((err: Error) => notification('error', err.message));
+
+    onClose();
   };
   const dateLimit = 13;
   const dateInputMaxDate = getLimitDate(dateLimit);
 
   return (
-    <Box component='form' onSubmit={onSubmit} onChange={onChange} sx={{ ...styles.formStyle, padding: '0 1rem' }}>
+    <Box
+      component='form'
+      onSubmit={onSubmit}
+      onChange={onChange}
+      sx={{ ...styles.formStyle, padding: '2rem', border: '.1rem solid black', borderRadius: '2rem' }}
+    >
       <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }} direction='column' justifyContent='center'>
         <Grid item xs={12} sm={6}>
           <TextField
