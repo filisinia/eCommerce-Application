@@ -52,36 +52,36 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
 
   return (
     <Grid component='li' item key={id} lg={3} md={4} sm={6} xs={12} className='product' sx={{ gridAutoColumns: '1fr' }}>
-      <Card className='product__container'>
-        <CardHeader
-          title={name['en-US']}
-          action={
-            <Link to={`/products/${product.key}`}>
+      <Link to={`/products/${product.key}`}>
+        <Card className='product__container'>
+          <CardHeader
+            title={name['en-US']}
+            action={
               <IconButton>
                 <InfoOutlined />
               </IconButton>
-            </Link>
-          }
-        />
-        <CardMedia
-          component='img'
-          height='250'
-          image={masterVariant?.images[0]?.url}
-          alt={name['en-US']}
-          sx={{ height: 'auto' }}
-        />
+            }
+          />
+          <CardMedia
+            component='img'
+            height='250'
+            image={masterVariant?.images[0]?.url}
+            alt={name['en-US']}
+            sx={{ height: 'auto' }}
+          />
 
-        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', rowGap: '0.2rem' }}>
-          {discounted && <span className='product__price'> {discounted.value.centAmount.toLocaleString()} USD</span>}
-          <span className={discounted ? 'product__price product__discount' : 'product__price'}>
-            {value.centAmount.toLocaleString()} USD
-          </span>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', rowGap: '0.2rem' }}>
+            {discounted && <span className='product__price'> {discounted.value.centAmount.toLocaleString()} USD</span>}
+            <span className={discounted ? 'product__price product__discount' : 'product__price'}>
+              {value.centAmount.toLocaleString()} USD
+            </span>
 
-          <Typography>
-            {shortDescription} <b>...</b>
-          </Typography>
-        </CardContent>
-      </Card>
+            <Typography>
+              {shortDescription} <b>...</b>
+            </Typography>
+          </CardContent>
+        </Card>
+      </Link>
     </Grid>
   );
 };
