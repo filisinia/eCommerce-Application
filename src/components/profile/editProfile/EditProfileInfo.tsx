@@ -5,6 +5,7 @@ import { Box, Button, Grid, TextField } from '@mui/material';
 import styles from 'components/customer/CustomerStyle';
 import { validateEmail } from 'components/customer/login/LoginValidation';
 import { updateCustomerInfo } from 'components/customer/update/updateCustomer';
+import customerSlice from 'store/slices/customer/customerSlice';
 import { ICustomerRes } from 'types/customer';
 import { getLimitDate } from 'utils/getLimitDate';
 import notification from 'utils/notification';
@@ -23,6 +24,8 @@ interface IEditState {
 }
 
 const EditProfileInfo = ({ customer, onClose }: IEditProfileInfo): JSX.Element => {
+  const { setCustomer } = customerSlice((state) => state);
+
   const [info, setInfo] = useState<IEditState>({ ...customer });
   const { email, firstName, lastName, dateOfBirth } = info;
   const { id, version } = customer;
@@ -44,8 +47,8 @@ const EditProfileInfo = ({ customer, onClose }: IEditProfileInfo): JSX.Element =
     const updatedCustomer = { ...info, id, version };
 
     updateCustomerInfo(updatedCustomer)
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e));
+      .then((res) => (typeof res !== 'string' ? setCustomer(res) : notification('error', res)))
+      .catch((err: Error) => notification('error', err.message));
   };
   const dateLimit = 13;
   const dateInputMaxDate = getLimitDate(dateLimit);

@@ -11,10 +11,11 @@ interface IUpdateCustomerInfo {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
+  email: string;
 }
 export const updateCustomerInfo = async (customer: IUpdateCustomerInfo): Promise<ICustomerRes | string> => {
   try {
-    const { id, version, firstName, lastName, dateOfBirth } = customer;
+    const { id, version, firstName, lastName, dateOfBirth, email } = customer;
 
     const updatedCustomer = {
       version,
@@ -22,6 +23,7 @@ export const updateCustomerInfo = async (customer: IUpdateCustomerInfo): Promise
         { action: 'setFirstName', firstName },
         { action: 'setLastName', lastName },
         { action: 'setDateOfBirth', dateOfBirth },
+        { action: 'changeEmail', email },
       ],
     };
 
