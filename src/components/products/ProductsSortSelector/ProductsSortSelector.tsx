@@ -5,9 +5,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const sortOptions: { value: string; name: string }[] = [
   { value: 'price asc', name: 'Sort by price increase' },
-  { value: 'price desc', name: 'Sort by price decrese' },
+  { value: 'price desc', name: 'Sort by price decrease' },
   { value: 'name.en-US asc', name: 'Sort by name increase' },
-  { value: 'name.en-US desc', name: 'Sort by name decrese' },
+  { value: 'name.en-US desc', name: 'Sort by name decrease' },
 ];
 
 interface IProductsSortSelector {
@@ -35,7 +35,7 @@ const ProductsSortSelector = ({ sortProducts }: IProductsSortSelector): JSX.Elem
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl size='small' sx={{ m: 1, width: 300 }}>
         <InputLabel id='sort__selector'>Sort by</InputLabel>
         <Select
           labelId='sort__selector'
