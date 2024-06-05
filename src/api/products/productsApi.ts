@@ -14,11 +14,11 @@ import { catchFetchError } from 'utils/errors';
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}`;
 const defaultLimit = 24;
 
-export const fetchProducts = async (category: string, limit: number = defaultLimit): Promise<IProducts | string> => {
+export const fetchProducts = async (categoryId: string, limit: number = defaultLimit): Promise<IProducts | string> => {
   try {
     await setApiToken(); //* Need to fix
     const { data }: IFetchProductSuccess = await axios(
-      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${category}%22&limit=${limit}`,
+      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&limit=${limit}`,
     );
 
     return data;
@@ -38,6 +38,7 @@ export const fetchProductsCategories = async (): Promise<string | IProductCatego
 };
 
 export const sortProductsByType = async (
+  categoryId: string,
   type: string,
   direction: string,
   limit: number = defaultLimit,
@@ -46,7 +47,7 @@ export const sortProductsByType = async (
     await setApiToken(); //* Need to fix
 
     const { data }: IFetchProductSuccess = await axios(
-      `${baseUrl}/product-projections/search?sort=${type} ${direction}&limit=${limit}`,
+      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&sort=${type} ${direction}&limit=${limit}`,
     );
 
     return data;

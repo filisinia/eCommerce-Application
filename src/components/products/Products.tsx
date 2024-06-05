@@ -10,11 +10,12 @@ import notification from 'utils/notification';
 
 const Products = (): JSX.Element => {
   const newArrivalsId = 'e4cacec0-aa5f-4c3f-993a-9165dbeeded1';
+  const [defaultLimit, setDefaultLimit] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<string>(newArrivalsId);
   const [products, setProducts] = useState<null | IProduct[]>(null);
 
   const sortProducts = (type: string, direction: string): void => {
-    sortProductsByType(type, direction)
+    sortProductsByType(categoryId, type, direction, defaultLimit)
       .then((data: IProducts | string) => {
         typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
       })
@@ -26,7 +27,12 @@ const Products = (): JSX.Element => {
   const getProducts = async (limit: number): Promise<void> => {
     const data = await fetchProducts(categoryId, limit);
 
-    typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
+    if (typeof data !== 'string') {
+      setProducts(data.results);
+      setDefaultLimit(data.limit);
+    } else {
+      notification('error', data);
+    }
   };
 
   useLayoutEffect(() => {
@@ -40,7 +46,7 @@ const Products = (): JSX.Element => {
   ) : (
     <main>
       <ProductsCategories setCategoryId={setCategoryId} />
-      <ProductsSortSelector sortProducts={sortProducts} />
+      <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
       <section className='section'>
         <ProductsList products={products} />
       </section>
