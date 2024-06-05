@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-import { ICustomerSuccess, ICustomerPasswordToken, ICustomerPasswordTokenRes, ICustomerRes } from 'types/customer';
+import {
+  ICustomerSuccess,
+  ICustomerPasswordToken,
+  ICustomerPasswordTokenRes,
+  ICustomerRes,
+  ICustomerAddress,
+} from 'types/customer';
 import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}`;
@@ -57,6 +63,72 @@ export const updateCustomerPassword = async (
       `${baseUrl}/customers/password/reset`,
       JSON.stringify({ tokenValue, newPassword }),
     );
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const removeCustomerAddress = async (
+  version: number,
+  addressId: string,
+  id: string,
+): Promise<ICustomerRes | string> => {
+  try {
+    const req = {
+      version,
+      actions: [{ action: 'removeAddress', addressId }],
+    };
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const addCustomerAddress = async (
+  version: number,
+  address: ICustomerAddress,
+  id: string,
+): Promise<ICustomerRes | string> => {
+  try {
+    const req = { version, actions: [{ action: 'addAddress', address }] };
+
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const postDefaultBillingAddress = async (
+  version: number,
+  addressId: string,
+  id: string,
+): Promise<ICustomerRes | string> => {
+  try {
+    const req = { version, actions: [{ action: 'setDefaultBillingAddress', addressId }] };
+
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const postDefaultShippinggAddress = async (
+  version: number,
+  addressId: string,
+  id: string,
+): Promise<ICustomerRes | string> => {
+  try {
+    const req = { version, actions: [{ action: 'setDefaultShippingAddress', addressId }] };
+
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
 
     return data;
   } catch (e) {
