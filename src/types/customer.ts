@@ -1,4 +1,5 @@
 export interface ICustomerAddress {
+  id: string;
   streetName: string;
   city: string;
   postalCode: string;
@@ -10,7 +11,7 @@ export interface ICustomerInfo {
   password: string;
   firstName: string;
   lastName: string;
-  dayOfBirth: string;
+  dateOfBirth: string;
 }
 
 export interface ICustomer extends ICustomerInfo {
@@ -23,15 +24,20 @@ export interface ICustomer extends ICustomerInfo {
 
 export interface ICustomerRes extends ICustomer {
   id: string;
+  version: number;
   isEmailVerified: boolean;
   shippingAddressIds: string[];
   billingAddressIds: string[];
+  defaultShippingAddressId: string;
+  defaultBillingAddressId: string;
+}
+
+export interface ICustomerSuccess {
+  data: ICustomerRes;
 }
 
 export interface IAuthCustomerSuccess {
-  data: {
-    customer: ICustomerRes;
-  };
+  data: { customer: ICustomerRes };
 }
 
 export interface IAuthCustomerError {
@@ -56,4 +62,15 @@ export interface ICustomerLoginSuccess {
 export interface ICustomerLoginSuccessData {
   access_token: string;
   refresh_token: string;
+}
+
+export interface ICustomerPasswordToken {
+  value: string;
+  id: string;
+}
+export interface ICustomerPasswordTokenRes {
+  data: {
+    value: string;
+    id: string;
+  };
 }

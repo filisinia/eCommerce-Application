@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { InfoOutlined } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
 import { Grid, CardHeader, CardMedia, CardContent, IconButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -58,7 +58,7 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
           action={
             <Link to={`/products/${product.key}`}>
               <IconButton>
-                <InfoOutlined />
+                <EditIcon />
               </IconButton>
             </Link>
           }
