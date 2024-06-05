@@ -88,15 +88,17 @@ export const removeCustomerAddress = async (
   }
 };
 
-export const addAddress = async (version: number, address: ICustomerAddress, id: string): Promise<string> => {
+export const addCustomerAddress = async (
+  version: number,
+  address: ICustomerAddress,
+  id: string,
+): Promise<ICustomerRes | string> => {
   try {
     const req = { version, actions: [{ action: 'addAddress', address }] };
 
     const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
 
-    const addressID = data.addresses.pop();
-
-    return addressID?.id ? addressID?.id : '';
+    return data;
   } catch (e) {
     return catchFetchError(e);
   }

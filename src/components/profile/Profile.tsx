@@ -1,14 +1,23 @@
-import { Box, Button } from '@mui/material';
+import { useState } from 'react';
+
+import { Button } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 
+import EditModal from './editProfile/EditModal';
+import EditProfileAddress from './editProfile/EditProfileAddress';
 import ProfileAdress from './ProfileInfo/ProfileAdress';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import ProfilePassword from './ProfileInfo/ProfilePassword';
 
+import { customerAddressState } from 'components/customer/auth/AuthCustomerState';
 import customerStore from 'store/slices/customer/customerSlice';
 
 const Profile = (): JSX.Element => {
   const { customer } = customerStore((state) => state);
+
+  const [isAddressModalOpen, setAddressModalOpen] = useState<boolean>(false);
+
+  const openAddressModal = (): void => setAddressModalOpen(!isAddressModalOpen);
 
   const defaultBillingAddress = customer?.addresses.find(({ id }) => id === customer.defaultBillingAddressId);
   const defaultShippinggAddress = customer?.addresses.find(({ id }) => id === customer.defaultShippingAddressId);
@@ -60,12 +69,17 @@ const Profile = (): JSX.Element => {
           />
         )}
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: '40rem', flexDirection: 'column' }}>
-          <Button variant='contained' sx={{ mb: '1rem' }}>
-            Add Billing Address
-          </Button>
-          <Button variant='contained'>Add Shipping Address</Button>
-        </Box>
+        <EditModal isOpen={isAddressModalOpen} onClose={openAddressModal}>
+          <EditProfileAddress address={customerAddressState} onClose={openAddressModal} type='add' />
+        </EditModal>
+
+        <Button
+          onClick={openAddressModal}
+          variant='contained'
+          sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: '40rem', flexDirection: 'column' }}
+        >
+          Add Address
+        </Button>
       </article>
     </section>
   );

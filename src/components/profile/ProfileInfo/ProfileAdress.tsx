@@ -64,7 +64,7 @@ const ProfileAdress = ({ address, title, version, customerID }: IProfileAddress)
   return (
     <>
       <EditModal isOpen={isOpenEditAddress} onClose={onEditAddress}>
-        <EditProfileAddress address={address} onClose={onEditAddress} />
+        <EditProfileAddress address={address} onClose={onEditAddress} type='edit' />
       </EditModal>
 
       <Grid

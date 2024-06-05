@@ -1,20 +1,30 @@
 import { useState } from 'react';
 
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, Grid, TextField } from '@mui/material';
 import { postcodeValidatorExistsForCountry } from 'postcode-validator';
 
+import { addCustomerAddress } from 'api/customer/update/updateCustomer';
 import styles from 'components/customer/CustomerStyle';
+import customerSlice from 'store/slices/customer/customerSlice';
 import { ICustomerAddress } from 'types/customer';
-import { postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
+import notification from 'utils/notification';
+import { isValidCustomerAddress, postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
 
 interface IEditProfileAddress {
   address: ICustomerAddress;
   onClose: () => void;
+  type: string;
 }
 
-const EditProfileAddress = ({ address, onClose }: IEditProfileAddress): JSX.Element => {
+const EditProfileAddress = ({ address, onClose, type }: IEditProfileAddress): JSX.Element => {
   const [newAddress, setNewAddress] = useState<ICustomerAddress>(address);
   const { streetName, city, country, postalCode } = newAddress;
+  const [defaultShippingAddress, setDefaultShippingAddress] = useState<boolean>(false);
+  const [defaultBillingAddress, setDefaultBillingAddress] = useState<boolean>(false);
+  const { setCustomer, customer } = customerSlice((state) => state);
+
+  const changeDefaultShippingAddress = (): void => setDefaultShippingAddress(!defaultShippingAddress);
+  const changeDefaultBillinggAddress = (): void => setDefaultBillingAddress(!defaultBillingAddress);
 
   const onChange = (e: React.FormEvent<HTMLFormElement>): void => {
     const { name, value } = e.target as HTMLInputElement;
@@ -24,6 +34,13 @@ const EditProfileAddress = ({ address, onClose }: IEditProfileAddress): JSX.Elem
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    if (!isValidCustomerAddress(newAddress)) {
+      notification('error', 'Bad Validation');
+    } else {
+      addCustomerAddress(customer!.version, newAddress, customer!.id)
+        .then((data) => (typeof data !== 'string' ? (setCustomer(data), onClose()) : notification('error', data)))
+        .catch((err: Error) => notification('error', err.message));
+    }
   };
 
   return (
@@ -99,14 +116,25 @@ const EditProfileAddress = ({ address, onClose }: IEditProfileAddress): JSX.Elem
 
         <Grid item xs={12} sm={6}>
           <Button type='submit' variant='contained' sx={{ width: '100%' }}>
-            Edit
+            {type === 'add' ? 'Create' : 'Edit'}
           </Button>
+
+          <FormControlLabel
+            sx={styles.textField}
+            control={<Checkbox checked={defaultBillingAddress} onChange={changeDefaultBillinggAddress} />}
+            label='Set as default billing address'
+          />
         </Grid>
 
         <Grid item xs={12} sm={6}>
           <Button type='submit' variant='contained' onClick={onClose} sx={{ width: '100%' }}>
             Close
           </Button>
+          <FormControlLabel
+            sx={styles.textField}
+            control={<Checkbox checked={defaultShippingAddress} onChange={changeDefaultShippingAddress} />}
+            label='Set as default shipping address'
+          />
         </Grid>
       </Grid>
     </Box>

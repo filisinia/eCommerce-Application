@@ -9,7 +9,7 @@ import { postCodeValidate, textAndNumberValidate, textValidate } from 'utils/val
 
 interface IAdressCustomerInputs {
   address: ICustomerAddress;
-  data: string;
+  data?: string;
   title: string;
 }
 
