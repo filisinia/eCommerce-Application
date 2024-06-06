@@ -6,7 +6,6 @@ const styles = {
     gap: '5px',
     minHeight: '400px',
     overflow: 'hidden',
-    marginBottom: '5px',
   },
 
   slideImagesWrapper: {
@@ -18,15 +17,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    maxHeight: '70vh',
     transition: 'transform 0.3s ease-in-out',
-  },
-
-  slideImageBox: {
-    flex: '0 0 100%',
-    display: 'flex',
-    justifyContent: 'center',
-    overflow: 'hidden',
   },
 
   slideImage: {

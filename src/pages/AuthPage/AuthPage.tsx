@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 
 import AuthCustomer from 'components/customer/auth/AuthCustomer';
-import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import authCustomerStore from 'store/slices/customer/customerSlice';
 
 const AuthPage = (): JSX.Element => {
   const { customer } = authCustomerStore((state) => state);

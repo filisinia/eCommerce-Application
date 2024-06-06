@@ -3,16 +3,11 @@ import { Dialog, DialogContent, IconButton } from '@mui/material';
 
 import Carousel from 'components/productInfo/productImages/Carousel';
 import styles from 'components/productInfo/productImages/CarouselStyle';
-import { ICarouselModalProps } from 'types/carousel';
+import productInfoStore from 'store/slices/productInfo/productInfoSlice';
 
-const CarouselModal = ({
-  isModalOpen,
-  mainImageIndex,
-  modalImageIndex,
-  setIsModalOpen,
-  setMainImageIndex,
-  setModalImageIndex,
-}: ICarouselModalProps): JSX.Element => {
+const CarouselModal = (): JSX.Element => {
+  const { isModalOpen, setIsModalOpen, modalImageIndex, setMainImageIndex } = productInfoStore((state) => state);
+
   const handleClose = (): void => {
     setMainImageIndex(modalImageIndex);
     setIsModalOpen(false);
@@ -24,10 +19,7 @@ const CarouselModal = ({
         <CloseIcon />
       </IconButton>
       <DialogContent>
-        <Carousel
-          type='modalCarousel'
-          {...{ mainImageIndex, modalImageIndex, setMainImageIndex, setModalImageIndex }}
-        />
+        <Carousel type='modalCarousel' />
       </DialogContent>
     </Dialog>
   );

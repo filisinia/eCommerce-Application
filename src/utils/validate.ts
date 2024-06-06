@@ -19,7 +19,7 @@ export const postCodeValidate = (postCode: string, country: string): boolean =>
 const isValidCustomer = ({ email, password, firstName, lastName }: ICustomerInfo): boolean =>
   emailValidate(email) && passwordValidate(password) && textValidate(firstName) && textValidate(lastName);
 
-const isValidCustomerAddress = ({ streetName, city, country, postalCode }: ICustomerAddress): boolean =>
+export const isValidCustomerAddress = ({ streetName, city, country, postalCode }: ICustomerAddress): boolean =>
   textAndNumberValidate(streetName) && textValidate(city) && postCodeValidate(postalCode, country);
 
 export const validateCustomerAuth = (

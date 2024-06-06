@@ -7,8 +7,8 @@ import authCustomer from 'api/customer/authCustomer';
 import { customerAddressState, customerState } from 'components/customer/auth/AuthCustomerState';
 import AdressCustomerInputs from 'components/customer/auth/inputs/AdressCustomerInputs';
 import CustomerInfoInputs from 'components/customer/auth/inputs/CustomerInfoInputs';
-import styles from 'components/customer/AuthCustomerStyle';
-import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import styles from 'components/customer/CustomerStyle';
+import customerSlice from 'store/slices/customer/customerSlice';
 import { ICustomerRes, ICustomerAddress, ICustomerInfo } from 'types/customer';
 import { getLimitDate } from 'utils/getLimitDate';
 import notification from 'utils/notification';
@@ -17,7 +17,7 @@ import { validateCustomerAuth } from 'utils/validate';
 const AuthCustomer = (): JSX.Element => {
   const [customerInfo, setCustomerState] = useState<ICustomerInfo>(customerState);
   const [address, setAddress] = useState<ICustomerAddress>(customerAddressState);
-  const { setCustomer, setError } = authCustomerStore((state) => state);
+  const { setCustomer, setError } = customerSlice((state) => state);
 
   const [billingAddress, setBillingAddress] = useState<ICustomerAddress>(customerAddressState);
   const [defaultAddress, setDefaultAddress] = useState<number | null>(null);

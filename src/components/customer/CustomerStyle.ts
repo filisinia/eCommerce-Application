@@ -15,6 +15,7 @@ const styles = {
     justifyContent: 'center',
     rowGap: '20px',
     flexGrow: 1,
+    padding: '2rem',
   },
   formContainer: {
     m: '20px',

@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
-import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import authCustomerStore from 'store/slices/customer/customerSlice';
 
 interface IProtectedRouteProps {
   children: JSX.Element;
