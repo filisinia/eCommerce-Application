@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 
 import { fetchProducts, searchProductsByInput, sortProductsByType } from 'api/products/productsApi';
 import Loader from 'components/Loader/Loader';
+import BreadcrumbsElem from 'components/products/Breadcrumbs/Breadcrumbs';
 import ProductsCategories from 'components/products/Categories/ProductsCategories';
 import ProductsList from 'components/products/ProductsList';
 import ProductsSearch from 'components/products/ProductsSearch/ProductsSearch';
@@ -16,6 +17,7 @@ const Products = (): JSX.Element => {
   const [defaultLimit, setDefaultLimit] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<string>(newArrivalsId);
   const [products, setProducts] = useState<null | IProduct[]>(null);
+  const [breadcrumbs, setBreadcrumbs] = useState<(string | null)[]>(['New-arrivals']);
 
   const sortProducts = (type: string, direction: string): void => {
     sortProductsByType(categoryId, type, direction, defaultLimit)
@@ -63,11 +65,12 @@ const Products = (): JSX.Element => {
     <Loader />
   ) : (
     <main>
-      <ProductsCategories setCategoryId={setCategoryId} />
+      <ProductsCategories setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} />
       <Box display='flex' alignItems='center'>
         <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
         <ProductsSearch searchProducts={searchProducts} />
       </Box>
+      <BreadcrumbsElem breadcrumbs={breadcrumbs} />
       <section className='section'>
         <ProductsList products={products} />
       </section>

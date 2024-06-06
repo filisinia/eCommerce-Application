@@ -10,9 +10,10 @@ import notification from 'utils/notification';
 
 interface IProductsCategoriesProps {
   setCategoryId: (categoryId: string) => void;
+  setBreadcrumbs: (breadcrumbs: string[]) => void;
 }
 
-const ProductsCategories: FC<IProductsCategoriesProps> = ({ setCategoryId }): JSX.Element => {
+const ProductsCategories: FC<IProductsCategoriesProps> = ({ setCategoryId, setBreadcrumbs }): JSX.Element => {
   const [categories, setCategories] = useState<IProductCategory[]>([]);
   const [activeCategoryBtn, setActiveCategoryBtn] = useState<HTMLButtonElement | null>(null);
 
@@ -26,10 +27,34 @@ const ProductsCategories: FC<IProductsCategoriesProps> = ({ setCategoryId }): JS
     getCategories().catch((e: Error) => notification('error', e.message));
   }, []);
 
-  const selectCategory = (e: React.MouseEvent): void => {
-    const targetElem = e.target;
+  const getCategoryNameById = (id: string): string => {
+    const category = categories.find((cat) => cat.id === id);
 
-    if (targetElem instanceof HTMLButtonElement) setCategoryId(targetElem.id);
+    return category ? category.name['en-US'] : '';
+  };
+
+  const selectCategory = (e: React.MouseEvent): void => {
+    const targetElem = e.target as HTMLButtonElement;
+
+    if (targetElem) {
+      const categoryId = targetElem.id;
+      const categoryName = targetElem.textContent || '';
+
+      setCategoryId(categoryId);
+
+      const selectedCategory = categories.find((category) => category.id === categoryId);
+
+      if (selectedCategory) {
+        const breadcrumbs = selectedCategory.ancestors
+          .map((ancestor) => getCategoryNameById(ancestor.id))
+          .filter((name) => name !== '')
+          .concat([categoryName]);
+
+        setBreadcrumbs(breadcrumbs);
+      } else {
+        setBreadcrumbs([categoryName]);
+      }
+    }
   };
 
   const removeActiveCategory = (): void => {
