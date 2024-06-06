@@ -84,7 +84,7 @@ const Carousel = forwardRef(({ type }: { type: 'carousel' | 'modalCarousel' }, r
   ));
 
   return imagesQuantity === 1 ? (
-    <Box>
+    <Box ref={ref}>
       <img src={imagesData[0].url} alt={productInfo.name['en-US']} key={imagesData[0].url} style={styles.slideImage} />
     </Box>
   ) : (
