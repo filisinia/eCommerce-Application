@@ -15,7 +15,7 @@ const PriceValueInput: FC<IPriceValueInput> = ({ label, value, onChange }): JSX.
     type='number'
     variant='outlined'
     InputLabelProps={{ shrink: true }}
-    sx={{ width: '90px' }}
+    sx={{ width: '100px' }}
     value={value}
     onChange={onChange}
   />

@@ -2,7 +2,12 @@ import { ChangeEvent, useLayoutEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
 
-import { fetchProducts, searchProductsByInput, sortProductsByType } from 'api/products/productsApi';
+import {
+  fetchMinMaxCategoryPrice,
+  fetchProducts,
+  searchProductsByInput,
+  sortProductsByType,
+} from 'api/products/productsApi';
 import Loader from 'components/Loader/Loader';
 import BreadcrumbsElem from 'components/products/Breadcrumbs/Breadcrumbs';
 import ProductsCategories from 'components/products/Categories/ProductsCategories';
@@ -16,6 +21,8 @@ import notification from 'utils/notification';
 const Products = (): JSX.Element => {
   const newArrivalsId = 'e4cacec0-aa5f-4c3f-993a-9165dbeeded1';
   const [defaultLimit, setDefaultLimit] = useState<number>(0);
+  const [minCategoryPrice, setMinCategoryPrice] = useState<number>(0);
+  const [maxCategoryPrice, setMaxCategoryPrice] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<string>(newArrivalsId);
   const [products, setProducts] = useState<null | IProduct[]>(null);
   const [breadcrumbs, setBreadcrumbs] = useState<IBreadcrumb[]>([{ id: newArrivalsId, name: 'New-arrivals' }]);
@@ -30,8 +37,21 @@ const Products = (): JSX.Element => {
       });
   };
 
+  const getMinMaxPrice = async (): Promise<void> => {
+    const facet = await fetchMinMaxCategoryPrice(categoryId);
+
+    if (typeof facet !== 'string') {
+      setMinCategoryPrice(facet.min);
+      setMaxCategoryPrice(facet.max);
+    } else {
+      notification('error', facet);
+    }
+  };
+
   const getProducts = async (limit: number): Promise<void> => {
     const data = await fetchProducts(categoryId, limit);
+
+    await getMinMaxPrice();
 
     if (typeof data !== 'string') {
       setProducts(data.results);
@@ -67,10 +87,15 @@ const Products = (): JSX.Element => {
   ) : (
     <main>
       <ProductsCategories setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} />
-      <Box display='flex' alignItems='center' sx={{ '@media (max-width: 600px)': { flexDirection: 'column' } }}>
+      <Box
+        display='flex'
+        alignItems='center'
+        flexWrap='wrap'
+        sx={{ '@media (max-width: 600px)': { flexDirection: 'column' } }}
+      >
         <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
         <ProductsSearch searchProducts={searchProducts} />
-        <ProductFilter />
+        <ProductFilter minCategoryPrice={minCategoryPrice} maxCategoryPrice={maxCategoryPrice} />
       </Box>
       <BreadcrumbsElem setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} breadcrumbs={breadcrumbs} />
       <section className='section'>

@@ -1,19 +1,23 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 
-import { Slider, Stack, Typography } from '@mui/material';
+import { Box, Slider, Stack, Typography } from '@mui/material';
 
 import PriceValueInput from 'components/products/ProductsFilter/ProductPriceInput';
 
-const ProductFilter = (): JSX.Element => {
-  const minCategoryPrice = 0;
-  const maxCategoryPrice = 1000;
+interface IProductFilter {
+  minCategoryPrice: number;
+  maxCategoryPrice: number;
+}
 
+const ProductFilter: FC<IProductFilter> = ({ minCategoryPrice, maxCategoryPrice }): JSX.Element => {
   const [minPrice, setMinPrice] = useState<number>(minCategoryPrice);
   const [maxPrice, setMaxPrice] = useState<number>(maxCategoryPrice);
   const [priceRange, setPriceRange] = useState<number[]>([minPrice, maxPrice]);
 
   const handleChange = (event: Event, newValue: number[]): void => {
     setPriceRange(newValue);
+    setMinPrice(newValue[0]);
+    setMaxPrice(newValue[1]);
   };
 
   const handleMinInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -36,17 +40,19 @@ const ProductFilter = (): JSX.Element => {
 
   return (
     <>
-      <Typography>Price:</Typography>
-      <Slider
-        getAriaLabel={() => 'Price range'}
-        value={priceRange}
-        onChange={handleChange}
-        valueLabelDisplay='auto'
-        disableSwap
-        min={minCategoryPrice}
-        max={maxCategoryPrice}
-        sx={{ maxWidth: '300px', margin: '15px' }}
-      />
+      <Box display='flex' alignItems='center'>
+        <Typography>Price:</Typography>
+        <Slider
+          getAriaLabel={() => 'Price range'}
+          value={priceRange}
+          onChange={() => handleChange}
+          valueLabelDisplay='auto'
+          disableSwap
+          min={minCategoryPrice}
+          max={maxCategoryPrice}
+          sx={{ width: '250px', margin: '15px' }}
+        />
+      </Box>
       <Stack direction='row' justifyContent='space-evenly' alignItems='center'>
         <PriceValueInput label='min' value={minPrice} onChange={handleMinInputChange} />
         <Typography>-</Typography>

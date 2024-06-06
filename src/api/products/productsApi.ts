@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import setApiToken from 'api/setApiToken';
 import {
+  IFacet,
+  IFetchMinMaxPrice,
   IFetchProductInfo,
   IFetchProductSuccess,
   IFetchProductsCategoriesSuccess,
@@ -81,6 +83,22 @@ export const fetchProductInfo = async (productKey: string): Promise<IProduct | s
     const data: IProduct = response.data.masterData.current;
 
     return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const fetchMinMaxCategoryPrice = async (categoryId: string): Promise<IFacet | string> => {
+  try {
+    await setApiToken();
+
+    const { data }: IFetchMinMaxPrice = await axios(
+      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&&facet=variants.price.centAmount%3Arange(0 to *)`,
+    );
+
+    const result: IFacet = data.facets['variants.price.centAmount'].ranges[0];
+
+    return result;
   } catch (e) {
     return catchFetchError(e);
   }

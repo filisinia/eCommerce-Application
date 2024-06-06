@@ -115,6 +115,27 @@ export interface IFetchProductInfo {
   data: IProductInfo;
 }
 
+export interface IFacet {
+  count: number;
+  from: number;
+  max: number;
+  min: number;
+  to: number;
+  total: number;
+  totalCount: number;
+}
+
+export interface IFetchMinMaxPrice {
+  data: {
+    facets: {
+      'variants.price.centAmount': {
+        dataType: string;
+        ranges: IFacet[];
+      };
+    };
+  };
+}
+
 export interface IBreadcrumb {
   id: string;
   name: string;
