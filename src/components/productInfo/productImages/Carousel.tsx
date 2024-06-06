@@ -89,7 +89,7 @@ const Carousel = forwardRef(
     ));
 
     return imagesQuantity === 1 ? (
-      <Box>
+      <Box ref={ref}>
         <img
           src={imagesData[0].url}
           alt={productInfo.name['en-US']}
