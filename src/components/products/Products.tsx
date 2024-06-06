@@ -9,7 +9,7 @@ import ProductsCategories from 'components/products/Categories/ProductsCategorie
 import ProductsList from 'components/products/ProductsList';
 import ProductsSearch from 'components/products/ProductsSearch/ProductsSearch';
 import ProductsSortSelector from 'components/products/ProductsSortSelector/ProductsSortSelector';
-import { IProduct, IProducts } from 'types/products';
+import { IBreadcrumb, IProduct, IProducts } from 'types/products';
 import notification from 'utils/notification';
 
 const Products = (): JSX.Element => {
@@ -17,7 +17,7 @@ const Products = (): JSX.Element => {
   const [defaultLimit, setDefaultLimit] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<string>(newArrivalsId);
   const [products, setProducts] = useState<null | IProduct[]>(null);
-  const [breadcrumbs, setBreadcrumbs] = useState<(string | null)[]>(['New-arrivals']);
+  const [breadcrumbs, setBreadcrumbs] = useState<IBreadcrumb[]>([{ id: newArrivalsId, name: 'New-arrivals' }]);
 
   const sortProducts = (type: string, direction: string): void => {
     sortProductsByType(categoryId, type, direction, defaultLimit)
@@ -66,11 +66,11 @@ const Products = (): JSX.Element => {
   ) : (
     <main>
       <ProductsCategories setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} />
-      <Box display='flex' alignItems='center'>
+      <Box display='flex' alignItems='center' sx={{ '@media (max-width: 600px)': { flexDirection: 'column' } }}>
         <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
         <ProductsSearch searchProducts={searchProducts} />
       </Box>
-      <BreadcrumbsElem breadcrumbs={breadcrumbs} />
+      <BreadcrumbsElem setCategoryId={setCategoryId} breadcrumbs={breadcrumbs} />
       <section className='section'>
         <ProductsList products={products} />
       </section>

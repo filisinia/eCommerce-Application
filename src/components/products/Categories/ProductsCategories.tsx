@@ -5,12 +5,12 @@ import { Box, Button } from '@mui/material';
 import ProductsSubcategories from './ProductsSubcategories';
 
 import { fetchProductsCategories } from 'api/products/productsApi';
-import { IProductCategory } from 'types/products';
+import { IBreadcrumb, IProductCategory } from 'types/products';
 import notification from 'utils/notification';
 
 interface IProductsCategoriesProps {
   setCategoryId: (categoryId: string) => void;
-  setBreadcrumbs: (breadcrumbs: string[]) => void;
+  setBreadcrumbs: (breadcrumbs: IBreadcrumb[]) => void;
 }
 
 const ProductsCategories: FC<IProductsCategoriesProps> = ({ setCategoryId, setBreadcrumbs }): JSX.Element => {
@@ -30,7 +30,7 @@ const ProductsCategories: FC<IProductsCategoriesProps> = ({ setCategoryId, setBr
   const getCategoryNameById = (id: string): string => {
     const category = categories.find((cat) => cat.id === id);
 
-    return category ? category.name['en-US'] : '';
+    return category ? category.name['en-US'] || '' : '';
   };
 
   const selectCategory = (e: React.MouseEvent): void => {
@@ -45,14 +45,14 @@ const ProductsCategories: FC<IProductsCategoriesProps> = ({ setCategoryId, setBr
       const selectedCategory = categories.find((category) => category.id === categoryId);
 
       if (selectedCategory) {
-        const breadcrumbs = selectedCategory.ancestors
-          .map((ancestor) => getCategoryNameById(ancestor.id))
-          .filter((name) => name !== '')
-          .concat([categoryName]);
+        const breadcrumbs: IBreadcrumb[] = selectedCategory.ancestors
+          .map((ancestor) => ({ id: ancestor.id, name: getCategoryNameById(ancestor.id) }))
+          .filter((ancestor) => ancestor.name !== '')
+          .concat({ id: categoryId, name: categoryName });
 
         setBreadcrumbs(breadcrumbs);
       } else {
-        setBreadcrumbs([categoryName]);
+        setBreadcrumbs([{ id: categoryId, name: categoryName }]);
       }
     }
   };

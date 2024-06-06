@@ -1,17 +1,17 @@
 import { FC } from 'react';
 
-import { Breadcrumbs } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Breadcrumbs, Button } from '@mui/material';
 
-interface IBreadcrumbs {
-  breadcrumbs: (string | null)[];
+interface IBreadcrumbsProps {
+  setCategoryId: (categoryId: string) => void;
+  breadcrumbs: { id: string; name: string }[];
 }
 
-const BreadcrumbsElem: FC<IBreadcrumbs> = ({ breadcrumbs }): JSX.Element => {
+const BreadcrumbsElem: FC<IBreadcrumbsProps> = ({ setCategoryId, breadcrumbs }): JSX.Element => {
   const links = breadcrumbs.map((breadcrumb) => (
-    <Link to={`/${breadcrumb}`} key={breadcrumb}>
-      {breadcrumb}
-    </Link>
+    <Button onClick={() => setCategoryId(breadcrumb.id)} key={breadcrumb.id}>
+      {breadcrumb.name}
+    </Button>
   ));
 
   return <Breadcrumbs aria-label='breadcrumb'>{links}</Breadcrumbs>;

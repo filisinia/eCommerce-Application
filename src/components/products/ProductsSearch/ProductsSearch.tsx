@@ -7,7 +7,7 @@ interface IProductsSearch {
 }
 
 const ProductsSearch: FC<IProductsSearch> = ({ searchProducts }): JSX.Element => (
-  <TextField onChange={searchProducts} size='small' label='Search' />
+  <TextField onChange={searchProducts} size='small' sx={{ width: '300px', margin: '8px' }} label='Search' />
 );
 
 export default ProductsSearch;

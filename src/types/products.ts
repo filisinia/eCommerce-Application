@@ -114,3 +114,8 @@ export interface IProductInfo {
 export interface IFetchProductInfo {
   data: IProductInfo;
 }
+
+export interface IBreadcrumb {
+  id: string;
+  name: string;
+}
