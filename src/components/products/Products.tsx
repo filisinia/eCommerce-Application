@@ -1,9 +1,12 @@
-import { useLayoutEffect, useState } from 'react';
+import { ChangeEvent, useLayoutEffect, useState } from 'react';
 
-import { fetchProducts, sortProductsByType } from 'api/products/productsApi';
+import { Box } from '@mui/material';
+
+import { fetchProducts, searchProductsByInput, sortProductsByType } from 'api/products/productsApi';
 import Loader from 'components/Loader/Loader';
 import ProductsCategories from 'components/products/Categories/ProductsCategories';
 import ProductsList from 'components/products/ProductsList';
+import ProductsSearch from 'components/products/ProductsSearch/ProductsSearch';
 import ProductsSortSelector from 'components/products/ProductsSortSelector/ProductsSortSelector';
 import { IProduct, IProducts } from 'types/products';
 import notification from 'utils/notification';
@@ -35,6 +38,21 @@ const Products = (): JSX.Element => {
     }
   };
 
+  const searchProducts = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { value } = e.target;
+    const limit = 12;
+
+    if (value.length === 0) getProducts(limit).catch((error: Error) => notification('error', error.message));
+
+    searchProductsByInput(value)
+      .then((data: IProducts | string) => {
+        typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
+      })
+      .catch((err: Error) => {
+        notification('error', err.message);
+      });
+  };
+
   useLayoutEffect(() => {
     const limit = 12;
 
@@ -46,7 +64,10 @@ const Products = (): JSX.Element => {
   ) : (
     <main>
       <ProductsCategories setCategoryId={setCategoryId} />
-      <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
+      <Box display='flex' alignItems='center'>
+        <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
+        <ProductsSearch searchProducts={searchProducts} />
+      </Box>
       <section className='section'>
         <ProductsList products={products} />
       </section>

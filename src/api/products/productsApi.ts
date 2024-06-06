@@ -56,6 +56,23 @@ export const sortProductsByType = async (
   }
 };
 
+export const searchProductsByInput = async (
+  searchText: string = 'sofa',
+  limit: number = defaultLimit,
+): Promise<IProducts | string> => {
+  try {
+    await setApiToken();
+
+    const { data }: IFetchProductSuccess = await axios(
+      `${baseUrl}/product-projections/search?fuzzy=true&limit=${limit}&text.en-US="${searchText}"`,
+    );
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
 export const fetchProductInfo = async (productKey: string): Promise<IProduct | string> => {
   try {
     await setApiToken();
