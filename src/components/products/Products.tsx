@@ -6,8 +6,9 @@ import { fetchProducts, searchProductsByInput, sortProductsByType } from 'api/pr
 import Loader from 'components/Loader/Loader';
 import BreadcrumbsElem from 'components/products/Breadcrumbs/Breadcrumbs';
 import ProductsCategories from 'components/products/Categories/ProductsCategories';
+import ProductFilter from 'components/products/ProductsFilter/ProductFilter';
+import ProductsSearch from 'components/products/ProductsFilter/ProductsSearch';
 import ProductsList from 'components/products/ProductsList';
-import ProductsSearch from 'components/products/ProductsSearch/ProductsSearch';
 import ProductsSortSelector from 'components/products/ProductsSortSelector/ProductsSortSelector';
 import { IBreadcrumb, IProduct, IProducts } from 'types/products';
 import notification from 'utils/notification';
@@ -69,6 +70,7 @@ const Products = (): JSX.Element => {
       <Box display='flex' alignItems='center' sx={{ '@media (max-width: 600px)': { flexDirection: 'column' } }}>
         <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
         <ProductsSearch searchProducts={searchProducts} />
+        <ProductFilter />
       </Box>
       <BreadcrumbsElem setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} breadcrumbs={breadcrumbs} />
       <section className='section'>
