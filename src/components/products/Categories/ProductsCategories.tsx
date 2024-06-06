@@ -2,9 +2,8 @@ import { FC, useLayoutEffect, useState } from 'react';
 
 import { Box, Button } from '@mui/material';
 
-import ProductsSubcategories from './ProductsSubcategories';
-
 import { fetchProductsCategories } from 'api/products/productsApi';
+import ProductsSubcategories from 'components/products/Categories/ProductsSubcategories';
 import { IBreadcrumb, IProductCategory } from 'types/products';
 import notification from 'utils/notification';
 

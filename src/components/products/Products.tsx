@@ -70,7 +70,7 @@ const Products = (): JSX.Element => {
         <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
         <ProductsSearch searchProducts={searchProducts} />
       </Box>
-      <BreadcrumbsElem setCategoryId={setCategoryId} breadcrumbs={breadcrumbs} />
+      <BreadcrumbsElem setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} breadcrumbs={breadcrumbs} />
       <section className='section'>
         <ProductsList products={products} />
       </section>
