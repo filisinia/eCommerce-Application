@@ -103,3 +103,17 @@ export const fetchMinMaxCategoryPrice = async (categoryId: string): Promise<IFac
     return catchFetchError(e);
   }
 };
+
+export const fetchFilterByPrice = async (categoryId: string, min: number, max: number): Promise<IProducts | string> => {
+  try {
+    await setApiToken();
+
+    const { data }: IFetchProductSuccess = await axios(
+      `${baseUrl}/product-projections/search?facet=variants.price.centAmount%3Arange(${min} to ${max})`,
+    );
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};

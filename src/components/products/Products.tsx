@@ -3,6 +3,7 @@ import { ChangeEvent, useLayoutEffect, useState } from 'react';
 import { Box } from '@mui/material';
 
 import {
+  fetchFilterByPrice,
   fetchMinMaxCategoryPrice,
   fetchProducts,
   searchProductsByInput,
@@ -76,6 +77,16 @@ const Products = (): JSX.Element => {
       });
   };
 
+  const filterByPrice = (min: number, max: number): void => {
+    fetchFilterByPrice(categoryId, min, max)
+      .then((data: IProducts | string) => {
+        typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
+      })
+      .catch((err: Error) => {
+        notification('error', err.message);
+      });
+  };
+
   useLayoutEffect(() => {
     const limit = 12;
 
@@ -88,14 +99,19 @@ const Products = (): JSX.Element => {
     <main>
       <ProductsCategories setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} />
       <Box
+        key={categoryId}
         display='flex'
         alignItems='center'
         flexWrap='wrap'
         sx={{ '@media (max-width: 600px)': { flexDirection: 'column' } }}
       >
-        <ProductsSortSelector key={categoryId} sortProducts={sortProducts} />
+        <ProductsSortSelector sortProducts={sortProducts} />
         <ProductsSearch searchProducts={searchProducts} />
-        <ProductFilter minCategoryPrice={minCategoryPrice} maxCategoryPrice={maxCategoryPrice} />
+        <ProductFilter
+          filterByPrice={filterByPrice}
+          minCategoryPrice={minCategoryPrice}
+          maxCategoryPrice={maxCategoryPrice}
+        />
       </Box>
       <BreadcrumbsElem setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} breadcrumbs={breadcrumbs} />
       <section className='section'>

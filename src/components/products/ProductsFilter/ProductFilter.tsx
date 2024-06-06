@@ -1,23 +1,32 @@
 import { ChangeEvent, FC, useState } from 'react';
 
-import { Box, Slider, Stack, Typography } from '@mui/material';
+import { Box, Button, Slider, Stack, Typography } from '@mui/material';
 
 import PriceValueInput from 'components/products/ProductsFilter/ProductPriceInput';
 
 interface IProductFilter {
+  filterByPrice: (min: number, max: number) => void;
   minCategoryPrice: number;
   maxCategoryPrice: number;
 }
 
-const ProductFilter: FC<IProductFilter> = ({ minCategoryPrice, maxCategoryPrice }): JSX.Element => {
+const ProductFilter: FC<IProductFilter> = ({ filterByPrice, minCategoryPrice, maxCategoryPrice }): JSX.Element => {
   const [minPrice, setMinPrice] = useState<number>(minCategoryPrice);
   const [maxPrice, setMaxPrice] = useState<number>(maxCategoryPrice);
   const [priceRange, setPriceRange] = useState<number[]>([minPrice, maxPrice]);
 
-  const handleChange = (event: Event, newValue: number[]): void => {
+  const handleChange = (event: Event, newValue: number | number[]): void => {
+    if (typeof newValue === 'number') return;
+
+    const [min, max] = newValue;
+
     setPriceRange(newValue);
-    setMinPrice(newValue[0]);
-    setMaxPrice(newValue[1]);
+    setMinPrice(min);
+    setMaxPrice(max);
+  };
+
+  const handleFilterBtnClick = (): void => {
+    filterByPrice(minPrice, maxPrice);
   };
 
   const handleMinInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -45,7 +54,7 @@ const ProductFilter: FC<IProductFilter> = ({ minCategoryPrice, maxCategoryPrice 
         <Slider
           getAriaLabel={() => 'Price range'}
           value={priceRange}
-          onChange={() => handleChange}
+          onChange={handleChange}
           valueLabelDisplay='auto'
           disableSwap
           min={minCategoryPrice}
@@ -58,6 +67,9 @@ const ProductFilter: FC<IProductFilter> = ({ minCategoryPrice, maxCategoryPrice 
         <Typography>-</Typography>
         <PriceValueInput label='max' value={maxPrice} onChange={handleMaxInputChange} />
       </Stack>
+      <Button onClick={handleFilterBtnClick} sx={{ marginLeft: '8px' }} variant='contained'>
+        Filter
+      </Button>
     </>
   );
 };
