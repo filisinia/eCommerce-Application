@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Box, Typography, Button, FormControlLabel, Checkbox, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import authCustomer from 'api/customer/authCustomer';
+import { authCustomer } from 'api/customer/authCustomer';
 import { customerAddressState, customerState } from 'components/customer/auth/AuthCustomerState';
 import AdressCustomerInputs from 'components/customer/auth/inputs/AdressCustomerInputs';
 import CustomerInfoInputs from 'components/customer/auth/inputs/CustomerInfoInputs';

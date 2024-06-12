@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { AccountCircleOutlined, ExitToAppOutlined } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
@@ -47,6 +48,10 @@ const Header = (): JSX.Element => {
             >
               Products
             </Button>
+
+            <IconButton component={Link} to='/cart'>
+              <ShoppingCartIcon color='primary' />
+            </IconButton>
 
             {customer ? (
               <>
