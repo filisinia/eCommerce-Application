@@ -18,6 +18,7 @@ const ProductsPage = lazy(() => import('pages/ProductsPage/ProductsPage'));
 const ProductPage = lazy(() => import('pages/ProductPage/ProductPage'));
 const ProfilePage = lazy(() => import('pages/ProfilePage/ProfilePage'));
 const CartPage = lazy(() => import('pages/CartPage/CartPage'));
+const AboutPage = lazy(() => import('pages/AboutPage/AboutPage'));
 
 const App = (): JSX.Element => {
   useEffect(() => {
@@ -36,6 +37,7 @@ const App = (): JSX.Element => {
             <Route element={<ProductsPage />} path='/products' />
             <Route element={<ProductPage />} path='/products/:productKey' />
             <Route element={<CartPage />} path='/cart' />
+            <Route element={<AboutPage />} path='/about' />
 
             <Route
               element={

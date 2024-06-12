@@ -1,4 +1,4 @@
-import { IPrice, IProduct } from './products';
+import { IPrice } from './products';
 
 interface ICartAddress {
   firstName: string;
@@ -14,13 +14,24 @@ interface IStore {
   key: string;
 }
 
+export interface IProductCart {
+  id: string;
+  productId: string;
+  productKey: string;
+  name: { 'en-US': string };
+  totalPrice: IPrice;
+  quantity: number;
+  variant: {
+    images: { url: string }[];
+  };
+}
+
 export interface ICart {
   id: string;
   version: number;
   key: string;
   customerId: string;
-  lineItems: IProduct[];
-  totalPrice: IPrice;
+  lineItems: IProductCart[];
   shippingAddress: ICartAddress;
   billingAddress: ICartAddress;
   store: IStore;
