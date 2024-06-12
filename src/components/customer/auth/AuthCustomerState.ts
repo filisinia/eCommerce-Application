@@ -3,7 +3,7 @@ export const customerState = {
   password: '',
   firstName: '',
   lastName: '',
-  dayOfBirth: '',
+  dateOfBirth: '',
 };
 
-export const customerAddressState = { streetName: '', city: '', postalCode: '', country: '' };
+export const customerAddressState = { id: '', streetName: '', city: '', postalCode: '', country: '' };

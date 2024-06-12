@@ -1,17 +1,20 @@
 import { useState } from 'react';
 
+import { AccountCircleOutlined, ExitToAppOutlined } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { removeTokens } from 'api/customer/getAuthToken';
-import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import authCustomerStore from 'store/slices/customer/customerSlice';
 import notification from 'utils/notification';
 
 const Header = (): JSX.Element => {
   const { setCustomer, customer } = authCustomerStore((state) => state);
   const [isDrawerOpened, setIsDrawerOpened] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isProductsActive = location.pathname === '/products';
 
   const handleLogout = (): void => {
     notification('success', 'You have been successfully logged out');
@@ -34,18 +37,35 @@ const Header = (): JSX.Element => {
             </Button>
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px' }}>
-            <Button component={Link} to='/signup' variant='contained'>
-              Sign up
+            <Button
+              component={Link}
+              to='/products'
+              style={{
+                fontWeight: isProductsActive ? 'bold' : 'normal',
+                color: isProductsActive ? 'rgb(255, 228, 196)' : '#1565c0',
+              }}
+            >
+              Products
             </Button>
-            <Button component={Link} to='/login' variant='outlined'>
-              Log in
-            </Button>
+
             {customer ? (
-              <Button component={Link} to='/' variant='outlined' onClick={handleLogout}>
-                Log out
-              </Button>
+              <>
+                <IconButton component={Link} to='/profile'>
+                  <AccountCircleOutlined color='primary' />
+                </IconButton>
+                <IconButton component={Link} to='/' onClick={handleLogout}>
+                  <ExitToAppOutlined color='primary' />
+                </IconButton>
+              </>
             ) : (
-              ''
+              <>
+                <Button component={Link} to='/signup' variant='contained'>
+                  Sign up
+                </Button>
+                <Button component={Link} to='/login' variant='outlined'>
+                  Log in
+                </Button>
+              </>
             )}
           </Box>
           <IconButton
@@ -68,6 +88,7 @@ const Header = (): JSX.Element => {
         PaperProps={{ sx: { width: '40vw', padding: '20px 0' } }}
       >
         <Button onClick={() => handleDrawerItemClick('/')}>Main</Button>
+        <Button onClick={() => handleDrawerItemClick('/products')}>Products</Button>
         <Button onClick={() => handleDrawerItemClick('/signup')}>Sign up</Button>
         <Button onClick={() => handleDrawerItemClick('/login')}>Log in</Button>
         {customer ? (

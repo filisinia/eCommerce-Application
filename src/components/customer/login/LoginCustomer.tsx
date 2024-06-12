@@ -4,13 +4,12 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Typography, TextField, Button, IconButton, InputAdornment, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import { validateEmail, validatePassword } from './LoginValidation';
-
 import { setTokens } from 'api/customer/getAuthToken';
 import fetchUserData from 'api/customer/getCustomerData';
 import loginUser from 'api/customer/Login';
-import styles from 'components/customer/AuthCustomerStyle';
-import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import styles from 'components/customer/CustomerStyle';
+import { validateEmail, validatePassword } from 'components/customer/login/LoginValidation';
+import authCustomerStore from 'store/slices/customer/customerSlice';
 import { ICustomerLoginSuccessData, ICustomerRes } from 'types/customer';
 
 const LoginCustomer = (): JSX.Element => {
@@ -26,14 +25,10 @@ const LoginCustomer = (): JSX.Element => {
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    if (customer) {
-      navigate('/');
-    }
-  }, [customer]);
+    if (customer) navigate('/');
+  }, []);
 
-  const handleClickShowPassword = (): void => {
-    setShowPassword((prev: boolean) => !prev);
-  };
+  const handleClickShowPassword = (): void => setShowPassword((prev: boolean) => !prev);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);

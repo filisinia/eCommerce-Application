@@ -3,14 +3,13 @@ import { FC, memo } from 'react';
 import { Box, TextField, Typography, Grid } from '@mui/material';
 import { postcodeValidatorExistsForCountry } from 'postcode-validator';
 
-import styles from '../../AuthCustomerStyle';
-
+import styles from 'components/customer/CustomerStyle';
 import { ICustomerAddress } from 'types/customer';
 import { postCodeValidate, textAndNumberValidate, textValidate } from 'utils/validate';
 
 interface IAdressCustomerInputs {
   address: ICustomerAddress;
-  data: string;
+  data?: string;
   title: string;
 }
 

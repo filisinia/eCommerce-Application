@@ -3,8 +3,8 @@ import { useLayoutEffect } from 'react';
 import { Box } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 
-import LoginCustomer from 'components/customer/LoginCustomer';
-import authCustomerStore from 'store/slices/customer/authCustomerSlice';
+import LoginCustomer from 'components/customer/login/LoginCustomer';
+import authCustomerStore from 'store/slices/customer/customerSlice';
 
 const LoginPage = (): JSX.Element => {
   const { customer } = authCustomerStore((state) => state);
@@ -12,7 +12,7 @@ const LoginPage = (): JSX.Element => {
 
   useLayoutEffect(() => {
     if (customer) navigate('/');
-  }, [customer]);
+  }, []);
 
   return (
     <>
