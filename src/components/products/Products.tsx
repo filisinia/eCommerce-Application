@@ -27,6 +27,7 @@ const Products = (): JSX.Element => {
   const [categoryId, setCategoryId] = useState<string>(newArrivalsId);
   const [products, setProducts] = useState<null | IProduct[]>(null);
   const [breadcrumbs, setBreadcrumbs] = useState<IBreadcrumb[]>([{ id: newArrivalsId, name: 'New-arrivals' }]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const sortProducts = (type: string, direction: string): void => {
     sortProductsByType(categoryId, type, direction, defaultLimit)
@@ -49,8 +50,8 @@ const Products = (): JSX.Element => {
     }
   };
 
-  const getProducts = async (limit: number): Promise<void> => {
-    const data = await fetchProducts(categoryId, limit);
+  const getProducts = async (): Promise<void> => {
+    const data = await fetchProducts(categoryId, currentPage);
 
     await getMinMaxPrice();
 
@@ -64,9 +65,10 @@ const Products = (): JSX.Element => {
 
   const searchProducts = (e: ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
-    const limit = 12;
 
-    if (value.length === 0) getProducts(limit).catch((error: Error) => notification('error', error.message));
+    setCurrentPage(1);
+
+    if (value.length === 0) getProducts().catch((error: Error) => notification('error', error.message));
 
     searchProductsByInput(value)
       .then((data: IProducts | string) => {
@@ -88,9 +90,9 @@ const Products = (): JSX.Element => {
   };
 
   useLayoutEffect(() => {
-    const limit = 12;
+    setCurrentPage(1);
 
-    getProducts(limit).catch((e: Error) => notification('error', e.message));
+    getProducts().catch((e: Error) => notification('error', e.message));
   }, [categoryId]);
 
   return !products ? (
