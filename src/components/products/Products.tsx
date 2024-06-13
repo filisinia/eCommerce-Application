@@ -16,6 +16,7 @@ import ProductFilter from 'components/products/ProductsFilter/ProductFilter';
 import ProductsSearch from 'components/products/ProductsFilter/ProductsSearch';
 import ProductsList from 'components/products/ProductsList';
 import ProductsSortSelector from 'components/products/ProductsSortSelector/ProductsSortSelector';
+import Spinner from 'components/spinner/Spinner';
 import { IBreadcrumb, IProduct, IProducts } from 'types/products';
 import notification from 'utils/notification';
 
@@ -118,6 +119,7 @@ const Products = (): JSX.Element => {
       <BreadcrumbsElem setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} breadcrumbs={breadcrumbs} />
       <section className='section'>
         <ProductsList products={products} />
+        <Spinner />
       </section>
     </main>
   );
