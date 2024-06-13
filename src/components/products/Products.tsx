@@ -22,7 +22,6 @@ import notification from 'utils/notification';
 
 const Products = (): JSX.Element => {
   const newArrivalsId = 'e4cacec0-aa5f-4c3f-993a-9165dbeeded1';
-  const [defaultLimit, setDefaultLimit] = useState<number>(0);
   const [minCategoryPrice, setMinCategoryPrice] = useState<number>(0);
   const [maxCategoryPrice, setMaxCategoryPrice] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<string>(newArrivalsId);
@@ -31,7 +30,7 @@ const Products = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const sortProducts = (type: string, direction: string): void => {
-    sortProductsByType(categoryId, type, direction, defaultLimit)
+    sortProductsByType(categoryId, type, direction)
       .then((data: IProducts | string) => {
         typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
       })
@@ -60,10 +59,7 @@ const Products = (): JSX.Element => {
       return;
     }
 
-    if (currentPage === 1) {
-      await getMinMaxPrice();
-      setDefaultLimit(data.limit);
-    }
+    if (currentPage === 1) await getMinMaxPrice();
 
     setProducts([...(products || []), ...data.results]);
   };

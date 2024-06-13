@@ -45,13 +45,12 @@ export const sortProductsByType = async (
   categoryId: string,
   type: string,
   direction: string,
-  limit: number = defaultLimit,
 ): Promise<IProducts | string> => {
   try {
     await setApiToken(); //* Need to fix
 
     const { data }: IFetchProductSuccess = await axios(
-      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&sort=${type} ${direction}&limit=${limit}`,
+      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&sort=${type} ${direction}&limit=${defaultLimit}`,
     );
 
     return data;
