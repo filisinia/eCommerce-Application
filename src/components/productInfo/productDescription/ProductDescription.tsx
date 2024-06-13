@@ -1,10 +1,12 @@
+import { useContext } from 'react';
+
 import { Box, Typography } from '@mui/material';
 
 import styles from 'components/productInfo/productDescription/productDescriptionStyle';
-import productInfoStore from 'store/slices/productInfo/productInfoSlice';
+import productInfoContext from 'components/productInfo/ProductInfoContext';
 
 const ProductDescription = (): JSX.Element | null => {
-  const { productInfo } = productInfoStore((state) => state);
+  const productInfo = useContext(productInfoContext);
 
   if (!productInfo) return null;
 

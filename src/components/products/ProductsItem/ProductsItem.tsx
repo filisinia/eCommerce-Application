@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import EditIcon from '@mui/icons-material/Edit';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Grid, CardHeader, CardMedia, CardContent, IconButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -58,7 +58,7 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
             title={name['en-US']}
             action={
               <IconButton>
-                <EditIcon />
+                <AddShoppingCartIcon />
               </IconButton>
             }
           />
