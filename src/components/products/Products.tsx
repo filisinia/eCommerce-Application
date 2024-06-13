@@ -1,4 +1,4 @@
-import { ChangeEvent, useLayoutEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useLayoutEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -54,14 +54,18 @@ const Products = (): JSX.Element => {
   const getProducts = async (): Promise<void> => {
     const data = await fetchProducts(categoryId, currentPage);
 
-    await getMinMaxPrice();
-
-    if (typeof data !== 'string') {
-      setProducts(data.results);
-      setDefaultLimit(data.limit);
-    } else {
+    if (typeof data === 'string') {
       notification('error', data);
+
+      return;
     }
+
+    if (currentPage === 1) {
+      await getMinMaxPrice();
+      setDefaultLimit(data.limit);
+    }
+
+    setProducts([...(products || []), ...data.results]);
   };
 
   const searchProducts = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -90,11 +94,18 @@ const Products = (): JSX.Element => {
       });
   };
 
+  const loadMore = (): void => {
+    setCurrentPage(currentPage + 1);
+  };
+
   useLayoutEffect(() => {
     setCurrentPage(1);
-
-    getProducts().catch((e: Error) => notification('error', e.message));
+    setProducts(null);
   }, [categoryId]);
+
+  useEffect(() => {
+    getProducts().catch((e: Error) => notification('error', e.message));
+  }, [currentPage, categoryId]);
 
   return !products ? (
     <Loader />
@@ -119,7 +130,7 @@ const Products = (): JSX.Element => {
       <BreadcrumbsElem setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} breadcrumbs={breadcrumbs} />
       <section className='section'>
         <ProductsList products={products} />
-        <Spinner />
+        <Spinner loadMore={loadMore} />
       </section>
     </main>
   );
