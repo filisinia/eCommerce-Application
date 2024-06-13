@@ -20,7 +20,7 @@ export const fetchProducts = async (categoryId: string, page: number): Promise<I
   const offset = (page - 1) * defaultLimit;
 
   try {
-    await setApiToken(); //* Need to fix
+    await setApiToken();
     const { data }: IFetchProductSuccess = await axios(
       `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&limit=${defaultLimit}&offset=${offset}`,
     );
@@ -47,7 +47,7 @@ export const sortProductsByType = async (
   direction: string,
 ): Promise<IProducts | string> => {
   try {
-    await setApiToken(); //* Need to fix
+    await setApiToken();
 
     const { data }: IFetchProductSuccess = await axios(
       `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&sort=${type} ${direction}&limit=${defaultLimit}`,

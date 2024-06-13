@@ -28,6 +28,7 @@ const Products = (): JSX.Element => {
   const [products, setProducts] = useState<null | IProduct[]>(null);
   const [breadcrumbs, setBreadcrumbs] = useState<IBreadcrumb[]>([{ id: newArrivalsId, name: 'New-arrivals' }]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isMoreItems, setIsMoreItems] = useState<boolean>(true);
 
   const sortProducts = (type: string, direction: string): void => {
     sortProductsByType(categoryId, type, direction)
@@ -55,6 +56,12 @@ const Products = (): JSX.Element => {
 
     if (typeof data === 'string') {
       notification('error', data);
+
+      return;
+    }
+
+    if (data.results.length === 0) {
+      setIsMoreItems(false);
 
       return;
     }
@@ -126,7 +133,7 @@ const Products = (): JSX.Element => {
       <BreadcrumbsElem setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} breadcrumbs={breadcrumbs} />
       <section className='section'>
         <ProductsList products={products} />
-        <Spinner loadMore={loadMore} />
+        {isMoreItems && <Spinner loadMore={loadMore} />}
       </section>
     </main>
   );
