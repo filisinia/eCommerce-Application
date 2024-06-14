@@ -6,6 +6,7 @@ import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material'
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { removeTokens } from 'api/customer/getAuthToken';
+import BasketElem from 'components/header/basketIcon/BasketIcon';
 import authCustomerStore from 'store/slices/customer/customerSlice';
 import notification from 'utils/notification';
 
@@ -47,6 +48,7 @@ const Header = (): JSX.Element => {
             >
               Products
             </Button>
+            <BasketElem itemsQuantity={1} />
 
             {customer ? (
               <>
