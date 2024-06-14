@@ -53,8 +53,9 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
   return (
     <Grid component='li' item key={id} lg={3} md={4} sm={6} xs={12} className='product' sx={{ gridAutoColumns: '1fr' }}>
       <Link to={`/products/${product.key}`}>
-        <Card className='product__container'>
+        <Card>
           <CardHeader
+            className='product__header'
             title={name['en-US']}
             action={
               <IconButton>
@@ -77,7 +78,8 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
             </span>
 
             <Typography>
-              {shortDescription} <b>...</b>
+              <span className='product__text'>{shortDescription}</span>
+              <b>...</b>
             </Typography>
           </CardContent>
         </Card>
