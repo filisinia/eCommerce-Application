@@ -29,6 +29,7 @@ const App = (): JSX.Element => {
     <BrowserRouter>
       <CssBaseline>
         <Header />
+        <ToastContainer />
         <Suspense>
           <Routes>
             <Route element={<AuthPage />} path='/signup' />
@@ -50,7 +51,6 @@ const App = (): JSX.Element => {
             <Route element={<ErrorPage />} path='*' />
           </Routes>
         </Suspense>
-        <ToastContainer />
       </CssBaseline>
     </BrowserRouter>
   );

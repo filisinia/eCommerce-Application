@@ -1,4 +1,5 @@
-import { Avatar, Grid } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { Avatar, Grid, IconButton, Box } from '@mui/material';
 
 interface ITeamMember {
   id: number;
@@ -21,11 +22,15 @@ const AboutItem = ({ item }: { item: ITeamMember }): JSX.Element => {
       <h4>
         <span>{firstName}</span> {lastName}
       </h4>
-      <h6>{role}</h6>
 
-      <a href={git} target='_blank' rel='noreferrer'>
-        Git
-      </a>
+      <Box>
+        <a href={git} target='_blank' rel='noreferrer'>
+          <IconButton>
+            <GitHubIcon />
+          </IconButton>{' '}
+        </a>
+        <span>{role}</span>
+      </Box>
 
       <ul>
         {contributions.map(({ text, id }) => (

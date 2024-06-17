@@ -1,5 +1,7 @@
 import { Grid, Typography } from '@mui/material';
 
+// import icon from '../../assets/img/rs.svg';
+
 import AboutItem from './AboutItem';
 
 const team = [
@@ -41,20 +43,30 @@ const About = (): JSX.Element => {
 
   return (
     <>
-      {' '}
-      <Grid container rowGap={5} alignItems='center' mt={2} direction='column'>
-        <Typography variant='h3'>Our Team</Typography>
+      <main>
+        <Grid container rowGap={5} alignItems='center' mt={2} direction='column' sx={{ marginBottom: '1rem' }}>
+          <Typography variant='h3'>Our Team</Typography>
 
-        <Grid container justifyContent='center'>
-          {team.map((item) => (
-            <AboutItem key={item.id} item={item} />
-          ))}
+          <Grid container justifyContent='center'>
+            {team.map((item) => (
+              <AboutItem key={item.id} item={item} />
+            ))}
+          </Grid>
+
+          <p>{collaboration}</p>
         </Grid>
-
-        <p>{collaboration}</p>
-      </Grid>
-      <footer style={{ backgroundColor: 'black', width: '100%' }}>
-        <img src='' alt='' />
+      </main>
+      <footer style={{ backgroundColor: 'black', width: '100%', padding: '2rem' }}>
+        <a href='https://rs.school/' target='_blank' rel='noreferrer'>
+          <img
+            src='../../assets/img/rs.svg'
+            alt='RS Shool Icon'
+            style={{
+              width: '10rem',
+              filter: 'invert(84%) sepia(24%) saturate(308%) hue-rotate(345deg)    brightness(104%) contrast(102%)',
+            }}
+          />
+        </a>
       </footer>
     </>
   );
