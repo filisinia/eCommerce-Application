@@ -1,4 +1,5 @@
-import { Box, Button, Grid } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import { Box, Button, Grid, IconButton } from '@mui/material';
 
 import { IProductCart } from 'types/cart';
 import notification from 'utils/notification';
@@ -10,7 +11,7 @@ const CartItem = ({
 }: {
   product: IProductCart;
   increaseQuantity: (productId: string) => Promise<void>;
-  decreaseQuantity: (lineItemId: string) => Promise<void>;
+  decreaseQuantity: (lineItemId: string, quantity: number) => Promise<void>;
 }): JSX.Element => {
   const { name, totalPrice, quantity, variant, productId, id } = product;
 
@@ -21,8 +22,11 @@ const CartItem = ({
   };
 
   const decreseProductQuantity = (): void => {
-    if (quantity === 0) return;
-    decreaseQuantity(id).catch((e: Error) => notification('error', e.message));
+    decreaseQuantity(id, 1).catch((e: Error) => notification('error', e.message));
+  };
+
+  const removeProduct = (): void => {
+    decreaseQuantity(id, quantity).catch((e: Error) => notification('error', e.message));
   };
 
   return (
@@ -38,6 +42,9 @@ const CartItem = ({
       <p>
         Total: <span>{totalProductsPrice} $ </span>
       </p>
+      <IconButton onClick={removeProduct}>
+        <ClearIcon />
+      </IconButton>
     </Grid>
   );
 };

@@ -31,10 +31,10 @@ const Cart = (): JSX.Element => {
     }
   };
 
-  const decreaseProductCartQuantity = async (lineItemId: string): Promise<void> => {
+  const decreaseProductCartQuantity = async (lineItemId: string, quantity: number): Promise<void> => {
     try {
       if (cart) {
-        const data = await removeProduct(cart.version, cart.id, lineItemId, 1);
+        const data = await removeProduct(cart.version, cart.id, lineItemId, quantity);
 
         // data !== 'string' ? setCart(data) : notification('error', data);
       }
