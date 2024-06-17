@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import CartDiscount from './CartDiscount';
 import CartItem from './CartItem';
 
-import { fetchCart, addProduct, removeProduct } from 'api/cart/cart';
+import { fetchCart, addProduct, removeProduct, removeCart } from 'api/cart/cart';
 import cartStore from 'store/slices/cart/cartSlice';
 import getCartTotalPrice from 'utils/getCarTotalPrice';
 import notification from 'utils/notification';
@@ -50,7 +50,12 @@ const Cart = (): JSX.Element => {
     }
   };
 
-  const removeAllTheProduct = (): void => setCart(null);
+  const removeAllTheProduct = (): void => {
+    if (cart)
+      removeCart(cart.id)
+        .then((data) => (typeof data !== 'string' ? setCart(data) : notification('error', data)))
+        .catch((e: Error) => notification('error', e.message));
+  };
 
   return (
     <section>
