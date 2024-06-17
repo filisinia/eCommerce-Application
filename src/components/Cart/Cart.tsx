@@ -1,6 +1,7 @@
 import { useLayoutEffect } from 'react';
 
 import { Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import CartItem from './CartItem';
 
@@ -65,7 +66,10 @@ const Cart = (): JSX.Element => {
             <p>Total price: {getCartTotalPrice(cart.lineItems)} $ </p>
           </>
         ) : (
-          <h4>Empty</h4>
+          <>
+            <h4>Empty</h4>
+            <Link to='/products'>Products</Link>
+          </>
         )}
       </Grid>
     </section>
