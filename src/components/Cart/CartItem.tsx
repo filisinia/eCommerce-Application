@@ -40,7 +40,7 @@ const CartItem = ({
         <Button onClick={increaseProductQuantity}>+</Button>
       </Box>
       <p>
-        Total: <span>{totalProductsPrice} $ </span>
+        <span>{totalProductsPrice} $ </span>
       </p>
       <IconButton onClick={removeProduct}>
         <ClearIcon />

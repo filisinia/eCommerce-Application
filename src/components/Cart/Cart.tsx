@@ -6,6 +6,7 @@ import CartItem from './CartItem';
 
 import { fetchCart, addProduct, removeProduct } from 'api/cart/cart';
 import cartStore from 'store/slices/cart/cartSlice';
+import getCartTotalPrice from 'utils/getCarTotalPrice';
 import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
@@ -47,14 +48,18 @@ const Cart = (): JSX.Element => {
     <section>
       <Grid component='ul' container>
         {cart && cart?.lineItems.length > 0 ? (
-          cart.lineItems.map((el) => (
-            <CartItem
-              key={el.id}
-              product={el}
-              increaseQuantity={increaseProductCartQuantity}
-              decreaseQuantity={decreaseProductCartQuantity}
-            />
-          ))
+          <>
+            {cart.lineItems.map((el) => (
+              <CartItem
+                key={el.id}
+                product={el}
+                increaseQuantity={increaseProductCartQuantity}
+                decreaseQuantity={decreaseProductCartQuantity}
+              />
+            ))}
+
+            <p>Total price: {getCartTotalPrice(cart.lineItems)} $ </p>
+          </>
         ) : (
           <h4>Empty</h4>
         )}
