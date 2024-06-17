@@ -14,8 +14,12 @@ const Header = (): JSX.Element => {
   const { setCustomer, customer } = authCustomerStore((state) => state);
   const [isDrawerOpened, setIsDrawerOpened] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const isProductsActive = location.pathname === '/products';
+  const { pathname } = useLocation();
+
+  const isProductsActive = pathname === '/products';
+  const isAboutActive = pathname === '/about';
+  const isCartActive = pathname === '/cart';
+  const isProfileActive = pathname === '/profile';
 
   const handleLogout = (): void => {
     notification('success', 'You have been successfully logged out');
@@ -48,12 +52,26 @@ const Header = (): JSX.Element => {
             >
               Products
             </Button>
-            <BasketElem itemsQuantity={1} />
 
+            <Button
+              component={Link}
+              to='/about'
+              style={{
+                fontWeight: isAboutActive ? 'bold' : 'normal',
+                color: isAboutActive ? 'rgb(255, 228, 196)' : '#1565c0',
+              }}
+            >
+              About
+            </Button>
+            <BasketElem isCartActive={isCartActive} itemsQuantity={1} />
             {customer ? (
               <>
                 <IconButton component={Link} to='/profile'>
-                  <AccountCircleOutlined color='primary' />
+                  <AccountCircleOutlined
+                    style={{
+                      color: isProfileActive ? 'rgb(255, 228, 196)' : '#1565c0',
+                    }}
+                  />
                 </IconButton>
                 <IconButton component={Link} to='/' onClick={handleLogout}>
                   <ExitToAppOutlined color='primary' />
