@@ -3,12 +3,11 @@ import { useLayoutEffect } from 'react';
 import { Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import CartDiscount from './CartDiscount';
-import CartItem from './CartItem';
-
 import { fetchCart, addProduct, removeProduct, removeCart } from 'api/cart/cart';
+import CartDiscount from 'components/Cart/CartDiscount';
+import CartItem from 'components/Cart/CartItem';
 import cartStore from 'store/slices/cart/cartSlice';
-import getCartTotalPrice from 'utils/getCarTotalPrice';
+import getCartTotalPrice from 'utils/getCartTotalPrice';
 import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
@@ -60,7 +59,7 @@ const Cart = (): JSX.Element => {
   return (
     <section>
       <Grid component='ul' container direction='column' rowGap={8} alignItems='center'>
-        {cart && cart?.lineItems.length > 0 ? (
+        {cart && cart.lineItems.length > 0 ? (
           <>
             {cart.lineItems.map((el) => (
               <CartItem

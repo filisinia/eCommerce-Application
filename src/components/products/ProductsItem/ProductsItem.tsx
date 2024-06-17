@@ -3,9 +3,12 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Grid, CardHeader, CardMedia, CardContent, IconButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import { IProduct } from 'types/products';
-
 import 'components/products/ProductsItem/ProductItemStyle.scss';
+
+import { addProduct } from 'api/cart/cart';
+import cartStore from 'store/slices/cart/cartSlice';
+import { IProduct } from 'types/products';
+import notification from 'utils/notification';
 
 interface IProductsItem {
   product: IProduct;
@@ -43,12 +46,28 @@ const Card = styled.div`
 `;
 
 const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
+  const { cart, setCart } = cartStore((state) => state);
   const { masterVariant, name, description } = product;
   const { id } = masterVariant;
   const { value, discounted } = masterVariant.prices[0];
 
   const descriptionSize = 150;
   const shortDescription = description['en-US'].slice(0, descriptionSize);
+
+  const handleAddProduct = (): void => {
+    if (cart) {
+      addProduct(cart.version, cart.id, product.id, 1)
+        .then((data) => {
+          if (typeof data !== 'string') {
+            setCart(data);
+            notification('success', `${product.name['en-US']} was successfully added to the cart!`);
+          } else {
+            notification('error', data);
+          }
+        })
+        .catch((e) => e instanceof Error && notification('error', e.message));
+    }
+  };
 
   return (
     <Grid component='li' item key={id} lg={3} md={4} sm={6} xs={12} className='product' sx={{ gridAutoColumns: '1fr' }}>
@@ -58,7 +77,7 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
             className='product__header'
             title={name['en-US']}
             action={
-              <IconButton>
+              <IconButton onClick={handleAddProduct}>
                 <AddShoppingCartIcon />
               </IconButton>
             }

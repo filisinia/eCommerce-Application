@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useLayoutEffect, useState } from 'react';
+import { ChangeEvent, useLayoutEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -106,7 +106,7 @@ const Products = (): JSX.Element => {
     setProducts(null);
   }, [categoryId]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getProducts().catch((e: Error) => notification('error', e.message));
   }, [currentPage, categoryId]);
 
