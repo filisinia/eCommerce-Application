@@ -16,3 +16,59 @@ export const fetchCart = async (id: string = '058d0873-ace1-4f22-9249-2fc04fcc64
     return catchFetchError(e);
   }
 };
+
+type TAddProduct = (version: number, cartId: string, productId: string, quantity: number) => Promise<ICart | string>;
+
+export const addProduct: TAddProduct = async (version, cartId, productId, quantity = 1) => {
+  try {
+    await setApiToken();
+
+    const req = JSON.stringify({
+      version,
+      actions: [
+        {
+          action: 'addLineItem',
+          productId,
+          variantId: 1,
+          quantity,
+        },
+      ],
+    });
+
+    const { data }: IFetchCartSucess = await axios.post(`${baseUrl}/${cartId}`, req);
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+type TRemoveProduct = (
+  version: number,
+  cartId: string,
+  lineItemId: string,
+  quantity: number,
+) => Promise<ICart | string>;
+
+export const removeProduct: TRemoveProduct = async (version, cartId, lineItemId, quantity = 1) => {
+  try {
+    await setApiToken();
+
+    const req = JSON.stringify({
+      version,
+      actions: [
+        {
+          action: 'removeLineItem',
+          lineItemId,
+          quantity,
+        },
+      ],
+    });
+
+    const { data }: IFetchCartSucess = await axios.post(`${baseUrl}/${cartId}`, req);
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};

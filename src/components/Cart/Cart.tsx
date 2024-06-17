@@ -4,7 +4,7 @@ import { Grid } from '@mui/material';
 
 import CartItem from './CartItem';
 
-import { fetchCart } from 'api/cart/cart';
+import { fetchCart, addProduct, removeProduct } from 'api/cart/cart';
 import cartStore from 'store/slices/cart/cartSlice';
 import notification from 'utils/notification';
 
@@ -19,11 +19,42 @@ const Cart = (): JSX.Element => {
       .catch((e: Error) => notification('error', e.message));
   }, [JSON.stringify(cart)]);
 
+  const increaseProductCartQuantity = async (productId: string): Promise<void> => {
+    try {
+      if (cart) {
+        const data = await addProduct(cart.version, cart.id, productId, 1);
+
+        // data !== 'string' ? setCart(data) : notification('error', data);
+      }
+    } catch (error) {
+      if (error instanceof Error) notification('error', error.message);
+    }
+  };
+
+  const decreaseProductCartQuantity = async (lineItemId: string): Promise<void> => {
+    try {
+      if (cart) {
+        const data = await removeProduct(cart.version, cart.id, lineItemId, 1);
+
+        // data !== 'string' ? setCart(data) : notification('error', data);
+      }
+    } catch (error) {
+      if (error instanceof Error) notification('error', error.message);
+    }
+  };
+
   return (
     <section>
       <Grid component='ul' container>
         {cart && cart?.lineItems.length > 0 ? (
-          cart.lineItems.map((el) => <CartItem key={el.id} product={el} />)
+          cart.lineItems.map((el) => (
+            <CartItem
+              key={el.id}
+              product={el}
+              increaseQuantity={increaseProductCartQuantity}
+              decreaseQuantity={decreaseProductCartQuantity}
+            />
+          ))
         ) : (
           <h4>Empty</h4>
         )}
