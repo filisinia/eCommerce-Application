@@ -2,10 +2,8 @@ import { IProductCart } from 'types/cart';
 
 const getCartTotalPrice = (products: IProductCart[]): number => {
   const totalProductPrice = products.reduce((acc, product: IProductCart): number => {
-    const { quantity } = product;
-    const { totalPrice } = product;
-
     let total = acc;
+    const { quantity, totalPrice } = product;
 
     total += quantity * totalPrice.centAmount;
 

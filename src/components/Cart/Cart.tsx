@@ -15,7 +15,11 @@ const Cart = (): JSX.Element => {
   useLayoutEffect(() => {
     fetchCart()
       .then((data) => {
-        typeof data !== 'string' ? setCart(data) : notification('error', data);
+        if (typeof data !== 'string') setCart(data);
+        else {
+          setCart(null);
+          notification('error', data);
+        }
       })
       .catch((e: Error) => notification('error', e.message));
   }, [JSON.stringify(cart)]);
