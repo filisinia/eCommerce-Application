@@ -18,7 +18,7 @@ const defaultLimit = 24;
 
 export const fetchProducts = async (categoryId: string, limit: number = defaultLimit): Promise<IProducts | string> => {
   try {
-    await setApiToken(); //* Need to fix
+    await setApiToken();
     const { data }: IFetchProductSuccess = await axios(
       `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&limit=${limit}`,
     );
@@ -46,7 +46,7 @@ export const sortProductsByType = async (
   limit: number = defaultLimit,
 ): Promise<IProducts | string> => {
   try {
-    await setApiToken(); //* Need to fix
+    await setApiToken();
 
     const { data }: IFetchProductSuccess = await axios(
       `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&sort=${type} ${direction}&limit=${limit}`,
