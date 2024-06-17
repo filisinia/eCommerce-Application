@@ -15,7 +15,7 @@ const CartItem = ({
 }): JSX.Element => {
   const { name, totalPrice, quantity, variant, productId, id } = product;
 
-  const totalProductsPrice = quantity * totalPrice.centAmount;
+  const totalProductPrice = quantity * totalPrice.centAmount;
 
   const increaseProductQuantity = (): void => {
     increaseQuantity(productId).catch((e: Error) => notification('error', e.message));
@@ -40,7 +40,7 @@ const CartItem = ({
         <Button onClick={increaseProductQuantity}>+</Button>
       </Box>
       <p>
-        <span>{totalProductsPrice} $ </span>
+        <span>{totalProductPrice} $ </span>
       </p>
       <IconButton onClick={removeProduct}>
         <ClearIcon />

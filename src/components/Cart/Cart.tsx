@@ -3,6 +3,7 @@ import { useLayoutEffect } from 'react';
 import { Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import CartDiscount from './CartDiscount';
 import CartItem from './CartItem';
 
 import { fetchCart, addProduct, removeProduct } from 'api/cart/cart';
@@ -51,7 +52,7 @@ const Cart = (): JSX.Element => {
 
   return (
     <section>
-      <Grid component='ul' container>
+      <Grid component='ul' container direction='column' rowGap={8}>
         {cart && cart?.lineItems.length > 0 ? (
           <>
             {cart.lineItems.map((el) => (
@@ -62,6 +63,7 @@ const Cart = (): JSX.Element => {
                 decreaseQuantity={decreaseProductCartQuantity}
               />
             ))}
+            <CartDiscount />
 
             <p>Total price: {getCartTotalPrice(cart.lineItems)} $ </p>
           </>
