@@ -1,11 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 import styles from 'components/productInfo/productDescription/productDescriptionStyle';
 import productInfoContext from 'components/productInfo/ProductInfoContext';
 
 const ProductDescription = (): JSX.Element | null => {
+  const [isInCart, setIsInCart] = useState(false);
   const productInfo = useContext(productInfoContext);
 
   if (!productInfo) return null;
@@ -28,6 +29,9 @@ const ProductDescription = (): JSX.Element | null => {
         </Typography>
       </Box>
       <Typography>{productInfo.description['en-US']}</Typography>
+      <Button variant='contained' sx={styles.button}>
+        {isInCart ? 'Remove from cart' : 'Add to cart'}
+      </Button>
     </Box>
   );
 };
