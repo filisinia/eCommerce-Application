@@ -1,6 +1,6 @@
 import { useLayoutEffect } from 'react';
 
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import CartDiscount from './CartDiscount';
@@ -31,7 +31,7 @@ const Cart = (): JSX.Element => {
       if (cart) {
         const data = await addProduct(cart.version, cart.id, productId, 1);
 
-        // data !== 'string' ? setCart(data) : notification('error', data);
+        typeof data !== 'string' ? setCart(data) : notification('error', data);
       }
     } catch (error) {
       if (error instanceof Error) notification('error', error.message);
@@ -43,16 +43,18 @@ const Cart = (): JSX.Element => {
       if (cart) {
         const data = await removeProduct(cart.version, cart.id, lineItemId, quantity);
 
-        // data !== 'string' ? setCart(data) : notification('error', data);
+        typeof data !== 'string' ? setCart(data) : notification('error', data);
       }
     } catch (error) {
       if (error instanceof Error) notification('error', error.message);
     }
   };
 
+  const removeAllTheProduct = (): void => setCart(null);
+
   return (
     <section>
-      <Grid component='ul' container direction='column' rowGap={8}>
+      <Grid component='ul' container direction='column' rowGap={8} alignItems='center'>
         {cart && cart?.lineItems.length > 0 ? (
           <>
             {cart.lineItems.map((el) => (
@@ -66,6 +68,8 @@ const Cart = (): JSX.Element => {
             <CartDiscount />
 
             <p>Total price: {getCartTotalPrice(cart.lineItems)} $ </p>
+
+            <Button onClick={removeAllTheProduct}> Remove all the products</Button>
           </>
         ) : (
           <>
