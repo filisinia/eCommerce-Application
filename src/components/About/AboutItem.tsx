@@ -15,7 +15,7 @@ const AboutItem = ({ item }: { item: ITeamMember }): JSX.Element => {
   const { firstName, lastName, photo, role, git, bio, contributions } = item;
 
   return (
-    <Grid container component='li' xs={12} md={4} direction='column' alignItems='center' p={2} gap={2}>
+    <Grid container component='li' xs={6} sm={4} direction='column' alignItems='center' p={2} gap={2}>
       <Avatar alt={firstName} src={photo} sx={{ width: '5rem', height: '5rem' }} />
 
       <h4>
