@@ -1,5 +1,7 @@
 import { useLayoutEffect } from 'react';
 
+import { Grid } from '@mui/material';
+
 import CartItem from './CartItem';
 
 import { fetchCart } from 'api/cart/cart';
@@ -19,15 +21,13 @@ const Cart = (): JSX.Element => {
 
   return (
     <section>
-      {cart ? (
-        <>
-          {cart.lineItems.map((el) => (
-            <CartItem key={el.id} product={el} />
-          ))}
-        </>
-      ) : (
-        <h4>Empty</h4>
-      )}
+      <Grid component='ul' container>
+        {cart && cart?.lineItems.length > 0 ? (
+          cart.lineItems.map((el) => <CartItem key={el.id} product={el} />)
+        ) : (
+          <h4>Empty</h4>
+        )}
+      </Grid>
     </section>
   );
 };
