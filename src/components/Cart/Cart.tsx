@@ -7,6 +7,7 @@ import { fetchCart, addProduct, removeProduct, removeCart } from 'api/cart/cart'
 import CartDiscount from 'components/Cart/CartDiscount';
 import CartItem from 'components/Cart/CartItem';
 import cartStore from 'store/slices/cart/cartSlice';
+import formatNumber from 'utils/formatNumber';
 import getCartTotalPrice from 'utils/getCartTotalPrice';
 import notification from 'utils/notification';
 
@@ -51,13 +52,13 @@ const Cart = (): JSX.Element => {
 
   const removeAllTheProduct = (): void => {
     if (cart)
-      removeCart(cart.id)
+      removeCart(cart.version, cart.id)
         .then((data) => (typeof data !== 'string' ? setCart(data) : notification('error', data)))
         .catch((e: Error) => notification('error', e.message));
   };
 
   return (
-    <section>
+    <section style={{ marginBottom: '2rem' }}>
       <Grid component='ul' container direction='column' rowGap={8} alignItems='center'>
         {cart && cart.lineItems.length > 0 ? (
           <>
@@ -71,9 +72,9 @@ const Cart = (): JSX.Element => {
             ))}
             <CartDiscount />
 
-            <p>Total price: {getCartTotalPrice(cart.lineItems)} $ </p>
+            <p>Total price: {formatNumber.format(getCartTotalPrice(cart.lineItems))} $ </p>
 
-            <Button onClick={removeAllTheProduct}> Remove all the products</Button>
+            <Button onClick={removeAllTheProduct}>Clear Shopping Cart</Button>
           </>
         ) : (
           <>

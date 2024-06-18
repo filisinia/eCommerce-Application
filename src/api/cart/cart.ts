@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import setApiToken from 'api/setApiToken';
-import { ICart, IFetchCartSucess } from 'types/cart';
+import { ICart, IFetchCartSuccess } from 'types/cart';
 import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}/carts`;
@@ -9,7 +9,7 @@ const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_
 export const fetchCart = async (id: string = '058d0873-ace1-4f22-9249-2fc04fcc643d'): Promise<ICart | string> => {
   try {
     await setApiToken();
-    const { data }: IFetchCartSucess = await axios(`${baseUrl}/${id}`);
+    const { data }: IFetchCartSuccess = await axios(`${baseUrl}/${id}`);
 
     return data;
   } catch (e) {
@@ -35,7 +35,7 @@ export const addProduct: TAddProduct = async (version, cartId, productId, quanti
       ],
     });
 
-    const { data }: IFetchCartSucess = await axios.post(`${baseUrl}/${cartId}`, req);
+    const { data }: IFetchCartSuccess = await axios.post(`${baseUrl}/${cartId}`, req);
 
     return data;
   } catch (e) {
@@ -65,7 +65,7 @@ export const removeProduct: TRemoveProduct = async (version, cartId, lineItemId,
       ],
     });
 
-    const { data }: IFetchCartSucess = await axios.post(`${baseUrl}/${cartId}`, req);
+    const { data }: IFetchCartSuccess = await axios.post(`${baseUrl}/${cartId}`, req);
 
     return data;
   } catch (e) {
@@ -73,11 +73,13 @@ export const removeProduct: TRemoveProduct = async (version, cartId, lineItemId,
   }
 };
 
-export const removeCart = async (cartId: string): Promise<ICart | string> => {
+type TRemoveCart = (cartVersion: number, cartId: string) => Promise<ICart | string>;
+
+export const removeCart: TRemoveCart = async (cartVersion, cartId): Promise<ICart | string> => {
   try {
     await setApiToken();
 
-    const { data }: IFetchCartSucess = await axios.delete(`${baseUrl}/${cartId}`);
+    const { data }: IFetchCartSuccess = await axios.delete(`${baseUrl}/${cartId}?version=${cartVersion}`);
 
     return data;
   } catch (e) {

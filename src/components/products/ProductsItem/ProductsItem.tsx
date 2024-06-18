@@ -43,6 +43,9 @@ const Card = styled.div`
   &:hover .product__discount {
     color: rgb(199, 0, 57);
   }
+  &:hover .product__text {
+    color: white;
+  }
 `;
 
 const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
@@ -78,9 +81,8 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
 
   return (
     <Grid component='li' item key={id} lg={3} md={4} sm={6} xs={12} className='product' sx={{ gridAutoColumns: '1fr' }}>
-      <Card onClick={(e: React.MouseEvent<HTMLDivElement>): void => handleNavigation(e)}>
+      <Card className='product__container' onClick={(e: React.MouseEvent<HTMLDivElement>): void => handleNavigation(e)}>
         <CardHeader
-          className='product__header'
           title={name['en-US']}
           action={
             <IconButton onClick={handleAddProduct}>

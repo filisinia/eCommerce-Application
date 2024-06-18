@@ -2,6 +2,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Box, Button, Grid, IconButton } from '@mui/material';
 
 import { IProductCart } from 'types/cart';
+import formatNumber from 'utils/formatNumber';
 import notification from 'utils/notification';
 
 const CartItem = ({
@@ -40,7 +41,7 @@ const CartItem = ({
         <Button onClick={increaseProductQuantity}>+</Button>
       </Box>
       <p>
-        <span>{totalProductPrice} $ </span>
+        <span>{formatNumber.format(totalProductPrice)} $ </span>
       </p>
       <IconButton onClick={removeProduct}>
         <ClearIcon />

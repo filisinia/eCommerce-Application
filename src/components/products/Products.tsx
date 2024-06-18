@@ -1,4 +1,4 @@
-import { ChangeEvent, useLayoutEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useLayoutEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -66,9 +66,12 @@ const Products = (): JSX.Element => {
       return;
     }
 
-    if (currentPage === 1) await getMinMaxPrice();
-
-    setProducts([...(products || []), ...data.results]);
+    if (currentPage === 1) {
+      setProducts(data.results);
+      await getMinMaxPrice();
+    } else {
+      setProducts([...(products || []), ...data.results]);
+    }
   };
 
   const searchProducts = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -103,10 +106,9 @@ const Products = (): JSX.Element => {
 
   useLayoutEffect(() => {
     setCurrentPage(1);
-    setProducts(null);
   }, [categoryId]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getProducts().catch((e: Error) => notification('error', e.message));
   }, [currentPage, categoryId]);
 

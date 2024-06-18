@@ -1,4 +1,4 @@
-import { IPrice } from './products';
+import { IPrice } from 'types/products';
 
 interface ICartAddress {
   firstName: string;
@@ -36,7 +36,8 @@ export interface ICart {
   shippingAddress: ICartAddress;
   billingAddress: ICartAddress;
   store: IStore;
+  totalPrice: IPrice;
 }
-export interface IFetchCartSucess {
+export interface IFetchCartSuccess {
   data: ICart;
 }

@@ -4,12 +4,11 @@ html {
     width: 0;
   }
 }
+
 #root {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
+
 main {
   margin: 1rem;
 }
