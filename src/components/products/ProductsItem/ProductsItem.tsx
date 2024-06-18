@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Grid, CardHeader, CardMedia, CardContent, IconButton, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import 'components/products/ProductsItem/ProductItemStyle.scss';
 
@@ -50,9 +50,16 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
   const { masterVariant, name, description } = product;
   const { id } = masterVariant;
   const { value, discounted } = masterVariant.prices[0];
+  const navigate = useNavigate();
 
   const descriptionSize = 150;
   const shortDescription = description['en-US'].slice(0, descriptionSize);
+
+  const handleNavigation = (e: React.MouseEvent<HTMLDivElement>): void => {
+    const targetElem = e.target;
+
+    if (targetElem instanceof HTMLElement && !targetElem.closest('button')) navigate(`/products/${product.key}`);
+  };
 
   const handleAddProduct = (): void => {
     if (cart) {
@@ -71,38 +78,36 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
 
   return (
     <Grid component='li' item key={id} lg={3} md={4} sm={6} xs={12} className='product' sx={{ gridAutoColumns: '1fr' }}>
-      <Link to={`/products/${product.key}`}>
-        <Card>
-          <CardHeader
-            className='product__header'
-            title={name['en-US']}
-            action={
-              <IconButton onClick={handleAddProduct}>
-                <AddShoppingCartIcon />
-              </IconButton>
-            }
-          />
-          <CardMedia
-            component='img'
-            height='250'
-            image={masterVariant?.images[0]?.url}
-            alt={name['en-US']}
-            sx={{ height: 'auto' }}
-          />
+      <Card onClick={(e: React.MouseEvent<HTMLDivElement>): void => handleNavigation(e)}>
+        <CardHeader
+          className='product__header'
+          title={name['en-US']}
+          action={
+            <IconButton onClick={handleAddProduct}>
+              <AddShoppingCartIcon />
+            </IconButton>
+          }
+        />
+        <CardMedia
+          component='img'
+          height='250'
+          image={masterVariant?.images[0]?.url}
+          alt={name['en-US']}
+          sx={{ height: 'auto' }}
+        />
 
-          <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', rowGap: '0.2rem' }}>
-            {discounted && <span className='product__price'> {discounted.value.centAmount.toLocaleString()} USD</span>}
-            <span className={discounted ? 'product__price product__discount' : 'product__price'}>
-              {value.centAmount.toLocaleString()} USD
-            </span>
+        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', rowGap: '0.2rem' }}>
+          {discounted && <span className='product__price'> {discounted.value.centAmount.toLocaleString()} USD</span>}
+          <span className={discounted ? 'product__price product__discount' : 'product__price'}>
+            {value.centAmount.toLocaleString()} USD
+          </span>
 
-            <Typography>
-              <span className='product__text'>{shortDescription}</span>
-              <b>...</b>
-            </Typography>
-          </CardContent>
-        </Card>
-      </Link>
+          <Typography>
+            <span className='product__text'>{shortDescription}</span>
+            <b>...</b>
+          </Typography>
+        </CardContent>
+      </Card>
     </Grid>
   );
 };
