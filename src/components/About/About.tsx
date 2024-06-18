@@ -63,13 +63,15 @@ const team = [
 
 const About = (): JSX.Element => {
   const collaboration =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+    'This project is a web application for eCommerce, developed using TypeScript, React, Material UI, and Zustand. It provides a basic structure for creating an online store with features such as browsing products, adding them to the cart, and completing the checkout process.';
 
   return (
     <>
       <main>
-        <Grid container rowGap={5} alignItems='center' mt={2} direction='column' sx={{ marginBottom: '1rem' }}>
-          <Typography variant='h3'>Our Team</Typography>
+        <Grid container rowGap={5} alignItems='center' mt={2} mb={2} direction='column'>
+          <Typography variant='h2' color='primary' sx={{ letterSpacing: '0.4rem' }}>
+            About us
+          </Typography>
 
           <Grid container justifyContent='center'>
             {team.map((item) => (
@@ -77,7 +79,9 @@ const About = (): JSX.Element => {
             ))}
           </Grid>
 
-          <p>{collaboration}</p>
+          <p style={{ textAlign: 'center', letterSpacing: '0.05rem' }}>
+            <i> {collaboration}</i>
+          </p>
         </Grid>
       </main>
       <footer style={{ backgroundColor: 'black', width: '100%', padding: '2rem' }}>

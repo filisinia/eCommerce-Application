@@ -35,6 +35,7 @@ export interface ICart {
   shippingAddress: ICartAddress;
   billingAddress: ICartAddress;
   store: IStore;
+  totalPrice: IPrice;
 }
 export interface IFetchCartSucess {
   data: ICart;
