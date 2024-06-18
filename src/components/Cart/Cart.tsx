@@ -8,6 +8,7 @@ import CartItem from './CartItem';
 
 import { fetchCart, addProduct, removeProduct, removeCart } from 'api/cart/cart';
 import cartStore from 'store/slices/cart/cartSlice';
+import formatNumber from 'utils/formatNumber';
 import getCartTotalPrice from 'utils/getCarTotalPrice';
 import notification from 'utils/notification';
 
@@ -72,7 +73,7 @@ const Cart = (): JSX.Element => {
             ))}
             <CartDiscount />
 
-            <p>Total price: {getCartTotalPrice(cart.lineItems)} $ </p>
+            <p>Total price: {formatNumber.format(getCartTotalPrice(cart.lineItems))} $ </p>
 
             <Button onClick={removeAllTheProduct}>Clear Shopping Cart</Button>
           </>
