@@ -1,15 +1,27 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import { Box, Button, Typography } from '@mui/material';
 
 import styles from 'components/productInfo/productDescription/productDescriptionStyle';
 import productInfoContext from 'components/productInfo/ProductInfoContext';
+import cartStore from 'store/slices/cart/cartSlice';
 
 const ProductDescription = (): JSX.Element | null => {
-  const [isInCart, setIsInCart] = useState(false);
+  const { cart, setCart } = cartStore((state) => state);
   const productInfo = useContext(productInfoContext);
 
   if (!productInfo) return null;
+
+  let isInCart = false;
+
+  if (cart?.lineItems.length) {
+    for (let i = 0; i < cart?.lineItems?.length; i += 1) {
+      if (cart?.lineItems[i].name['en-US'] === productInfo.name['en-US']) {
+        isInCart = true;
+        break;
+      }
+    }
+  }
 
   const priceData = productInfo.masterVariant.prices[0];
   const price = priceData.value;
