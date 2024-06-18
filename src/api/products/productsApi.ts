@@ -7,7 +7,6 @@ import {
   IFetchProductInfo,
   IFetchProductSuccess,
   IFetchProductsCategoriesSuccess,
-  IProduct,
   IProductCategories,
   IProductInfo,
   IProducts,

@@ -38,6 +38,19 @@ export interface ICart {
   store: IStore;
   totalPrice: IPrice;
 }
+
 export interface IFetchCartSuccess {
   data: ICart;
+}
+
+export interface IFetchCustomerCartsSuccess {
+  data: {
+    results: ICart[];
+  };
+}
+
+export interface ICreateCartRequest {
+  currency: string;
+  country: string;
+  customerId?: string;
 }

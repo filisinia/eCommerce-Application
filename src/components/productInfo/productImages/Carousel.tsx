@@ -12,11 +12,12 @@ const Carousel = forwardRef(
     { type, mainImageIndex, modalImageIndex, setMainImageIndex, setModalImageIndex }: ICarouselProps,
     ref,
   ): JSX.Element | null => {
-    const productInfo = useContext(productInfoContext)?.masterData.current;
+    const productInfo = useContext(productInfoContext);
+    const masterData = productInfo?.masterData.current;
 
-    if (!productInfo) return null;
+    if (!masterData) return null;
 
-    const imagesData = productInfo.masterVariant.images;
+    const imagesData = masterData.masterVariant.images;
     const imagesQuantity = imagesData.length;
     const lastImageIndex = imagesQuantity - 1;
     let x1: number | null = null;
@@ -74,7 +75,7 @@ const Carousel = forwardRef(
 
     const sliderImages = imagesData.map((imageData) => (
       <Box key={imageData.url} sx={styles.slideImageBox}>
-        <img src={imageData.url} alt={productInfo.name['en-US']} style={styles.slideImage} />
+        <img src={imageData.url} alt={masterData.name['en-US']} style={styles.slideImage} />
       </Box>
     ));
 
@@ -84,18 +85,13 @@ const Carousel = forwardRef(
         onClick={() => setImageIndex(index)}
         sx={[styles.image, imageData.url === imagesData[imageIndex].url ? styles.selectedImage : {}]}
       >
-        <img src={imageData.url} alt={productInfo.name['en-US']} />
+        <img src={imageData.url} alt={masterData.name['en-US']} />
       </ImageListItem>
     ));
 
     return imagesQuantity === 1 ? (
       <Box>
-        <img
-          src={imagesData[0].url}
-          alt={productInfo.name['en-US']}
-          key={imagesData[0].url}
-          style={styles.slideImage}
-        />
+        <img src={imagesData[0].url} alt={masterData.name['en-US']} key={imagesData[0].url} style={styles.slideImage} />
       </Box>
     ) : (
       <>

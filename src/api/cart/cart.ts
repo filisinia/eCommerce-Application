@@ -1,22 +1,35 @@
 import axios from 'axios';
 
 import setApiToken from 'api/setApiToken';
-import { ICart, IFetchCartSuccess } from 'types/cart';
+import { ICart, ICreateCartRequest, IFetchCartSuccess, IFetchCustomerCartsSuccess } from 'types/cart';
 import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}/carts`;
 
-export const createCart = async (idCustomer: string = ''): Promise<ICart | string> => {
+export const checkIsCartExist = async (idCustomer: string): Promise<boolean> => {
   try {
     await setApiToken();
 
-    const req = JSON.stringify({
+    const { data }: IFetchCustomerCartsSuccess = await axios(`${baseUrl}?where=customerId%3D%22${idCustomer}%22`);
+
+    return data.results.length > 0;
+  } catch (e) {
+    return false;
+  }
+};
+
+export const createCart = async (idCustomer?: string): Promise<ICart | string> => {
+  try {
+    await setApiToken();
+
+    let req: ICreateCartRequest = {
       currency: 'EUR',
       country: 'DE',
-      customerId: idCustomer,
-    });
+    };
 
-    const { data }: IFetchCartSuccess = await axios.post(baseUrl, req);
+    if (idCustomer) req = { ...req, customerId: idCustomer };
+
+    const { data }: IFetchCartSuccess = await axios.post(baseUrl, JSON.stringify(req));
 
     return data;
   } catch (e) {
@@ -24,12 +37,14 @@ export const createCart = async (idCustomer: string = ''): Promise<ICart | strin
   }
 };
 
-export const fetchCart = async (id: string = 'e1db0d5c-2e53-49b0-88e7-2985d4d327c4'): Promise<ICart | string> => {
+export const fetchCart = async (
+  idCustomer: string = 'e1db0d5c-2e53-49b0-88e7-2985d4d327c4',
+): Promise<ICart | string> => {
   try {
     await setApiToken();
-    const { data }: IFetchCartSuccess = await axios(`${baseUrl}/${id}`);
+    const { data }: IFetchCustomerCartsSuccess = await axios(`${baseUrl}?where=customerId%3D%22${idCustomer}%22`);
 
-    return data;
+    return data.results[data.results.length - 1] || 'There is no cart for this customer';
   } catch (e) {
     return catchFetchError(e);
   }
@@ -41,7 +56,7 @@ export const addProduct: TAddProduct = async (version, cartId, productId, quanti
   try {
     await setApiToken();
 
-    const req = JSON.stringify({
+    const req = {
       version,
       actions: [
         {
@@ -51,9 +66,9 @@ export const addProduct: TAddProduct = async (version, cartId, productId, quanti
           quantity,
         },
       ],
-    });
+    };
 
-    const { data }: IFetchCartSuccess = await axios.post(`${baseUrl}/${cartId}`, req);
+    const { data }: IFetchCartSuccess = await axios.post(`${baseUrl}/${cartId}`, JSON.stringify(req));
 
     return data;
   } catch (e) {
