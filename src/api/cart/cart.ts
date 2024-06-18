@@ -73,11 +73,13 @@ export const removeProduct: TRemoveProduct = async (version, cartId, lineItemId,
   }
 };
 
-export const removeCart = async (cartId: string): Promise<ICart | string> => {
+type TRemoveCart = (cartVersion: number, cartId: string) => Promise<ICart | string>;
+
+export const removeCart: TRemoveCart = async (cartVersion, cartId): Promise<ICart | string> => {
   try {
     await setApiToken();
 
-    const { data }: IFetchCartSucess = await axios.delete(`${baseUrl}/${cartId}`);
+    const { data }: IFetchCartSucess = await axios.delete(`${baseUrl}/${cartId}?version=${cartVersion}`);
 
     return data;
   } catch (e) {
