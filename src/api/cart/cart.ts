@@ -6,7 +6,25 @@ import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}/carts`;
 
-export const fetchCart = async (id: string = '058d0873-ace1-4f22-9249-2fc04fcc643d'): Promise<ICart | string> => {
+export const createCart = async (idCustomer: string = ''): Promise<ICart | string> => {
+  try {
+    await setApiToken();
+
+    const req = JSON.stringify({
+      currency: 'EUR',
+      country: 'DE',
+      customerId: idCustomer,
+    });
+
+    const { data }: IFetchCartSuccess = await axios.post(baseUrl, req);
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const fetchCart = async (id: string = 'e1db0d5c-2e53-49b0-88e7-2985d4d327c4'): Promise<ICart | string> => {
   try {
     await setApiToken();
     const { data }: IFetchCartSuccess = await axios(`${baseUrl}/${id}`);
