@@ -14,7 +14,7 @@ const BasketElem: FC<BasketIconProps> = ({ isCartActive }): JSX.Element => {
   const { cart } = cartStore((state) => state);
 
   return (
-    <IconButton aria-label='cart' component={Link} to='/cart'>
+    <IconButton aria-label='cart' component={Link} to='/cart' sx={{ width: 'max-content', margin: '0 auto' }}>
       <Badge badgeContent={cart && cart.totalLineItemQuantity} color='secondary'>
         <ShoppingCartIcon
           color='primary'

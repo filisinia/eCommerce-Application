@@ -67,8 +67,8 @@ const Products = (): JSX.Element => {
     }
 
     if (currentPage === 1) {
-      setProducts(data.results);
       await getMinMaxPrice();
+      setProducts(data.results);
     } else {
       setProducts([...(products || []), ...data.results]);
     }

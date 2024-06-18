@@ -16,10 +16,7 @@ const Header = (): JSX.Element => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const isProductsActive = pathname === '/products';
-  const isAboutActive = pathname === '/about';
-  const isCartActive = pathname === '/cart';
-  const isProfileActive = pathname === '/profile';
+  const checkIsActivePage = (path: string): boolean => pathname === path;
 
   const handleLogout = (): void => {
     notification('success', 'You have been successfully logged out');
@@ -46,8 +43,8 @@ const Header = (): JSX.Element => {
               component={Link}
               to='/products'
               style={{
-                fontWeight: isProductsActive ? 'bold' : 'normal',
-                color: isProductsActive ? 'rgb(255, 228, 196)' : '#1565c0',
+                fontWeight: checkIsActivePage('/products') ? 'bold' : 'normal',
+                color: checkIsActivePage('/products') ? 'rgb(255, 228, 196)' : '#1565c0',
               }}
             >
               Products
@@ -57,19 +54,19 @@ const Header = (): JSX.Element => {
               component={Link}
               to='/about'
               style={{
-                fontWeight: isAboutActive ? 'bold' : 'normal',
-                color: isAboutActive ? 'rgb(255, 228, 196)' : '#1565c0',
+                fontWeight: checkIsActivePage('/about') ? 'bold' : 'normal',
+                color: checkIsActivePage('/about') ? 'rgb(255, 228, 196)' : '#1565c0',
               }}
             >
               About
             </Button>
-            <BasketElem isCartActive={isCartActive} />
+            <BasketElem isCartActive={checkIsActivePage('/cart')} />
             {customer ? (
               <>
                 <IconButton component={Link} to='/profile'>
                   <AccountCircleOutlined
                     style={{
-                      color: isProfileActive ? 'rgb(255, 228, 196)' : '#1565c0',
+                      color: checkIsActivePage('/profile') ? 'rgb(255, 228, 196)' : '#1565c0',
                     }}
                   />
                 </IconButton>
@@ -105,23 +102,73 @@ const Header = (): JSX.Element => {
         anchor='right'
         open={isDrawerOpened}
         onClose={() => setIsDrawerOpened(false)}
-        PaperProps={{ sx: { width: '40vw', padding: '20px 0' } }}
+        PaperProps={{ sx: { width: '60vw', padding: '20px 0' } }}
       >
-        <Button onClick={() => handleDrawerItemClick('/')}>Main</Button>
-        <Button onClick={() => handleDrawerItemClick('/products')}>Products</Button>
-        <Button onClick={() => handleDrawerItemClick('/signup')}>Sign up</Button>
-        <Button onClick={() => handleDrawerItemClick('/login')}>Log in</Button>
+        <Button
+          onClick={() => handleDrawerItemClick('/')}
+          style={{
+            color: checkIsActivePage('/') ? 'rgb(179 127 65)' : '#1565c0',
+          }}
+        >
+          Main
+        </Button>
+        <Button
+          onClick={() => handleDrawerItemClick('/products')}
+          style={{
+            color: checkIsActivePage('/products') ? 'rgb(179 127 65)' : '#1565c0',
+          }}
+        >
+          Products
+        </Button>
+        <Button onClick={() => handleDrawerItemClick('/cart')}>
+          <BasketElem isCartActive={checkIsActivePage('/cart')} />
+        </Button>
+        <Button
+          onClick={() => handleDrawerItemClick('/about')}
+          style={{
+            color: checkIsActivePage('/about') ? 'rgb(179 127 65)' : '#1565c0',
+          }}
+        >
+          About
+        </Button>
         {customer ? (
-          <Button
-            onClick={() => {
-              handleDrawerItemClick('/');
-              handleLogout();
-            }}
-          >
-            Log out
-          </Button>
+          <>
+            <Button
+              onClick={() => handleDrawerItemClick('/profile')}
+              style={{
+                color: checkIsActivePage('/profile') ? 'rgb(179 127 65)' : '#1565c0',
+              }}
+            >
+              Profile
+            </Button>
+            <Button
+              onClick={() => {
+                handleDrawerItemClick('/');
+                handleLogout();
+              }}
+            >
+              Log out
+            </Button>
+          </>
         ) : (
-          ''
+          <>
+            <Button
+              onClick={() => handleDrawerItemClick('/signup')}
+              style={{
+                color: checkIsActivePage('/signup') ? 'rgb(179 127 65)' : '#1565c0',
+              }}
+            >
+              Sign up
+            </Button>
+            <Button
+              onClick={() => handleDrawerItemClick('/login')}
+              style={{
+                color: checkIsActivePage('/login') ? 'rgb(179 127 65)' : '#1565c0',
+              }}
+            >
+              Log in
+            </Button>
+          </>
         )}
       </Drawer>
     </>
