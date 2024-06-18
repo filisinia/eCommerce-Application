@@ -9,30 +9,30 @@ const team = [
     id: 0,
     firstName: 'Mariia',
     lastName: 'Petrenko',
-    photo: '',
+    photo: '/img/about/1.webp',
     role: 'Team lead',
     git: 'https://github.com/filisinia',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+    bio: `I'm a front-end developer specializing in building web applications with React and TypeScript. I focus on delivering high-quality user experiences and writing clean, maintainable code. My goal is to achieve efficiency and excellence in every project, creating modern and visually appealing web solutions`,
     contributions: [],
   },
   {
     id: 1,
     firstName: 'Mykhailo',
     lastName: 'Nikolaiev',
-    photo: '',
+    photo: '/img/about/3.webp',
     role: 'Developer',
     git: 'https://github.com/ab3mn',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+    bio: `I'm a junior front-end developer`,
     contributions: [],
   },
   {
     id: 2,
     firstName: 'Ilia',
     lastName: 'Ladin',
-    photo: '',
+    photo: '/img/about/2.webp',
     role: 'Developer',
     git: 'https://github.com/reel-q',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
+    bio: `I'm a junior front-end developer`,
     contributions: [],
   },
 ];
@@ -59,7 +59,7 @@ const About = (): JSX.Element => {
       <footer style={{ backgroundColor: 'black', width: '100%', padding: '2rem' }}>
         <a href='https://rs.school/' target='_blank' rel='noreferrer'>
           <img
-            src='../../assets/img/rs.svg'
+            src='/img/icons/rs.svg'
             alt='RS Shool Icon'
             style={{
               width: '10rem',

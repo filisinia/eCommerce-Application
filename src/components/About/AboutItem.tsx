@@ -38,7 +38,7 @@ const AboutItem = ({ item }: { item: ITeamMember }): JSX.Element => {
         ))}
       </ul>
 
-      <p>{bio}</p>
+      <p style={{ textAlign: 'center' }}>{bio}</p>
     </Grid>
   );
 };
