@@ -63,7 +63,7 @@ const Header = (): JSX.Element => {
             >
               About
             </Button>
-            <BasketElem isCartActive={isCartActive} itemsQuantity={1} />
+            <BasketElem isCartActive={isCartActive} />
             {customer ? (
               <>
                 <IconButton component={Link} to='/profile'>

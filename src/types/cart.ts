@@ -32,6 +32,7 @@ export interface ICart {
   key: string;
   customerId: string;
   lineItems: IProductCart[];
+  totalLineItemQuantity: number;
   shippingAddress: ICartAddress;
   billingAddress: ICartAddress;
   store: IStore;
