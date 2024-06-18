@@ -9,6 +9,7 @@ import {
   IFetchProductsCategoriesSuccess,
   IProduct,
   IProductCategories,
+  IProductInfo,
   IProducts,
 } from 'types/products';
 import { catchFetchError } from 'utils/errors';
@@ -76,12 +77,11 @@ export const searchProductsByInput = async (
   }
 };
 
-export const fetchProductInfo = async (productKey: string): Promise<IProduct | string> => {
+export const fetchProductInfo = async (productKey: string): Promise<IProductInfo | string> => {
   try {
     await setApiToken();
 
-    const response: IFetchProductInfo = await axios(`${baseUrl}/products/key=${productKey}`);
-    const data: IProduct = response.data.masterData.current;
+    const { data }: IFetchProductInfo = await axios(`${baseUrl}/products/key=${productKey}`);
 
     return data;
   } catch (e) {

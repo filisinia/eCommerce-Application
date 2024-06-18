@@ -12,7 +12,7 @@ const Carousel = forwardRef(
     { type, mainImageIndex, modalImageIndex, setMainImageIndex, setModalImageIndex }: ICarouselProps,
     ref,
   ): JSX.Element | null => {
-    const productInfo = useContext(productInfoContext);
+    const productInfo = useContext(productInfoContext)?.masterData.current;
 
     if (!productInfo) return null;
 

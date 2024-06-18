@@ -64,7 +64,7 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
     if (targetElem instanceof HTMLElement && !targetElem.closest('button')) navigate(`/products/${product.key}`);
   };
 
-  const handleAddProduct = (): void => {
+  const handleAddToCart = (): void => {
     if (cart) {
       addProduct(cart.version, cart.id, product.id, 1)
         .then((data) => {
@@ -85,7 +85,7 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
         <CardHeader
           title={name['en-US']}
           action={
-            <IconButton onClick={handleAddProduct}>
+            <IconButton onClick={handleAddToCart}>
               <AddShoppingCartIcon />
             </IconButton>
           }
