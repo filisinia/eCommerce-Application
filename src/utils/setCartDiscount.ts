@@ -8,7 +8,14 @@ const setCartDiscount = (cart: ICart, discount: ICartDiscount): ICart => {
   newCart.lineItems.forEach((product: IProductCart): void => {
     const newProduct = { ...product };
 
-    newProduct.totalPrice.centAmount -= (newProduct.totalPrice.centAmount * productDiscount) / percent;
+    const { totalPrice } = product;
+    const { centAmount, country, fractionDigits, currencyCode } = totalPrice;
+
+    const discountPrice = centAmount - (centAmount * productDiscount) / percent;
+
+    const price = { type: 'discount-price', country, centAmount: discountPrice, fractionDigits, currencyCode };
+
+    newProduct.discountedPricePerQuantity.push(price);
   });
 
   return newCart;

@@ -12,7 +12,7 @@ import formatNumber from 'utils/formatNumber';
 import getCartTotalPrice from 'utils/getCartTotalPrice';
 import notification from 'utils/notification';
 
-const Cart = (): JSX.Element => {
+const Cart = ({ isDiscoundActive }: { isDiscoundActive: boolean }): JSX.Element => {
   const { cart, setCart } = cartStore((state) => state);
 
   const customerId = customerStore((state) => state.customer?.id);
@@ -91,6 +91,7 @@ const Cart = (): JSX.Element => {
                 product={el}
                 increaseQuantity={increaseProductCartQuantity}
                 decreaseQuantity={decreaseProductCartQuantity}
+                isDiscoundActive={isDiscoundActive}
               />
             ))}
             <CartDiscount />

@@ -24,6 +24,8 @@ export interface IProductCart {
   variant: {
     images: { url: string }[];
   };
+  discountedPricePerQuantity: IPrice[];
+  price: { id: string; discounted: { value: IPrice }; value: IPrice };
 }
 
 export interface ICart {

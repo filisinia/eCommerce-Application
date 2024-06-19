@@ -8,6 +8,7 @@ export interface IPrice {
   currencyCode: string;
   centAmount: number;
   fractionDigits: number;
+  country: string;
 }
 
 export interface IProductPrice {
