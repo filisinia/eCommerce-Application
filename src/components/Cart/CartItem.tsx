@@ -22,7 +22,7 @@ const CartItem = ({
     increaseQuantity(productId).catch((e: Error) => notification('error', e.message));
   };
 
-  const decreseProductQuantity = (): void => {
+  const decreaseProductQuantity = (): void => {
     decreaseQuantity(id, 1).catch((e: Error) => notification('error', e.message));
   };
 
@@ -36,7 +36,7 @@ const CartItem = ({
 
       <img src={variant.images[0].url} alt={name['en-US']} style={{ width: '10rem', height: '10rem' }} />
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Button onClick={decreseProductQuantity}>-</Button>
+        <Button onClick={decreaseProductQuantity}>-</Button>
         <span>{quantity}</span>
         <Button onClick={increaseProductQuantity}>+</Button>
       </Box>

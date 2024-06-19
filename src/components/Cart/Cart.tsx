@@ -3,29 +3,44 @@ import { useLayoutEffect } from 'react';
 import { Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import CartDiscount from './CartDiscount';
-import CartItem from './CartItem';
-
-import { fetchCart, addProduct, removeProduct, removeCart } from 'api/cart/cart';
+import { fetchCart, addProduct, removeProduct, removeCart, checkIsCartExist, createCart } from 'api/cart/cart';
+import CartDiscount from 'components/Cart/CartDiscount';
+import CartItem from 'components/Cart/CartItem';
 import cartStore from 'store/slices/cart/cartSlice';
+import customerStore from 'store/slices/customer/customerSlice';
 import formatNumber from 'utils/formatNumber';
-import getCartTotalPrice from 'utils/getCarTotalPrice';
+import getCartTotalPrice from 'utils/getCartTotalPrice';
 import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
   const { cart, setCart } = cartStore((state) => state);
+  const { customer } = customerStore((state) => state);
 
-  useLayoutEffect(() => {
-    fetchCart()
-      .then((data) => {
-        if (typeof data !== 'string') setCart(data);
-        else {
-          setCart(null);
-          notification('error', data);
-        }
-      })
-      .catch((e: Error) => notification('error', e.message));
-  }, [JSON.stringify(cart)]);
+  const createNewCart = async (customerId?: string): Promise<void> => {
+    const newCart = customerId ? await createCart(customerId) : await createCart();
+
+    typeof newCart !== 'string' ? setCart(newCart) : notification('error', newCart);
+  };
+
+  const fetchOldCart = async (customerId: string): Promise<void> => {
+    const oldCart = await fetchCart(customerId);
+
+    typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
+  };
+
+  useLayoutEffect((): void => {
+    const initializeCart = async (): Promise<void> => {
+      if (customer?.id) {
+        const isExist = await checkIsCartExist(customer.id);
+
+        isExist ? await fetchOldCart(customer.id) : await createNewCart(customer.id);
+      } else {
+        await createNewCart();
+      }
+    };
+
+    initializeCart().catch((e) => e instanceof Error && notification('error', e.message));
+  }, [customer?.id]);
 
   const increaseProductCartQuantity = async (productId: string): Promise<void> => {
     try {
@@ -61,7 +76,7 @@ const Cart = (): JSX.Element => {
   return (
     <section style={{ marginBottom: '2rem' }}>
       <Grid component='ul' container direction='column' rowGap={8} alignItems='center'>
-        {cart && cart?.lineItems.length > 0 ? (
+        {cart && cart.lineItems.length > 0 ? (
           <>
             {cart.lineItems.map((el) => (
               <CartItem

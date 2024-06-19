@@ -7,20 +7,22 @@ import {
   IFetchProductInfo,
   IFetchProductSuccess,
   IFetchProductsCategoriesSuccess,
-  IProduct,
   IProductCategories,
+  IProductInfo,
   IProducts,
 } from 'types/products';
 import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}`;
-const defaultLimit = 24;
+const defaultLimit = 12;
 
-export const fetchProducts = async (categoryId: string, limit: number = defaultLimit): Promise<IProducts | string> => {
+export const fetchProducts = async (categoryId: string, page: number): Promise<IProducts | string> => {
+  const offset = (page - 1) * defaultLimit;
+
   try {
     await setApiToken();
     const { data }: IFetchProductSuccess = await axios(
-      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&limit=${limit}`,
+      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&limit=${defaultLimit}&offset=${offset}`,
     );
 
     return data;
@@ -43,13 +45,12 @@ export const sortProductsByType = async (
   categoryId: string,
   type: string,
   direction: string,
-  limit: number = defaultLimit,
 ): Promise<IProducts | string> => {
   try {
     await setApiToken();
 
     const { data }: IFetchProductSuccess = await axios(
-      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&sort=${type} ${direction}&limit=${limit}`,
+      `${baseUrl}/product-projections/search?filter=categories.id%3A%22${categoryId}%22&sort=${type} ${direction}&limit=${defaultLimit}`,
     );
 
     return data;
@@ -75,12 +76,11 @@ export const searchProductsByInput = async (
   }
 };
 
-export const fetchProductInfo = async (productKey: string): Promise<IProduct | string> => {
+export const fetchProductInfo = async (productKey: string): Promise<IProductInfo | string> => {
   try {
     await setApiToken();
 
-    const response: IFetchProductInfo = await axios(`${baseUrl}/products/key=${productKey}`);
-    const data: IProduct = response.data.masterData.current;
+    const { data }: IFetchProductInfo = await axios(`${baseUrl}/products/key=${productKey}`);
 
     return data;
   } catch (e) {
