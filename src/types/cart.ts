@@ -53,6 +53,6 @@ export interface ICreateCartRequest {
   currency: string;
   country: string;
   customerId?: string;
-  action? : 'setAnonymousId';
+  action?: 'setAnonymousId';
   anonymousId?: string;
 }

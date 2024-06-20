@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 import { Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
