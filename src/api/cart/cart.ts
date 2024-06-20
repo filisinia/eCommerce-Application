@@ -1,14 +1,7 @@
 import axios from 'axios';
 
 import setApiToken from 'api/setApiToken';
-import {
-  ICart,
-  ICartDiscount,
-  ICreateCartRequest,
-  IFetchCartDiscountSuccess,
-  IFetchCartSuccess,
-  IFetchCustomerCartsSuccess,
-} from 'types/cart';
+import { ICart, ICreateCartRequest, IFetchCartSuccess, IFetchCustomerCartsSuccess } from 'types/cart';
 import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}/carts`;
