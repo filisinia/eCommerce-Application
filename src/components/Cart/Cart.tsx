@@ -14,33 +14,36 @@ import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
   const { cart, setCart } = cartStore((state) => state);
-  const { customer } = customerStore((state) => state);
 
-  const createNewCart = async (customerId?: string): Promise<void> => {
+  const customerId = customerStore((state) => state.customer?.id);
+
+  const createNewCart = async (): Promise<void> => {
     const newCart = customerId ? await createCart(customerId) : await createCart();
 
     typeof newCart !== 'string' ? setCart(newCart) : notification('error', newCart);
   };
 
-  const fetchOldCart = async (customerId: string): Promise<void> => {
+  const fetchOldCart = async (): Promise<void> => {
     const oldCart = await fetchCart(customerId);
 
     typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
   };
 
   useLayoutEffect((): void => {
-    const initializeCart = async (): Promise<void> => {
-      if (customer?.id) {
-        const isExist = await checkIsCartExist(customer.id);
+    if (cart) return;
 
-        isExist ? await fetchOldCart(customer.id) : await createNewCart(customer.id);
+    const initializeCart = async (): Promise<void> => {
+      if (customerId) {
+        const isExist = await checkIsCartExist(customerId);
+
+        isExist ? await fetchOldCart() : await createNewCart();
       } else {
         await createNewCart();
       }
     };
 
     initializeCart().catch((e) => e instanceof Error && notification('error', e.message));
-  }, [customer?.id]);
+  }, [customerId]);
 
   const increaseProductCartQuantity = async (productId: string): Promise<void> => {
     try {
@@ -69,7 +72,11 @@ const Cart = (): JSX.Element => {
   const removeAllTheProduct = (): void => {
     if (cart)
       removeCart(cart.version, cart.id)
-        .then((data) => (typeof data !== 'string' ? setCart(data) : notification('error', data)))
+        .then((data) => {
+          typeof data !== 'string'
+            ? createNewCart().catch(() => notification('error', 'Error occurred while creating a new cart'))
+            : notification('error', data);
+        })
         .catch((e: Error) => notification('error', e.message));
   };
 
