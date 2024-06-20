@@ -14,6 +14,7 @@ import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
   const { cart, setCart } = cartStore((state) => state);
+
   const customerId = customerStore((state) => state.customer?.id);
 
   const createNewCart = async (): Promise<void> => {
