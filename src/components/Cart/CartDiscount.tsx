@@ -2,6 +2,9 @@ import { useState } from 'react';
 
 import { Box, Button, TextField } from '@mui/material';
 
+import { fetchDiscountCodes } from 'api/cart/discount';
+import { ICartDiscount } from 'types/cart';
+import notification from 'utils/notification';
 import { textAndNumberValidate } from 'utils/validate';
 
 const CartDiscount = (): JSX.Element => {
@@ -9,8 +12,26 @@ const CartDiscount = (): JSX.Element => {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => setDiscount(e.target.value);
 
+  const onSubmit = (e: React.FormEvent): void => {
+    e.preventDefault();
+
+    fetchDiscountCodes()
+      .then((data) => {
+        if (typeof data !== 'string') {
+          const isValidCode = data.some((promo: ICartDiscount): boolean => promo.code === discount);
+
+          isValidCode ? notification('success', 'Code is valid') : notification('error', 'Invalid code');
+        } else {
+          notification('error', data);
+        }
+      })
+      .catch((err: Error) => notification('error', err.message));
+
+    setDiscount('');
+  };
+
   return (
-    <Box component='form' sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+    <Box component='form' sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }} onSubmit={onSubmit}>
       <TextField
         onChange={(e) => onChange(e)}
         label='Discount'

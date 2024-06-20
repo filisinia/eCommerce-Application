@@ -1,7 +1,14 @@
 import axios from 'axios';
 
 import setApiToken from 'api/setApiToken';
-import { ICart, ICreateCartRequest, IFetchCartSuccess, IFetchCustomerCartsSuccess } from 'types/cart';
+import {
+  ICart,
+  ICartDiscount,
+  ICreateCartRequest,
+  IFetchCartDiscountSuccess,
+  IFetchCartSuccess,
+  IFetchCustomerCartsSuccess,
+} from 'types/cart';
 import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}/carts`;
@@ -62,14 +69,7 @@ export const addProduct: TAddProduct = async (version, cartId, productId, quanti
 
     const req = {
       version,
-      actions: [
-        {
-          action: 'addLineItem',
-          productId,
-          variantId: 1,
-          quantity,
-        },
-      ],
+      actions: [{ action: 'addLineItem', productId, variantId: 1, quantity }],
     };
 
     const { data }: IFetchCartSuccess = await axios.post(`${baseUrl}/${cartId}`, JSON.stringify(req));
@@ -93,13 +93,7 @@ export const removeProduct: TRemoveProduct = async (version, cartId, lineItemId,
 
     const req = JSON.stringify({
       version,
-      actions: [
-        {
-          action: 'removeLineItem',
-          lineItemId,
-          quantity,
-        },
-      ],
+      actions: [{ action: 'removeLineItem', lineItemId, quantity }],
     });
 
     const { data }: IFetchCartSuccess = await axios.post(`${baseUrl}/${cartId}`, req);
@@ -112,7 +106,7 @@ export const removeProduct: TRemoveProduct = async (version, cartId, lineItemId,
 
 type TRemoveCart = (cartVersion: number, cartId: string) => Promise<ICart | string>;
 
-export const removeCart: TRemoveCart = async (cartVersion, cartId): Promise<ICart | string> => {
+export const removeCart: TRemoveCart = async (cartVersion, cartId) => {
   try {
     await setApiToken();
 

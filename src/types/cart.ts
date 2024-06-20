@@ -56,3 +56,17 @@ export interface ICreateCartRequest {
   action?: 'setAnonymousId';
   anonymousId?: string;
 }
+export interface ICartDiscount {
+  id: string;
+  version: number;
+  code: string;
+  cartDiscounts: [{ typeId: string; id: string }];
+  isActive: true;
+}
+export interface IFetchCartDiscountSuccess {
+  data: {
+    limit: number;
+    total: number;
+    results: ICartDiscount[];
+  };
+}
