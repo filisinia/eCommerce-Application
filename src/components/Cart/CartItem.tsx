@@ -1,6 +1,8 @@
 import ClearIcon from '@mui/icons-material/Clear';
 import { Box, Button, Grid, IconButton } from '@mui/material';
 
+import 'components/products/ProductsItem/ProductItemStyle.scss';
+
 import { IProductCart } from 'types/cart';
 import formatNumber from 'utils/formatNumber';
 import notification from 'utils/notification';
@@ -9,14 +11,24 @@ const CartItem = ({
   product,
   increaseQuantity,
   decreaseQuantity,
+  isDiscoundActive,
 }: {
   product: IProductCart;
   increaseQuantity: (productId: string) => Promise<void>;
   decreaseQuantity: (lineItemId: string, quantity: number) => Promise<void>;
+  isDiscoundActive: boolean;
 }): JSX.Element => {
-  const { name, totalPrice, quantity, variant, productId, id } = product;
+  const { name, quantity, variant, productId, id, price } = product;
 
-  const totalProductPrice = quantity * totalPrice.centAmount;
+  const totalProductPrice = quantity * price.value.centAmount;
+
+  let discountPrice: number | null = null;
+
+  if (price.discounted) {
+    discountPrice = quantity * price.discounted.value.centAmount;
+  }
+
+  const isActive = isDiscoundActive && discountPrice;
 
   const increaseProductQuantity = (): void => {
     increaseQuantity(productId).catch((e: Error) => notification('error', e.message));
@@ -41,7 +53,15 @@ const CartItem = ({
         <Button onClick={increaseProductQuantity}>+</Button>
       </Box>
       <p>
-        <span>{formatNumber.format(totalProductPrice)} $ </span>
+        {isActive && (
+          <span className='product__price' style={{ textAlign: 'center' }}>
+            {discountPrice}
+            <br />
+          </span>
+        )}
+        <span className={isActive ? 'product__price product__discount' : 'product__price'}>
+          {formatNumber.format(totalProductPrice)} $
+        </span>
       </p>
       <IconButton onClick={removeProduct}>
         <ClearIcon />

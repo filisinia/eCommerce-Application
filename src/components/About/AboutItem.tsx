@@ -18,9 +18,8 @@ const AboutItem = ({ item }: { item: ITeamMember }): JSX.Element => {
   const length = contributions.length - 1;
 
   return (
-    <Grid container component='li' sm={12} md={6} lg={4} direction='column' alignItems='center' p={2} gap={2}>
+    <Grid container item component='li' sm={12} md={6} lg={4} direction='column' alignItems='center' p={2} gap={2}>
       <Avatar alt={firstName} src={photo} sx={{ width: '5rem', height: '5rem' }} />
-
       <h4 style={{ letterSpacing: '0.1rem' }}>
         <span>{firstName}</span> {lastName}
       </h4>

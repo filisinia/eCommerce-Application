@@ -99,7 +99,13 @@ const ProduсtsItem = ({ product }: IProductsItem): JSX.Element => {
         />
 
         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', rowGap: '0.2rem' }}>
-          {discounted && <span className='product__price'> {discounted.value.centAmount.toLocaleString()} USD</span>}
+          {discounted && (
+            <span className='product__price' style={{ textAlign: 'center' }}>
+              {discounted.value.centAmount.toLocaleString()}
+              <br />
+              with discound code
+            </span>
+          )}
           <span className={discounted ? 'product__price product__discount' : 'product__price'}>
             {value.centAmount.toLocaleString()} USD
           </span>

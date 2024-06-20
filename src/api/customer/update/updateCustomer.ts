@@ -135,3 +135,20 @@ export const postDefaultShippinggAddress = async (
     return catchFetchError(e);
   }
 };
+
+type TUpdateCustomerAddres = (version: number, id: string, address: ICustomerAddress) => Promise<ICustomerRes | string>;
+
+export const updateCustomerAddress: TUpdateCustomerAddres = async (version, id, address) => {
+  try {
+    const req = {
+      version,
+      actions: [{ action: 'changeAddress', addressId: address.id, address }],
+    };
+
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};

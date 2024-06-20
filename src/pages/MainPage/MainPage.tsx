@@ -7,6 +7,9 @@ const MainPage = (): JSX.Element => (
   <Container sx={{ padding: '20px 0' }}>
     <Typography variant='h5' marginBottom='10px'>
       Main Page
+    </Typography>{' '}
+    <Typography variant='h6' mb={2}>
+      The discount code is <span style={{ color: '#1565c0', fontWeight: 'bold' }}>BOGO</span>
     </Typography>
     <Button
       component={Link}

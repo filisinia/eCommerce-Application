@@ -24,6 +24,8 @@ export interface IProductCart {
   variant: {
     images: { url: string }[];
   };
+  discountedPricePerQuantity: IPrice[];
+  price: { id: string; discounted: { value: IPrice }; value: IPrice };
 }
 
 export interface ICart {
@@ -55,4 +57,19 @@ export interface ICreateCartRequest {
   customerId?: string;
   action?: 'setAnonymousId';
   anonymousId?: string;
+}
+export interface ICartDiscount {
+  id: string;
+  version: number;
+  code: string;
+  cartDiscounts: [{ typeId: string; id: string }];
+  isActive: true;
+  cartPredicate: string;
+}
+export interface IFetchCartDiscountSuccess {
+  data: {
+    limit: number;
+    total: number;
+    results: ICartDiscount[];
+  };
 }
