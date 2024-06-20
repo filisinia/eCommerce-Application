@@ -37,6 +37,8 @@ const Cart = (): JSX.Element => {
   };
 
   useLayoutEffect((): void => {
+    if (cart) return;
+
     const initializeCart = async (): Promise<void> => {
       if (customer?.id) {
         const isExist = await checkIsCartExist(customer.id);
@@ -56,6 +58,8 @@ const Cart = (): JSX.Element => {
     try {
       if (cart) {
         const data = await addProduct(cart.version, cart.id, productId, 1);
+
+        console.log('INCREASED NEW CART', data);
 
         typeof data !== 'string' ? setCart(data) : notification('error', data);
       }
