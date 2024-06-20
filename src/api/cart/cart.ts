@@ -22,12 +22,16 @@ export const createCart = async (idCustomer?: string): Promise<ICart | string> =
   try {
     await setApiToken();
 
+    const anonymousId = new Date().getTime();
+
     let req: ICreateCartRequest = {
       currency: 'EUR',
       country: 'DE',
     };
 
-    if (idCustomer) req = { ...req, customerId: idCustomer };
+    req = idCustomer
+      ? { ...req, customerId: idCustomer }
+      : { ...req, action: 'setAnonymousId', anonymousId: String(anonymousId) };
 
     const { data }: IFetchCartSuccess = await axios.post(baseUrl, JSON.stringify(req));
 

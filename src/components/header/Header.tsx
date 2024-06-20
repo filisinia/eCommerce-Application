@@ -7,11 +7,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import { removeTokens } from 'api/customer/getAuthToken';
 import BasketElem from 'components/header/basketIcon/BasketIcon';
+import cartStore from 'store/slices/cart/cartSlice';
 import authCustomerStore from 'store/slices/customer/customerSlice';
 import notification from 'utils/notification';
 
 const Header = (): JSX.Element => {
   const { setCustomer, customer } = authCustomerStore((state) => state);
+  const { setCart } = cartStore((state) => state);
   const [isDrawerOpened, setIsDrawerOpened] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -22,6 +24,7 @@ const Header = (): JSX.Element => {
     notification('success', 'You have been successfully logged out');
     removeTokens();
     setCustomer(null);
+    setCart(null);
   };
 
   const handleDrawerItemClick = (path: string): void => {

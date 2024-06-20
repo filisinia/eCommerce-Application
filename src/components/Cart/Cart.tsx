@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react';
+import { FC, useLayoutEffect } from 'react';
 
 import { Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -14,24 +14,16 @@ import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
   const { cart, setCart } = cartStore((state) => state);
-  const { customer } = customerStore((state) => state);
+  const customerId = customerStore((state) => state.customer?.id);
 
-  const createNewCart = async (customerId?: string): Promise<void> => {
-    console.log('CREATING NEW CART');
-
+  const createNewCart = async (): Promise<void> => {
     const newCart = customerId ? await createCart(customerId) : await createCart();
-
-    console.log('NEW CART:', newCart);
 
     typeof newCart !== 'string' ? setCart(newCart) : notification('error', newCart);
   };
 
-  const fetchOldCart = async (customerId: string): Promise<void> => {
-    console.log('FETCHING OLD CART');
-
+  const fetchOldCart = async (): Promise<void> => {
     const oldCart = await fetchCart(customerId);
-
-    console.log('OLD CART:', oldCart);
 
     typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
   };
@@ -40,26 +32,22 @@ const Cart = (): JSX.Element => {
     if (cart) return;
 
     const initializeCart = async (): Promise<void> => {
-      if (customer?.id) {
-        const isExist = await checkIsCartExist(customer.id);
+      if (customerId) {
+        const isExist = await checkIsCartExist(customerId);
 
-        console.log('IS CART EXIST?', isExist);
-
-        isExist ? await fetchOldCart(customer.id) : await createNewCart(customer.id);
+        isExist ? await fetchOldCart() : await createNewCart();
       } else {
         await createNewCart();
       }
     };
 
     initializeCart().catch((e) => e instanceof Error && notification('error', e.message));
-  }, [customer?.id]);
+  }, [customerId]);
 
   const increaseProductCartQuantity = async (productId: string): Promise<void> => {
     try {
       if (cart) {
         const data = await addProduct(cart.version, cart.id, productId, 1);
-
-        console.log('INCREASED NEW CART', data);
 
         typeof data !== 'string' ? setCart(data) : notification('error', data);
       }
@@ -81,14 +69,11 @@ const Cart = (): JSX.Element => {
   };
 
   const removeAllTheProduct = (): void => {
-    console.log('REMOVE CART:', cart);
     if (cart)
       removeCart(cart.version, cart.id)
         .then((data) => {
-          if (!customer?.id) return;
-
           typeof data !== 'string'
-            ? createNewCart(customer.id).catch(() => notification('error', 'Error occurred while creating a new cart'))
+            ? createNewCart().catch(() => notification('error', 'Error occurred while creating a new cart'))
             : notification('error', data);
         })
         .catch((e: Error) => notification('error', e.message));
