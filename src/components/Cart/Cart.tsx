@@ -1,18 +1,19 @@
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import { CartList } from './CartList';
+
 import { fetchCart, addProduct, removeProduct, removeCart, checkIsCartExist, createCart } from 'api/cart/cart';
 import CartDiscount from 'components/Cart/CartDiscount';
-import CartItem from 'components/Cart/CartItem';
 import cartStore from 'store/slices/cart/cartSlice';
 import customerStore from 'store/slices/customer/customerSlice';
 import formatNumber from 'utils/formatNumber';
 import getCartTotalPrice from 'utils/getCartTotalPrice';
 import notification from 'utils/notification';
 
-const Cart = ({ isDiscoundActive }: { isDiscoundActive: boolean }): JSX.Element => {
+const Cart = (): JSX.Element => {
   const { cart, setCart } = cartStore((state) => state);
 
   const customerId = customerStore((state) => state.customer?.id);
@@ -29,9 +30,7 @@ const Cart = ({ isDiscoundActive }: { isDiscoundActive: boolean }): JSX.Element 
     typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
   };
 
-  useLayoutEffect((): void => {
-    if (cart) return;
-
+  useEffect((): void => {
     const initializeCart = async (): Promise<void> => {
       if (customerId) {
         const isExist = await checkIsCartExist(customerId);
@@ -85,15 +84,12 @@ const Cart = ({ isDiscoundActive }: { isDiscoundActive: boolean }): JSX.Element 
       <Grid component='ul' container direction='column' rowGap={8} alignItems='center'>
         {cart && cart.lineItems.length > 0 ? (
           <>
-            {cart.lineItems.map((el) => (
-              <CartItem
-                key={el.id}
-                product={el}
-                increaseQuantity={increaseProductCartQuantity}
-                decreaseQuantity={decreaseProductCartQuantity}
-                isDiscoundActive={isDiscoundActive}
-              />
-            ))}
+            <CartList
+              products={cart.lineItems}
+              increaseQuantity={increaseProductCartQuantity}
+              decreaseQuantity={decreaseProductCartQuantity}
+            />
+
             <CartDiscount />
 
             <p>Total price: {formatNumber.format(getCartTotalPrice(cart.lineItems))} $ </p>

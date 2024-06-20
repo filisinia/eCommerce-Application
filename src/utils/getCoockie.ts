@@ -7,3 +7,7 @@ export const getCookie = (name: string): string | void | null => {
 export const setCookie = (name: string, coockie: string): void => {
   document.cookie = `${name}=${coockie}; path=/;`;
 };
+
+export const eraseCookie = (name: string): void => {
+  document.cookie = `${name}=; Max-Age=0`;
+};

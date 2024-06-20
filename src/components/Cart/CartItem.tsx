@@ -30,8 +30,6 @@ const CartItem = ({
 
   const isActive = isDiscoundActive && discountPrice;
 
-  console.log(isDiscoundActive);
-
   const increaseProductQuantity = (): void => {
     increaseQuantity(productId).catch((e: Error) => notification('error', e.message));
   };

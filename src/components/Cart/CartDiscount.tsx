@@ -5,7 +5,7 @@ import { Box, Button, TextField } from '@mui/material';
 import { fetchDiscountCodes } from 'api/cart/discount';
 import cartStore from 'store/slices/cart/cartSlice';
 import { ICartDiscount } from 'types/cart';
-import { getCookie, setCookie } from 'utils/getCoockie';
+import { eraseCookie, getCookie, setCookie } from 'utils/getCoockie';
 import notification from 'utils/notification';
 import { textAndNumberValidate } from 'utils/validate';
 
@@ -17,6 +17,7 @@ const CartDiscount = (): JSX.Element => {
 
   const onSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
+    if (!discount) return;
 
     fetchDiscountCodes()
       .then((data) => {
@@ -27,18 +28,14 @@ const CartDiscount = (): JSX.Element => {
             notification('success', 'Code is valid');
 
             setCookie('discount', discount);
-
-            setCart(cart);
           } else {
             const discountCoockie = getCookie('discount');
 
-            if (discountCoockie) {
-              setCookie('discount', '');
-              setCart(cart);
-            }
+            if (discountCoockie) eraseCookie('discount');
 
             notification('error', 'Invalid code');
           }
+          setCart(cart);
         } else notification('error', data);
       })
       .catch((err: Error) => notification('error', err.message));
