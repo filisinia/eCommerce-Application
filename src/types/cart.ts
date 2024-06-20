@@ -62,6 +62,7 @@ export interface ICartDiscount {
   code: string;
   cartDiscounts: [{ typeId: string; id: string }];
   isActive: true;
+  cartPredicate: string;
 }
 export interface IFetchCartDiscountSuccess {
   data: {

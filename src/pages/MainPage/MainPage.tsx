@@ -9,7 +9,7 @@ const MainPage = (): JSX.Element => (
       Main Page
     </Typography>{' '}
     <Typography variant='h6' mb={2}>
-      Discount code is <span style={{ color: '#1565c0', fontWeight: 'bold' }}>BOGO</span>
+      Discount code is <span style={{ color: '#1565c0', fontWeight: 'bold' }}>SAVE15</span>
     </Typography>
     <Button
       component={Link}
