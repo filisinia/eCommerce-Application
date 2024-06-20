@@ -14,6 +14,7 @@ import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
   const { cart, setCart } = cartStore((state) => state);
+
   const customerId = customerStore((state) => state.customer?.id);
 
   const createNewCart = async (): Promise<void> => {
@@ -23,12 +24,14 @@ const Cart = (): JSX.Element => {
   };
 
   const fetchOldCart = async (): Promise<void> => {
+
     const oldCart = await fetchCart(customerId);
 
     typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
   };
 
   useLayoutEffect((): void => {
+
     if (cart) return;
 
     const initializeCart = async (): Promise<void> => {
@@ -36,6 +39,7 @@ const Cart = (): JSX.Element => {
         const isExist = await checkIsCartExist(customerId);
 
         isExist ? await fetchOldCart() : await createNewCart();
+
       } else {
         await createNewCart();
       }
