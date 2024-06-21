@@ -26,7 +26,7 @@ export const CartList = ({ products, increaseQuantity, decreaseQuantity }: ICart
         if (typeof data !== 'string') {
           const validCode = data.find((promo: ICartDiscount): boolean => promo.code === discount);
 
-          if (validCode) setDiscoundActive(true);
+          validCode ? setDiscoundActive(true) : setDiscoundActive(false);
         } else {
           notification('error', data);
           eraseCookie('discount');

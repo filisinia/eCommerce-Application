@@ -7,7 +7,7 @@ const getCartTotalPrice = (products: IProductCart[], isDiscountActive: boolean):
 
     const [discountPrice, defaultPrice] = [totalPrice.centAmount, price.value.centAmount];
 
-    isDiscountActive ? (total += quantity * discountPrice) : (total += quantity * defaultPrice);
+    isDiscountActive ? (total += discountPrice) : (total += quantity * defaultPrice);
 
     return total;
   }, 0);
