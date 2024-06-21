@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import CartItem from './CartItem';
+import CartItem from './CartItem/CartItem';
 
 import { fetchDiscountCodes } from 'api/cart/discount';
 import { ICartDiscount, IProductCart } from 'types/cart';
+import formatNumber from 'utils/formatNumber';
+import getCartTotalPrice from 'utils/getCartTotalPrice';
 import { eraseCookie, getCookie } from 'utils/getCoockie';
 import notification from 'utils/notification';
 
@@ -24,7 +26,7 @@ export const CartList = ({ products, increaseQuantity, decreaseQuantity }: ICart
         if (typeof data !== 'string') {
           const validCode = data.find((promo: ICartDiscount): boolean => promo.code === discount);
 
-          if (validCode) setDiscoundActive(true);
+          validCode ? setDiscoundActive(true) : setDiscoundActive(false);
         } else {
           notification('error', data);
           eraseCookie('discount');
@@ -45,6 +47,13 @@ export const CartList = ({ products, increaseQuantity, decreaseQuantity }: ICart
           isDiscoundActive={isDiscoundActives}
         />
       ))}
+
+      <h3 style={{ marginTop: '1rem' }}>
+        Total price:
+        <span style={{ color: '#1565c0', paddingLeft: '.5rem' }}>
+          {formatNumber.format(getCartTotalPrice(products, isDiscoundActives))} $
+        </span>
+      </h3>
     </>
   );
 };

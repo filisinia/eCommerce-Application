@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { Box, Button, TextField } from '@mui/material';
 
+import 'components/Cart/CartDiscount/CartDiscountStyle.scss';
+
 import { fetchDiscountCodes } from 'api/cart/discount';
 import cartStore from 'store/slices/cart/cartSlice';
 import { ICartDiscount } from 'types/cart';
@@ -22,9 +24,9 @@ const CartDiscount = (): JSX.Element => {
     fetchDiscountCodes()
       .then((data) => {
         if (typeof data !== 'string') {
-          const validCode = data.find((promo: ICartDiscount): boolean => promo.code === discount);
+          const isValidCode = data.some((promo: ICartDiscount): boolean => promo.code === discount);
 
-          if (validCode && cart) {
+          if (isValidCode && cart) {
             notification('success', 'Code is valid');
 
             setCookie('discount', discount);
@@ -44,8 +46,9 @@ const CartDiscount = (): JSX.Element => {
   };
 
   return (
-    <Box component='form' sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }} onSubmit={onSubmit}>
+    <Box className='discount' component='form' onSubmit={onSubmit}>
       <TextField
+        className='discount__input'
         onChange={(e) => onChange(e)}
         label='Discount'
         name='discount'
@@ -56,7 +59,7 @@ const CartDiscount = (): JSX.Element => {
           !textAndNumberValidate(discount) && 'Must contain at least one character or number and no special characters'
         }
       />
-      <Button variant='contained' type='submit' sx={{ height: '2.5rem' }}>
+      <Button variant='contained' type='submit' className='discount__button'>
         Add
       </Button>
     </Box>

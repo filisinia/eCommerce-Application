@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { AccountCircleOutlined, ExitToAppOutlined } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Toolbar, Box, IconButton, Drawer } from '@mui/material';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
+import { fetchCart } from 'api/cart/cart';
 import { removeTokens } from 'api/customer/getAuthToken';
 import BasketElem from 'components/header/basketIcon/BasketIcon';
 import cartStore from 'store/slices/cart/cartSlice';
@@ -13,7 +14,7 @@ import notification from 'utils/notification';
 
 const Header = (): JSX.Element => {
   const { setCustomer, customer } = authCustomerStore((state) => state);
-  const { setCart } = cartStore((state) => state);
+  const { cart, setCart } = cartStore((state) => state);
   const [isDrawerOpened, setIsDrawerOpened] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -31,6 +32,16 @@ const Header = (): JSX.Element => {
     setIsDrawerOpened(false);
     navigate(path);
   };
+
+  useLayoutEffect(() => {
+    if (!cart && customer) {
+      fetchCart(customer.id)
+        .then((data) => {
+          typeof data !== 'string' ? setCart(data) : notification('error', data);
+        })
+        .catch((err: Error) => notification('error', err.message));
+    }
+  });
 
   return (
     <>

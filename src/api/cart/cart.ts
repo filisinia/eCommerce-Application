@@ -6,6 +6,18 @@ import { catchFetchError } from 'utils/errors';
 
 const baseUrl = `${process.env.REACT_APP_API__HOST}/${process.env.REACT_APP_API_PROJECT_KEY}/carts`;
 
+export const checkIsCartExistById = async (cartId: string): Promise<boolean> => {
+  try {
+    await setApiToken();
+
+    const { data }: IFetchCustomerCartsSuccess = await axios(`${baseUrl}/${cartId}`);
+
+    return Boolean(data);
+  } catch (e) {
+    return false;
+  }
+};
+
 export const checkIsCartExist = async (idCustomer: string): Promise<boolean> => {
   try {
     await setApiToken();
@@ -41,9 +53,18 @@ export const createCart = async (idCustomer?: string): Promise<ICart | string> =
   }
 };
 
-export const fetchCart = async (
-  idCustomer: string = 'e1db0d5c-2e53-49b0-88e7-2985d4d327c4',
-): Promise<ICart | string> => {
+export const fetchCartById = async (cartId: string): Promise<ICart | string> => {
+  try {
+    await setApiToken();
+    const { data }: IFetchCartSuccess = await axios(`${baseUrl}/${cartId}`);
+
+    return data || 'There is no cart';
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const fetchCart = async (idCustomer: string): Promise<ICart | string> => {
   try {
     await setApiToken();
     const { data }: IFetchCustomerCartsSuccess = await axios(`${baseUrl}?where=customerId%3D%22${idCustomer}%22`);

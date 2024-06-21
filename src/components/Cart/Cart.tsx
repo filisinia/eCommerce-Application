@@ -1,16 +1,23 @@
 import { useEffect } from 'react';
 
 import { Button, Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
 
 import { CartList } from './CartList';
+import EmpthyCart from './EmpthyCart';
 
-import { fetchCart, addProduct, removeProduct, removeCart, checkIsCartExist, createCart } from 'api/cart/cart';
-import CartDiscount from 'components/Cart/CartDiscount';
+import {
+  fetchCart,
+  addProduct,
+  removeProduct,
+  removeCart,
+  checkIsCartExist,
+  createCart,
+  checkIsCartExistById,
+  fetchCartById,
+} from 'api/cart/cart';
+import CartDiscount from 'components/Cart/CartDiscount/CartDiscount';
 import cartStore from 'store/slices/cart/cartSlice';
 import customerStore from 'store/slices/customer/customerSlice';
-import formatNumber from 'utils/formatNumber';
-import getCartTotalPrice from 'utils/getCartTotalPrice';
 import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
@@ -25,13 +32,29 @@ const Cart = (): JSX.Element => {
   };
 
   const fetchOldCart = async (): Promise<void> => {
-    const oldCart = await fetchCart(customerId);
+    if (!customerId && cart) {
+      const oldCart = await fetchCartById(cart.id);
 
-    typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
+      typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
+
+      return;
+    }
+    if (customerId) {
+      const oldCart = await fetchCart(customerId);
+
+      typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
+    }
   };
 
   useEffect((): void => {
     const initializeCart = async (): Promise<void> => {
+      if (!customerId && cart) {
+        const isExistById = await checkIsCartExistById(cart.id);
+
+        isExistById ? await fetchOldCart() : await createNewCart();
+
+        return;
+      }
       if (customerId) {
         const isExist = await checkIsCartExist(customerId);
 
@@ -81,7 +104,7 @@ const Cart = (): JSX.Element => {
 
   return (
     <section style={{ marginBottom: '2rem' }}>
-      <Grid component='ul' container direction='column' rowGap={8} alignItems='center'>
+      <Grid component='ul' container direction='column' alignItems='center'>
         {cart && cart.lineItems.length > 0 ? (
           <>
             <CartList
@@ -92,15 +115,12 @@ const Cart = (): JSX.Element => {
 
             <CartDiscount />
 
-            <p>Total price: {formatNumber.format(getCartTotalPrice(cart.lineItems))} $ </p>
-
-            <Button onClick={removeAllTheProduct}>Clear Shopping Cart</Button>
+            <Button onClick={removeAllTheProduct} variant='contained' color='error'>
+              Clear Shopping Cart
+            </Button>
           </>
         ) : (
-          <>
-            <h4>Empty</h4>
-            <Link to='/products'>Products</Link>
-          </>
+          <EmpthyCart />
         )}
       </Grid>
     </section>

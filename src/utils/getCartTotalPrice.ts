@@ -1,11 +1,13 @@
 import { IProductCart } from 'types/cart';
 
-const getCartTotalPrice = (products: IProductCart[]): number => {
+const getCartTotalPrice = (products: IProductCart[], isDiscountActive: boolean): number => {
   const totalProductPrice = products.reduce((acc, product: IProductCart): number => {
     let total = acc;
-    const { quantity, totalPrice } = product;
+    const { quantity, totalPrice, price } = product;
 
-    total += quantity * totalPrice.centAmount;
+    const [discountPrice, defaultPrice] = [totalPrice.centAmount, price.value.centAmount];
+
+    isDiscountActive ? (total += discountPrice) : (total += quantity * defaultPrice);
 
     return total;
   }, 0);

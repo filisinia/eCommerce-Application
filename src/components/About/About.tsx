@@ -1,7 +1,5 @@
 import { Grid, Typography } from '@mui/material';
 
-// import icon from '../../assets/img/rs.svg';
-
 import AboutItem from './AboutItem';
 
 const team = [
