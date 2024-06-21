@@ -1,16 +1,14 @@
 import { useEffect } from 'react';
 
 import { Button, Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
 
 import { CartList } from './CartList';
+import EmpthyCart from './EmpthyCart';
 
 import { fetchCart, addProduct, removeProduct, removeCart, checkIsCartExist, createCart } from 'api/cart/cart';
 import CartDiscount from 'components/Cart/CartDiscount';
 import cartStore from 'store/slices/cart/cartSlice';
 import customerStore from 'store/slices/customer/customerSlice';
-import formatNumber from 'utils/formatNumber';
-import getCartTotalPrice from 'utils/getCartTotalPrice';
 import notification from 'utils/notification';
 
 const Cart = (): JSX.Element => {
@@ -81,7 +79,7 @@ const Cart = (): JSX.Element => {
 
   return (
     <section style={{ marginBottom: '2rem' }}>
-      <Grid component='ul' container direction='column' rowGap={8} alignItems='center'>
+      <Grid component='ul' container direction='column' alignItems='center'>
         {cart && cart.lineItems.length > 0 ? (
           <>
             <CartList
@@ -92,15 +90,10 @@ const Cart = (): JSX.Element => {
 
             <CartDiscount />
 
-            <p>Total price: {formatNumber.format(getCartTotalPrice(cart.lineItems))} $ </p>
-
             <Button onClick={removeAllTheProduct}>Clear Shopping Cart</Button>
           </>
         ) : (
-          <>
-            <h4>Empty</h4>
-            <Link to='/products'>Products</Link>
-          </>
+          <EmpthyCart />
         )}
       </Grid>
     </section>

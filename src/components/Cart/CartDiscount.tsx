@@ -22,9 +22,9 @@ const CartDiscount = (): JSX.Element => {
     fetchDiscountCodes()
       .then((data) => {
         if (typeof data !== 'string') {
-          const validCode = data.find((promo: ICartDiscount): boolean => promo.code === discount);
+          const isValidCode = data.some((promo: ICartDiscount): boolean => promo.code === discount);
 
-          if (validCode && cart) {
+          if (isValidCode && cart) {
             notification('success', 'Code is valid');
 
             setCookie('discount', discount);
@@ -44,7 +44,7 @@ const CartDiscount = (): JSX.Element => {
   };
 
   return (
-    <Box component='form' sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }} onSubmit={onSubmit}>
+    <Box component='form' sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', margin: '2rem' }} onSubmit={onSubmit}>
       <TextField
         onChange={(e) => onChange(e)}
         label='Discount'
@@ -56,7 +56,7 @@ const CartDiscount = (): JSX.Element => {
           !textAndNumberValidate(discount) && 'Must contain at least one character or number and no special characters'
         }
       />
-      <Button variant='contained' type='submit' sx={{ height: '2.5rem' }}>
+      <Button variant='contained' type='submit' sx={{ height: '2.5rem', margin: 'auto', padding: '0 2rem' }}>
         Add
       </Button>
     </Box>

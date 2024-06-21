@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import CartItem from './CartItem';
+import CartItem from './CartItem/CartItem';
 
 import { fetchDiscountCodes } from 'api/cart/discount';
 import { ICartDiscount, IProductCart } from 'types/cart';
+import formatNumber from 'utils/formatNumber';
+import getCartTotalPrice from 'utils/getCartTotalPrice';
 import { eraseCookie, getCookie } from 'utils/getCoockie';
 import notification from 'utils/notification';
 
@@ -45,6 +47,8 @@ export const CartList = ({ products, increaseQuantity, decreaseQuantity }: ICart
           isDiscoundActive={isDiscoundActives}
         />
       ))}
+
+      <p>Total price: {formatNumber.format(getCartTotalPrice(products, isDiscoundActives))} $ </p>
     </>
   );
 };
