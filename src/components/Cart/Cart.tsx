@@ -5,7 +5,16 @@ import { Button, Grid } from '@mui/material';
 import { CartList } from './CartList';
 import EmpthyCart from './EmpthyCart';
 
-import { fetchCart, addProduct, removeProduct, removeCart, checkIsCartExist, createCart } from 'api/cart/cart';
+import {
+  fetchCart,
+  addProduct,
+  removeProduct,
+  removeCart,
+  checkIsCartExist,
+  createCart,
+  checkIsCartExistById,
+  fetchCartById,
+} from 'api/cart/cart';
 import CartDiscount from 'components/Cart/CartDiscount/CartDiscount';
 import cartStore from 'store/slices/cart/cartSlice';
 import customerStore from 'store/slices/customer/customerSlice';
@@ -23,13 +32,29 @@ const Cart = (): JSX.Element => {
   };
 
   const fetchOldCart = async (): Promise<void> => {
-    const oldCart = await fetchCart(customerId);
+    if (!customerId && cart) {
+      const oldCart = await fetchCartById(cart.id);
 
-    typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
+      typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
+
+      return;
+    }
+    if (customerId) {
+      const oldCart = await fetchCart(customerId);
+
+      typeof oldCart !== 'string' ? setCart(oldCart) : notification('error', oldCart);
+    }
   };
 
   useEffect((): void => {
     const initializeCart = async (): Promise<void> => {
+      if (!customerId && cart) {
+        const isExistById = await checkIsCartExistById(cart.id);
+
+        isExistById ? await fetchOldCart() : await createNewCart();
+
+        return;
+      }
       if (customerId) {
         const isExist = await checkIsCartExist(customerId);
 
