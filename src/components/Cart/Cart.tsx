@@ -6,7 +6,7 @@ import { CartList } from './CartList';
 import EmpthyCart from './EmpthyCart';
 
 import { fetchCart, addProduct, removeProduct, removeCart, checkIsCartExist, createCart } from 'api/cart/cart';
-import CartDiscount from 'components/Cart/CartDiscount';
+import CartDiscount from 'components/Cart/CartDiscount/CartDiscount';
 import cartStore from 'store/slices/cart/cartSlice';
 import customerStore from 'store/slices/customer/customerSlice';
 import notification from 'utils/notification';
@@ -90,7 +90,9 @@ const Cart = (): JSX.Element => {
 
             <CartDiscount />
 
-            <Button onClick={removeAllTheProduct}>Clear Shopping Cart</Button>
+            <Button onClick={removeAllTheProduct} variant='contained' color='error'>
+              Clear Shopping Cart
+            </Button>
           </>
         ) : (
           <EmpthyCart />

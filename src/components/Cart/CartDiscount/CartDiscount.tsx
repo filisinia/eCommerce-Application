@@ -2,6 +2,8 @@ import { useState } from 'react';
 
 import { Box, Button, TextField } from '@mui/material';
 
+import 'components/Cart/CartDiscount/CartDiscountStyle.scss';
+
 import { fetchDiscountCodes } from 'api/cart/discount';
 import cartStore from 'store/slices/cart/cartSlice';
 import { ICartDiscount } from 'types/cart';
@@ -44,8 +46,9 @@ const CartDiscount = (): JSX.Element => {
   };
 
   return (
-    <Box component='form' sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', margin: '2rem' }} onSubmit={onSubmit}>
+    <Box className='discount' component='form' onSubmit={onSubmit}>
       <TextField
+        className='discount__input'
         onChange={(e) => onChange(e)}
         label='Discount'
         name='discount'
@@ -56,7 +59,7 @@ const CartDiscount = (): JSX.Element => {
           !textAndNumberValidate(discount) && 'Must contain at least one character or number and no special characters'
         }
       />
-      <Button variant='contained' type='submit' sx={{ height: '2.5rem', margin: 'auto', padding: '0 2rem' }}>
+      <Button variant='contained' type='submit' className='discount__button'>
         Add
       </Button>
     </Box>

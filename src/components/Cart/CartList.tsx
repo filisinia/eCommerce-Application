@@ -39,16 +39,24 @@ export const CartList = ({ products, increaseQuantity, decreaseQuantity }: ICart
   return (
     <>
       {products.map((el) => (
-        <CartItem
-          key={el.id}
-          product={el}
-          increaseQuantity={increaseQuantity}
-          decreaseQuantity={decreaseQuantity}
-          isDiscoundActive={isDiscoundActives}
-        />
+        <>
+          <CartItem
+            key={el.id}
+            product={el}
+            increaseQuantity={increaseQuantity}
+            decreaseQuantity={decreaseQuantity}
+            isDiscoundActive={isDiscoundActives}
+          />
+          <hr style={{ height: '.1rem', width: '100%', color: '#1565c0' }} />
+        </>
       ))}
 
-      <p>Total price: {formatNumber.format(getCartTotalPrice(products, isDiscoundActives))} $ </p>
+      <h3 style={{ marginTop: '1rem' }}>
+        Total price:
+        <span style={{ color: '#1565c0', paddingLeft: '.5rem' }}>
+          {formatNumber.format(getCartTotalPrice(products, isDiscoundActives))} $
+        </span>
+      </h3>
     </>
   );
 };

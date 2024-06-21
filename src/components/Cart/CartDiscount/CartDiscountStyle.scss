@@ -1,0 +1,15 @@
+.discount {
+  display: flex;
+  column-gap: 2rem;
+  margin: 2rem 1rem;
+  &__button {
+    height: 2.5rem;
+    padding: 0 2rem;
+  }
+}
+@media (max-width: 440px) {
+  .discount {
+    flex-direction: column;
+    row-gap: 2rem;
+  }
+}
