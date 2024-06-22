@@ -54,10 +54,9 @@ export const getCustomerPasswordToken = async (email: string): Promise<ICustomer
   }
 };
 
-export const updateCustomerPassword = async (
-  tokenValue: string,
-  newPassword: string,
-): Promise<ICustomerRes | string> => {
+type TUpdateCustomerPassword = (tokenValue: string, newPassword: string) => Promise<ICustomerRes | string>;
+
+export const updateCustomerPassword: TUpdateCustomerPassword = async (tokenValue, newPassword) => {
   try {
     const { data }: ICustomerSuccess = await axios.post(
       `${baseUrl}/customers/password/reset`,
@@ -70,11 +69,9 @@ export const updateCustomerPassword = async (
   }
 };
 
-export const removeCustomerAddress = async (
-  version: number,
-  addressId: string,
-  id: string,
-): Promise<ICustomerRes | string> => {
+type TRemoveAndPostCustomerAddress = (version: number, addressId: string, id: string) => Promise<ICustomerRes | string>;
+
+export const removeCustomerAddress: TRemoveAndPostCustomerAddress = async (version, addressId, id) => {
   try {
     const req = {
       version,
@@ -88,27 +85,7 @@ export const removeCustomerAddress = async (
   }
 };
 
-export const addCustomerAddress = async (
-  version: number,
-  address: ICustomerAddress,
-  id: string,
-): Promise<ICustomerRes | string> => {
-  try {
-    const req = { version, actions: [{ action: 'addAddress', address }] };
-
-    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
-
-    return data;
-  } catch (e) {
-    return catchFetchError(e);
-  }
-};
-
-export const postDefaultBillingAddress = async (
-  version: number,
-  addressId: string,
-  id: string,
-): Promise<ICustomerRes | string> => {
+export const postDefaultBillingAddress: TRemoveAndPostCustomerAddress = async (version, addressId, id) => {
   try {
     const req = { version, actions: [{ action: 'setDefaultBillingAddress', addressId }] };
 
@@ -120,11 +97,7 @@ export const postDefaultBillingAddress = async (
   }
 };
 
-export const postDefaultShippinggAddress = async (
-  version: number,
-  addressId: string,
-  id: string,
-): Promise<ICustomerRes | string> => {
+export const postDefaultShippinggAddress: TRemoveAndPostCustomerAddress = async (version, addressId, id) => {
   try {
     const req = { version, actions: [{ action: 'setDefaultShippingAddress', addressId }] };
 
@@ -136,9 +109,21 @@ export const postDefaultShippinggAddress = async (
   }
 };
 
-type TUpdateCustomerAddres = (version: number, id: string, address: ICustomerAddress) => Promise<ICustomerRes | string>;
+type TAddCustomerAddress = (version: number, address: ICustomerAddress, id: string) => Promise<ICustomerRes | string>;
 
-export const updateCustomerAddress: TUpdateCustomerAddres = async (version, id, address) => {
+export const addCustomerAddress: TAddCustomerAddress = async (version, address, id) => {
+  try {
+    const req = { version, actions: [{ action: 'addAddress', address }] };
+
+    const { data }: ICustomerSuccess = await axios.post(`${baseUrl}/customers/${id}`, JSON.stringify(req));
+
+    return data;
+  } catch (e) {
+    return catchFetchError(e);
+  }
+};
+
+export const updateCustomerAddress: TAddCustomerAddress = async (version, address, id) => {
   try {
     const req = {
       version,

@@ -22,12 +22,9 @@ interface IAddAddress {
   customerID: string;
 }
 
-export const addShippingOrBillingcCustomerAddress = async ({
-  version,
-  addressId,
-  action,
-  customerID,
-}: IAddAddress): Promise<ICustomerRes | string> => {
+type TAddAddress = ({ version, addressId, action, customerID }: IAddAddress) => Promise<ICustomerRes | string>;
+
+export const addShippingOrBillingcCustomerAddress: TAddAddress = async ({ version, addressId, action, customerID }) => {
   try {
     const req = {
       version,
