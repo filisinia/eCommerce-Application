@@ -20,13 +20,14 @@ This project is a web application for eCommerce, developed using TypeScript, Rea
 - **Husky**
 - **Eslint**
 - **Prettier**
+- **Axios**
 
 ## Available Scripts
 
 - **Start the development server**
 
 ```bash
-npm start
+npm run start
 ```
 
 - **Build the project for production**
@@ -35,16 +36,10 @@ npm start
 npm run build
 ```
 
-- **Run the project in production mode**
+- **Customize the configuration under Create-React-App(react-scripts)**
 
 ```bash
-npm run serve
-```
-
-- **Run TypeScript type checking**
-
-```bash
-npm run type-check
+npm run eject
 ```
 
 - **Format code using Prettier**
@@ -53,53 +48,34 @@ npm run type-check
 npm run format
 ```
 
+- **Check code using Prettier**
+
+```bash
+npm run ci:format
+```
+
 - **Run ESLint to lint all JavaScript/TypeScript files**
 
 ```bash
-npm run lint
+npm run lint:es
 ```
 
 - **Fix linting issues automatically**
 
 ```bash
-npm run lint:fix
+npm run lint:es:fix
 ```
 
 - **Run tests**
 
 ```bash
-npm test
+npm run test
 ```
 
-- **Run tests in watch mode**
+- **Run precommit**
 
 ```bash
-npm run test:watch
-```
-
-- **Generate code coverage report**
-
-```bash
-npm run test:coverage
-```
-
-- **Run tests in CI mode**
-
-```bash
-npm run test:ci
-
-```
-
-- **Run tests in debug mode**
-
-```bash
-npm run test:debug
-```
-
-- **Update test snapshots**
-
-```bash
-npm run test:update
+npm run precommit
 ```
 
 - **Installation**
@@ -129,3 +105,5 @@ npm start
 ```
 
 After completing these steps, the application will be available at http://localhost:3000.
+
+The project deploy at https://rss-e-commerce-final.netlify.app/
