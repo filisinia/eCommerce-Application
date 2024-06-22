@@ -3,8 +3,9 @@
   border-radius: $raduis;
 }
 
-@mixin flexCenter($direction: row) {
+@mixin flexCenter($justifyContent: center, $direction: row) {
   display: flex;
   flex-direction: $direction;
   align-items: center;
+  justify-content: $justifyContent;
 }

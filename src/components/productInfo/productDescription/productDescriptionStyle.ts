@@ -25,6 +25,10 @@ const styles = {
     color: '#ff5252',
     textDecoration: 'line-through',
   },
+
+  button: {
+    width: 'max-content',
+  },
 };
 
 export default styles;

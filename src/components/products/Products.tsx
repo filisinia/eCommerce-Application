@@ -1,4 +1,4 @@
-import { ChangeEvent, useLayoutEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useLayoutEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
 
@@ -16,20 +16,22 @@ import ProductFilter from 'components/products/ProductsFilter/ProductFilter';
 import ProductsSearch from 'components/products/ProductsFilter/ProductsSearch';
 import ProductsList from 'components/products/ProductsList';
 import ProductsSortSelector from 'components/products/ProductsSortSelector/ProductsSortSelector';
+import Spinner from 'components/spinner/Spinner';
 import { IBreadcrumb, IProduct, IProducts } from 'types/products';
 import notification from 'utils/notification';
 
 const Products = (): JSX.Element => {
   const newArrivalsId = 'e4cacec0-aa5f-4c3f-993a-9165dbeeded1';
-  const [defaultLimit, setDefaultLimit] = useState<number>(0);
   const [minCategoryPrice, setMinCategoryPrice] = useState<number>(0);
   const [maxCategoryPrice, setMaxCategoryPrice] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<string>(newArrivalsId);
   const [products, setProducts] = useState<null | IProduct[]>(null);
   const [breadcrumbs, setBreadcrumbs] = useState<IBreadcrumb[]>([{ id: newArrivalsId, name: 'New-arrivals' }]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isMoreItems, setIsMoreItems] = useState<boolean>(true);
 
   const sortProducts = (type: string, direction: string): void => {
-    sortProductsByType(categoryId, type, direction, defaultLimit)
+    sortProductsByType(categoryId, type, direction)
       .then((data: IProducts | string) => {
         typeof data !== 'string' ? setProducts(data.results) : notification('error', data);
       })
@@ -49,24 +51,35 @@ const Products = (): JSX.Element => {
     }
   };
 
-  const getProducts = async (limit: number): Promise<void> => {
-    const data = await fetchProducts(categoryId, limit);
+  const getProducts = async (): Promise<void> => {
+    const data = await fetchProducts(categoryId, currentPage);
 
-    await getMinMaxPrice();
-
-    if (typeof data !== 'string') {
-      setProducts(data.results);
-      setDefaultLimit(data.limit);
-    } else {
+    if (typeof data === 'string') {
       notification('error', data);
+
+      return;
+    }
+
+    if (data.results.length === 0) {
+      setIsMoreItems(false);
+
+      return;
+    }
+
+    if (currentPage === 1) {
+      await getMinMaxPrice();
+      setProducts(data.results);
+    } else {
+      setProducts([...(products || []), ...data.results]);
     }
   };
 
   const searchProducts = (e: ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target;
-    const limit = 12;
 
-    if (value.length === 0) getProducts(limit).catch((error: Error) => notification('error', error.message));
+    setCurrentPage(1);
+
+    if (value.length === 0) getProducts().catch((error: Error) => notification('error', error.message));
 
     searchProductsByInput(value)
       .then((data: IProducts | string) => {
@@ -87,11 +100,17 @@ const Products = (): JSX.Element => {
       });
   };
 
-  useLayoutEffect(() => {
-    const limit = 12;
+  const loadMore = (): void => {
+    setCurrentPage(currentPage + 1);
+  };
 
-    getProducts(limit).catch((e: Error) => notification('error', e.message));
+  useLayoutEffect(() => {
+    setCurrentPage(1);
   }, [categoryId]);
+
+  useEffect(() => {
+    getProducts().catch((e: Error) => notification('error', e.message));
+  }, [currentPage, categoryId]);
 
   return !products ? (
     <Loader />
@@ -116,6 +135,7 @@ const Products = (): JSX.Element => {
       <BreadcrumbsElem setCategoryId={setCategoryId} setBreadcrumbs={setBreadcrumbs} breadcrumbs={breadcrumbs} />
       <section className='section'>
         <ProductsList products={products} />
+        {isMoreItems && <Spinner loadMore={loadMore} />}
       </section>
     </main>
   );

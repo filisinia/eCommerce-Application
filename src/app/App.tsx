@@ -17,6 +17,8 @@ const MainPage = lazy(() => import('pages/MainPage/MainPage'));
 const ProductsPage = lazy(() => import('pages/ProductsPage/ProductsPage'));
 const ProductPage = lazy(() => import('pages/ProductPage/ProductPage'));
 const ProfilePage = lazy(() => import('pages/ProfilePage/ProfilePage'));
+const CartPage = lazy(() => import('pages/CartPage/CartPage'));
+const AboutPage = lazy(() => import('pages/AboutPage/AboutPage'));
 
 const App = (): JSX.Element => {
   useEffect(() => {
@@ -27,6 +29,7 @@ const App = (): JSX.Element => {
     <BrowserRouter>
       <CssBaseline>
         <Header />
+        <ToastContainer />
         <Suspense>
           <Routes>
             <Route element={<AuthPage />} path='/signup' />
@@ -34,6 +37,9 @@ const App = (): JSX.Element => {
             <Route element={<MainPage />} path='/' />
             <Route element={<ProductsPage />} path='/products' />
             <Route element={<ProductPage />} path='/products/:productKey' />
+            <Route element={<CartPage />} path='/cart' />
+            <Route element={<AboutPage />} path='/about' />
+
             <Route
               element={
                 <ProtectedRoute>
@@ -45,7 +51,6 @@ const App = (): JSX.Element => {
             <Route element={<ErrorPage />} path='*' />
           </Routes>
         </Suspense>
-        <ToastContainer />
       </CssBaseline>
     </BrowserRouter>
   );

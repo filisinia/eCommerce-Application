@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
-import { IProduct } from 'types/products';
+import { IProductInfo } from 'types/products';
 
-const productInfoContext = createContext<IProduct | null>(null);
+const productInfoContext = createContext<IProductInfo | null>(null);
 
 export default productInfoContext;

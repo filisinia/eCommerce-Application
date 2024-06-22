@@ -1,0 +1,16 @@
+@keyframes spinnerAnim {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-block {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.spinner {
+  transform-origin: center;
+  animation: spinnerAnim 0.75s infinite linear;
+}

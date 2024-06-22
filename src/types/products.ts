@@ -3,22 +3,20 @@ export interface IProductAttributes {
   value: { [key: string]: string };
 }
 
-interface IProductPrice {
+export interface IPrice {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+  country: string;
+}
+
+export interface IProductPrice {
   id: string;
-  value: {
-    type: string;
-    currencyCode: string;
-    centAmount: number;
-    fractionDigits: number;
-  };
+  value: IPrice;
   country: string;
   discounted: {
-    value: {
-      type: string;
-      currencyCode: string;
-      centAmount: number;
-      fractionDigits: number;
-    };
+    value: IPrice;
     discount: IProductCategory;
   };
 }

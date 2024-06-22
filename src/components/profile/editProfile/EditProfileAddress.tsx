@@ -7,6 +7,7 @@ import {
   addCustomerAddress,
   postDefaultBillingAddress,
   postDefaultShippinggAddress,
+  updateCustomerAddress,
 } from 'api/customer/update/updateCustomer';
 import styles from 'components/customer/CustomerStyle';
 import customerSlice from 'store/slices/customer/customerSlice';
@@ -67,30 +68,38 @@ const EditProfileAddress = ({ address, onClose, type }: IEditProfileAddress): JS
       .catch((err: Error) => notification('error', err.message));
   };
 
+  const saveAddress = (data: ICustomerRes | string, callBaack: () => void): void => {
+    if (typeof data !== 'string' && defaultShippingAddress && defaultBillingAddress) {
+      setDefaultAndBillingAddresses(data);
+      callBaack();
+
+      setCustomer(data);
+
+      return;
+    }
+    if (typeof data !== 'string' && defaultBillingAddress) setCustomerDefaultBillingAddresses(data);
+
+    if (typeof data !== 'string' && defaultShippingAddress) setCustomerShippingBillingAddresses(data);
+
+    if (typeof data !== 'string') setCustomer(data);
+
+    if (typeof data === 'string') notification('error', data);
+
+    callBaack();
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
     if (!isValidCustomerAddress(newAddress)) notification('error', 'Bad Validation');
-    else {
-      addCustomerAddress(customer!.version, newAddress, customer!.id)
-        .then((data) => {
-          if (typeof data !== 'string' && defaultShippingAddress && defaultBillingAddress) {
-            setDefaultAndBillingAddresses(data);
-            onClose();
 
-            return;
-          }
-          if (typeof data !== 'string' && defaultBillingAddress) {
-            setCustomerDefaultBillingAddresses(data);
-          }
-          if (typeof data !== 'string' && defaultShippingAddress) {
-            setCustomerShippingBillingAddresses(data);
-          }
-          if (typeof data === 'string') {
-            notification('error', data);
-          }
-          onClose();
-        })
+    if (type === 'add') {
+      addCustomerAddress(customer!.version, newAddress, customer!.id)
+        .then((data) => saveAddress(data, onClose))
+        .catch((err: Error) => notification('error', err.message));
+    } else {
+      updateCustomerAddress(customer!.version, newAddress, customer!.id)
+        .then((data) => saveAddress(data, onClose))
         .catch((err: Error) => notification('error', err.message));
     }
   };
