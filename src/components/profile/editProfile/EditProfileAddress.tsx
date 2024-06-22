@@ -73,11 +73,15 @@ const EditProfileAddress = ({ address, onClose, type }: IEditProfileAddress): JS
       setDefaultAndBillingAddresses(data);
       callBaack();
 
+      setCustomer(data);
+
       return;
     }
     if (typeof data !== 'string' && defaultBillingAddress) setCustomerDefaultBillingAddresses(data);
 
     if (typeof data !== 'string' && defaultShippingAddress) setCustomerShippingBillingAddresses(data);
+
+    if (typeof data !== 'string') setCustomer(data);
 
     if (typeof data === 'string') notification('error', data);
 
@@ -94,7 +98,7 @@ const EditProfileAddress = ({ address, onClose, type }: IEditProfileAddress): JS
         .then((data) => saveAddress(data, onClose))
         .catch((err: Error) => notification('error', err.message));
     } else {
-      updateCustomerAddress(customer!.version, customer!.id, address)
+      updateCustomerAddress(customer!.version, newAddress, customer!.id)
         .then((data) => saveAddress(data, onClose))
         .catch((err: Error) => notification('error', err.message));
     }
