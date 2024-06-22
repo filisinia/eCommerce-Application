@@ -1,0 +1,7 @@
+# **/App.tsx
+# .prettierrc
+# package.json
+
+jest.config.ts
+bable.config.ts
+craco.config.ts
