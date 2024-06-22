@@ -1,7 +1,7 @@
 import { Typography, Container } from '@mui/material';
 
 const MainPage = (): JSX.Element => (
-  <Container sx={{ padding: '20px 0', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+  <Container sx={{ padding: { xs: '10px' }, display: 'flex', flexDirection: 'column', gap: '20px' }}>
     <img src='./img/main.jpg' alt='Store' width='100%' height='auto' style={{ maxHeight: '80vh' }} />
     <Typography variant='h6' textAlign='center' mb={2}>
       The discount code is <span style={{ color: '#1565c0', fontWeight: 'bold' }}>BOGO</span>

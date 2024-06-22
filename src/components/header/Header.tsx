@@ -49,7 +49,7 @@ const Header = (): JSX.Element => {
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
             <Button component={Link} to='/'>
-              Home Harmony
+              Home
             </Button>
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: '10px' }}>
